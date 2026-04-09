@@ -1,5 +1,7 @@
+<h1 align="center">墨 · 创意博客</h1>
+
 <p align="center">
-  <b>墨 · 创意博客</b>
+  <img src="https://github.com/user-attachments/assets/e1f7c1a4-a9ee-44d9-8408-08624ef57104" alt="墨 · 创意博客 Logo" width="420" />
 </p>
 
 <p align="center">
