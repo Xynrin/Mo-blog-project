@@ -186,7 +186,7 @@ function initDefaultData() {
     `).run(
         process.env.ADMIN_USERNAME || 'admin',
         passwordHash,
-        'admin@mo-blog.com',
+        'admin@Mo-blog-project.com',
         '墨 · Mo'
     );
     console.log('✓ 默认管理员初始化完成');
@@ -200,7 +200,24 @@ function initDefaultData() {
         ['author_bio', '独立设计师 / 创意写作者 / 数字游民'],
         ['author_avatar', ''],
         ['posts_per_page', '10'],
-        ['footer_text', '© 2026 墨 · Mo — 以文字记录灵感']
+        ['footer_text', '© 2026 墨 · Mo — 以文字记录灵感'],
+        ['social_github', ''],
+        ['social_bilibili', ''],
+        ['social_youtube', ''],
+        ['social_x', ''],
+        ['social_gitee', ''],
+        ['social_qq', ''],
+        ['social_email', ''],
+        ['smtp_host', ''],
+        ['smtp_port', '587'],
+        ['smtp_user', ''],
+        ['smtp_pass', ''],
+        ['email_template', ''],
+        ['site_favicon', ''],
+        ['notify_email', 'false'],
+        ['notify_email_address', ''],
+        ['icp_text', ''],
+        ['icp_url', '']
     ];
 
     settings.forEach(s => insertSetting.run(...s));

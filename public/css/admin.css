@@ -798,3 +798,122 @@
         max-width: none;
     }
 }
+
+/* ===== Admin Animations ===== */
+
+/* Staggered fade-up entrance */
+@keyframes admin-fade-up {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.admin-stat-card {
+    animation: admin-fade-up 0.45s ease forwards;
+    opacity: 0;
+}
+.admin-stat-card:nth-child(1) { animation-delay: 0.04s; }
+.admin-stat-card:nth-child(2) { animation-delay: 0.08s; }
+.admin-stat-card:nth-child(3) { animation-delay: 0.12s; }
+.admin-stat-card:nth-child(4) { animation-delay: 0.16s; }
+
+/* Tab panel fade-in */
+@keyframes admin-tab-fade {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.tab-content.active {
+    animation: admin-tab-fade 0.25s ease;
+}
+
+/* Button hover/active */
+.btn {
+    transition: background-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.btn:active {
+    transform: translateY(0) scale(0.97);
+    transition-duration: 0.08s;
+}
+
+/* Sidebar nav item hover */
+.admin-nav-item {
+    transition: background-color var(--transition-fast), transform var(--transition-fast), color var(--transition-fast);
+}
+.admin-nav-item:hover {
+    background: rgba(255,255,255,0.05);
+    transform: translateX(3px);
+}
+
+/* Admin card hover */
+.admin-card {
+    transition: border-color var(--transition-base), box-shadow var(--transition-base);
+}
+.admin-card:hover {
+    border-color: rgba(232, 97, 77, 0.3);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+/* Table row hover */
+.admin-table-row {
+    transition: background-color var(--transition-fast);
+}
+.admin-table-row:hover {
+    background: rgba(232, 97, 77, 0.04);
+}
+
+/* Form input focus */
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+    border-color: var(--accent-coral);
+    box-shadow: 0 0 0 3px rgba(232, 97, 77, 0.12);
+}
+
+/* Quick action card hover */
+.admin-quick-action {
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+.admin-quick-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-color: rgba(232, 97, 77, 0.3);
+}
+.admin-quick-action:active {
+    transform: translateY(0) scale(0.98);
+    transition-duration: 0.08s;
+}
+
+/* Badge pulse */
+.admin-badge {
+    animation: admin-badge-pulse 2s ease-in-out infinite;
+}
+@keyframes admin-badge-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* Modal enhanced animation */
+.admin-modal {
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
+}
+.admin-modal-backdrop.open .admin-modal {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .admin-stat-card,
+    .tab-content.active,
+    .admin-badge {
+        animation: none !important;
+        opacity: 1 !important;
+    }
+    .btn, .admin-nav-item, .admin-card, .admin-table-row,
+    .admin-quick-action, .form-input, .form-textarea, .form-select {
+        transition: none !important;
+    }
+}

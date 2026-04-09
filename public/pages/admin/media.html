@@ -9,6 +9,926 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/variables.css">
     <link rel="stylesheet" href="/css/admin.css">
+    <style>
+        /* ===== Media Page Specific Styles ===== */
+
+        /* Explorer-style toolbar */
+        .media-toolbar {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3) var(--space-4);
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-bottom: none;
+            flex-wrap: wrap;
+        }
+
+        .media-toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            flex: 1;
+            min-width: 0;
+        }
+
+        .media-toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .media-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: 0.45rem 0.9rem;
+            font-size: var(--text-sm);
+            background: var(--bg-input);
+            border: 1px solid var(--border-subtle);
+            color: var(--fg-secondary);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            white-space: nowrap;
+            font-family: inherit;
+        }
+
+        .media-btn:hover {
+            background: var(--bg-hover);
+            color: var(--fg-primary);
+            border-color: var(--fg-muted);
+        }
+
+        .media-btn svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        .media-btn-primary {
+            background: var(--accent-coral);
+            border-color: var(--accent-coral);
+            color: var(--bg-primary);
+            font-weight: var(--font-medium);
+        }
+
+        .media-btn-primary:hover {
+            background: #d4553f;
+            border-color: #d4553f;
+            color: var(--bg-primary);
+        }
+
+        .media-btn-danger {
+            color: var(--error);
+            border-color: rgba(232, 97, 77, 0.3);
+            background: rgba(232, 97, 77, 0.08);
+        }
+
+        .media-btn-danger:hover {
+            background: rgba(232, 97, 77, 0.18);
+            border-color: var(--error);
+            color: var(--error);
+        }
+
+        .media-btn-danger.hidden,
+        .media-btn.hidden {
+            display: none;
+        }
+
+        .media-search-box {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            background: var(--bg-input);
+            border: 1px solid var(--border-subtle);
+            padding: 0 0.75rem;
+            border-radius: var(--radius-md);
+            flex: 1;
+            max-width: 280px;
+            min-width: 160px;
+            transition: var(--transition-fast);
+        }
+
+        .media-search-box:focus-within {
+            border-color: var(--accent-coral);
+            box-shadow: 0 0 0 2px rgba(232, 97, 77, 0.15);
+        }
+
+        .media-search-box svg {
+            width: 15px;
+            height: 15px;
+            color: var(--fg-muted);
+            flex-shrink: 0;
+        }
+
+        .media-search-box input {
+            background: transparent;
+            border: none;
+            color: var(--fg-primary);
+            font-size: var(--text-sm);
+            width: 100%;
+            padding: 0.45rem 0;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .media-search-box input::placeholder {
+            color: var(--fg-muted);
+        }
+
+        /* View toggle */
+        .media-view-toggle {
+            display: flex;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+
+        .media-view-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 32px;
+            background: transparent;
+            border: none;
+            color: var(--fg-muted);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .media-view-btn:hover {
+            color: var(--fg-primary);
+            background: var(--bg-hover);
+        }
+
+        .media-view-btn.active {
+            background: var(--accent-coral);
+            color: var(--bg-primary);
+        }
+
+        .media-view-btn svg {
+            width: 15px;
+            height: 15px;
+        }
+
+        /* Type filter tabs */
+        .media-tabs {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            padding: 0 var(--space-4);
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-bottom: none;
+        }
+
+        .media-tab {
+            padding: 0.55rem 1rem;
+            font-size: var(--text-sm);
+            color: var(--fg-muted);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: var(--transition-fast);
+            user-select: none;
+        }
+
+        .media-tab:hover {
+            color: var(--fg-primary);
+        }
+
+        .media-tab.active {
+            color: var(--accent-coral);
+            border-bottom-color: var(--accent-coral);
+        }
+
+        .media-tab-count {
+            font-size: var(--text-xs);
+            color: var(--fg-muted);
+            margin-left: var(--space-1);
+            opacity: 0.7;
+        }
+
+        /* Content area */
+        .media-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            min-height: 400px;
+            position: relative;
+        }
+
+        .media-empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-16) var(--space-6);
+            color: var(--fg-muted);
+            gap: var(--space-4);
+        }
+
+        .media-empty svg {
+            width: 64px;
+            height: 64px;
+            opacity: 0.3;
+        }
+
+        .media-empty p {
+            font-size: var(--text-base);
+        }
+
+        .media-empty .sub {
+            font-size: var(--text-sm);
+            opacity: 0.7;
+        }
+
+        /* ===== Grid View ===== */
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: var(--space-3);
+            padding: var(--space-4);
+        }
+
+        .media-card {
+            background: var(--bg-secondary);
+            border: 2px solid transparent;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transition-base);
+            position: relative;
+            user-select: none;
+        }
+
+        .media-card:hover {
+            border-color: var(--border-subtle);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-card);
+        }
+
+        .media-card.selected {
+            border-color: var(--accent-coral);
+            box-shadow: 0 0 0 1px var(--accent-coral), var(--shadow-card);
+        }
+
+        .media-card-thumb {
+            width: 100%;
+            aspect-ratio: 1;
+            background: var(--bg-input);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .media-card-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-base);
+        }
+
+        .media-card:hover .media-card-thumb img {
+            transform: scale(1.03);
+        }
+
+        .media-card-thumb .media-icon-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-2);
+            color: var(--fg-muted);
+        }
+
+        .media-card-thumb .media-icon-placeholder svg {
+            width: 40px;
+            height: 40px;
+            opacity: 0.5;
+        }
+
+        .media-card-thumb .media-icon-placeholder span {
+            font-size: var(--text-xs);
+            opacity: 0.6;
+        }
+
+        /* Video play overlay */
+        .media-card-thumb .play-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.35);
+            opacity: 0;
+            transition: var(--transition-base);
+        }
+
+        .media-card:hover .play-overlay {
+            opacity: 1;
+        }
+
+        .play-overlay-circle {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-fast);
+        }
+
+        .play-overlay-circle:hover {
+            transform: scale(1.1);
+            background: #fff;
+        }
+
+        .play-overlay-circle svg {
+            width: 20px;
+            height: 20px;
+            color: var(--bg-primary);
+            margin-left: 2px;
+        }
+
+        /* Card hover actions */
+        .media-card-actions {
+            position: absolute;
+            top: var(--space-2);
+            right: var(--space-2);
+            display: flex;
+            gap: var(--space-1);
+            opacity: 0;
+            transform: translateY(-4px);
+            transition: var(--transition-base);
+            z-index: 2;
+        }
+
+        .media-card:hover .media-card-actions {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .media-card-action {
+            width: 28px;
+            height: 28px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            border: none;
+        }
+
+        .media-card-action:hover {
+            background: rgba(0, 0, 0, 0.9);
+            transform: scale(1.1);
+        }
+
+        .media-card-action svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Card selection checkbox */
+        .media-card-check {
+            position: absolute;
+            top: var(--space-2);
+            left: var(--space-2);
+            width: 22px;
+            height: 22px;
+            border-radius: var(--radius-sm);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition-fast);
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        .media-card:hover .media-card-check,
+        .media-card.selected .media-card-check {
+            opacity: 1;
+        }
+
+        .media-card.selected .media-card-check {
+            background: var(--accent-coral);
+            border-color: var(--accent-coral);
+        }
+
+        .media-card-check svg {
+            width: 14px;
+            height: 14px;
+            color: #fff;
+        }
+
+        /* Card info */
+        .media-card-info {
+            padding: var(--space-2) var(--space-3);
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .media-card-name {
+            font-size: var(--text-sm);
+            color: var(--fg-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.4;
+        }
+
+        .media-card-meta {
+            font-size: var(--text-xs);
+            color: var(--fg-muted);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        /* ===== List View ===== */
+        .media-list {
+            display: none;
+        }
+
+        .media-list.active {
+            display: block;
+        }
+
+        .media-grid.active {
+            display: grid;
+        }
+
+        .media-grid:not(.active) {
+            display: none;
+        }
+
+        .media-list-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .media-list-table th {
+            padding: var(--space-3) var(--space-4);
+            text-align: left;
+            font-size: var(--text-xs);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--fg-muted);
+            font-weight: var(--font-medium);
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-subtle);
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            user-select: none;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .media-list-table th:hover {
+            color: var(--fg-primary);
+        }
+
+        .media-list-table th .sort-icon {
+            display: inline-block;
+            margin-left: 4px;
+            opacity: 0.4;
+            vertical-align: middle;
+        }
+
+        .media-list-table th.sorted .sort-icon {
+            opacity: 1;
+            color: var(--accent-coral);
+        }
+
+        .media-list-table td {
+            padding: var(--space-3) var(--space-4);
+            font-size: var(--text-sm);
+            border-bottom: 1px solid var(--border-subtle);
+            vertical-align: middle;
+        }
+
+        .media-list-table tr {
+            transition: var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .media-list-table tbody tr:hover {
+            background: var(--bg-hover);
+        }
+
+        .media-list-table tbody tr.selected {
+            background: rgba(232, 97, 77, 0.06);
+        }
+
+        .media-list-checkbox {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-coral);
+            cursor: pointer;
+        }
+
+        .media-list-file {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            min-width: 0;
+        }
+
+        .media-list-thumb {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            background: var(--bg-input);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .media-list-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .media-list-thumb svg {
+            width: 20px;
+            height: 20px;
+            color: var(--fg-muted);
+        }
+
+        .media-list-filename {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--fg-primary);
+            font-weight: var(--font-normal);
+        }
+
+        .media-list-type-badge {
+            display: inline-block;
+            padding: 0.15rem 0.55rem;
+            font-size: var(--text-xs);
+            border-radius: var(--radius-full);
+            font-weight: var(--font-medium);
+        }
+
+        .media-list-type-badge.image {
+            background: rgba(45, 212, 168, 0.1);
+            color: var(--accent-teal);
+        }
+
+        .media-list-type-badge.video {
+            background: rgba(167, 139, 250, 0.1);
+            color: var(--accent-violet);
+        }
+
+        .media-list-type-badge.file {
+            background: rgba(212, 168, 83, 0.1);
+            color: var(--accent-gold);
+        }
+
+        .media-list-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+        }
+
+        .media-list-action {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--fg-muted);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            border: none;
+            background: transparent;
+        }
+
+        .media-list-action:hover {
+            background: var(--bg-hover);
+            color: var(--fg-primary);
+        }
+
+        .media-list-action.delete:hover {
+            color: var(--error);
+            background: rgba(232, 97, 77, 0.1);
+        }
+
+        .media-list-action svg {
+            width: 15px;
+            height: 15px;
+        }
+
+        /* ===== Drag & Drop Overlay ===== */
+        .media-drop-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: var(--z-modal);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-4);
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition-base);
+        }
+
+        .media-drop-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .media-drop-overlay-box {
+            border: 3px dashed var(--accent-coral);
+            border-radius: var(--radius-lg);
+            padding: var(--space-10) var(--space-16);
+            text-align: center;
+            color: var(--fg-primary);
+            animation: drop-pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes drop-pulse {
+            0%, 100% { border-color: var(--accent-coral); }
+            50% { border-color: var(--accent-gold); }
+        }
+
+        .media-drop-overlay-box svg {
+            width: 56px;
+            height: 56px;
+            color: var(--accent-coral);
+            margin-bottom: var(--space-3);
+        }
+
+        .media-drop-overlay-box p {
+            font-size: var(--text-lg);
+            font-weight: var(--font-medium);
+        }
+
+        .media-drop-overlay-box .sub {
+            font-size: var(--text-sm);
+            color: var(--fg-muted);
+            margin-top: var(--space-1);
+        }
+
+        /* ===== Preview Modal ===== */
+        .media-preview-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: var(--z-modal-backdrop);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition-base);
+        }
+
+        .media-preview-backdrop.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .media-preview-container {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            transform: scale(0.92);
+            transition: var(--transition-base);
+        }
+
+        .media-preview-backdrop.open .media-preview-container {
+            transform: scale(1);
+        }
+
+        .media-preview-container img {
+            max-width: 90vw;
+            max-height: 85vh;
+            display: block;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .media-preview-container video {
+            max-width: 90vw;
+            max-height: 85vh;
+            display: block;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-hover);
+            background: #000;
+        }
+
+        .media-preview-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .media-preview-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .media-preview-close svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .media-preview-info {
+            position: absolute;
+            bottom: -36px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: var(--fg-muted);
+            font-size: var(--text-sm);
+        }
+
+        /* ===== Rename Modal ===== */
+        .media-rename-input {
+            width: 100%;
+            padding: 0.6rem 0.8rem;
+            background: var(--bg-input);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            color: var(--fg-primary);
+            font-size: var(--text-sm);
+            font-family: inherit;
+            outline: none;
+            transition: var(--transition-fast);
+        }
+
+        .media-rename-input:focus {
+            border-color: var(--accent-coral);
+            box-shadow: 0 0 0 2px rgba(232, 97, 77, 0.15);
+        }
+
+        /* ===== Upload Progress ===== */
+        .media-upload-progress {
+            position: fixed;
+            bottom: var(--space-6);
+            right: var(--space-6);
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            min-width: 300px;
+            max-width: 400px;
+            box-shadow: var(--shadow-hover);
+            z-index: var(--z-fixed);
+            transform: translateY(20px);
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition-base);
+        }
+
+        .media-upload-progress.active {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .media-upload-progress-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-3);
+        }
+
+        .media-upload-progress-title {
+            font-size: var(--text-sm);
+            font-weight: var(--font-medium);
+            color: var(--fg-primary);
+        }
+
+        .media-upload-progress-close {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--fg-muted);
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            border-radius: var(--radius-sm);
+        }
+
+        .media-upload-progress-close:hover {
+            color: var(--fg-primary);
+            background: var(--bg-hover);
+        }
+
+        .media-upload-progress-list {
+            max-height: 200px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+        }
+
+        .media-upload-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: var(--text-xs);
+            color: var(--fg-secondary);
+        }
+
+        .media-upload-item .status-icon {
+            flex-shrink: 0;
+        }
+
+        .media-upload-item .status-icon.success { color: var(--success); }
+        .media-upload-item .status-icon.error { color: var(--error); }
+        .media-upload-item .status-icon.uploading { color: var(--accent-gold); }
+
+        .media-upload-item .filename {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ===== Loading skeleton ===== */
+        .media-skeleton {
+            background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--bg-hover) 50%, var(--bg-secondary) 75%);
+            background-size: 200% 100%;
+            animation: skeleton-shimmer 1.5s infinite;
+            border-radius: var(--radius-md);
+        }
+
+        @keyframes skeleton-shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 768px) {
+            .media-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .media-toolbar-left,
+            .media-toolbar-right {
+                flex: none;
+            }
+
+            .media-search-box {
+                max-width: none;
+            }
+
+            .media-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: var(--space-2);
+                padding: var(--space-2);
+            }
+
+            .media-tabs {
+                overflow-x: auto;
+            }
+
+            .media-upload-progress {
+                left: var(--space-4);
+                right: var(--space-4);
+                min-width: auto;
+                max-width: none;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="admin-layout">
@@ -21,7 +941,7 @@
                     <span class="text">管理后台</span>
                 </a>
             </div>
-            
+
             <nav class="admin-sidebar-nav">
                 <div class="admin-nav-section">
                     <div class="admin-nav-section-title">概览</div>
@@ -35,7 +955,7 @@
                         仪表盘
                     </a>
                 </div>
-                
+
                 <div class="admin-nav-section">
                     <div class="admin-nav-section-title">内容</div>
                     <a href="/admin/articles" class="admin-nav-item">
@@ -71,7 +991,7 @@
                         消息管理
                     </a>
                 </div>
-                
+
                 <div class="admin-nav-section">
                     <div class="admin-nav-section-title">系统</div>
                     <a href="/admin/settings" class="admin-nav-item">
@@ -83,7 +1003,7 @@
                     </a>
                 </div>
             </nav>
-            
+
             <div class="admin-sidebar-footer">
                 <div class="admin-user">
                     <div class="admin-user-avatar" id="userAvatar">M</div>
@@ -101,137 +1021,783 @@
                 <h1 class="admin-header-title">媒体库</h1>
                 <div class="admin-header-actions">
                     <button class="btn btn-primary" style="padding: 0.6rem 1.2rem;" onclick="document.getElementById('fileInput').click()">
-                        + 上传图片
+                        <svg style="width:16px;height:16px;vertical-align:middle;margin-right:4px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        上传文件
                     </button>
-                    <input type="file" id="fileInput" accept="image/*" multiple style="display: none;" onchange="uploadImages(event)">
+                    <input type="file" id="fileInput" accept="image/*,video/*,.pdf" multiple style="display: none;" onchange="handleFileUpload(event)">
                 </div>
             </header>
 
             <div class="admin-content">
-                <div class="admin-table-container" style="padding: var(--space-6);">
-                    <div class="admin-media-grid" id="mediaGrid">
-                        <div style="text-align: center; color: var(--fg-muted); padding: var(--space-8); grid-column: 1/-1;">
-                            加载中...
+                <!-- Toolbar -->
+                <div class="media-toolbar">
+                    <div class="media-toolbar-left">
+                        <div class="media-search-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                            <input type="text" id="searchInput" placeholder="搜索文件名..." oninput="handleSearch()">
                         </div>
+                        <div class="media-view-toggle">
+                            <button class="media-view-btn active" id="gridViewBtn" onclick="setView('grid')" title="网格视图">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="7" height="7"></rect>
+                                    <rect x="14" y="3" width="7" height="7"></rect>
+                                    <rect x="3" y="14" width="7" height="7"></rect>
+                                    <rect x="14" y="14" width="7" height="7"></rect>
+                                </svg>
+                            </button>
+                            <button class="media-view-btn" id="listViewBtn" onclick="setView('list')" title="列表视图">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="8" y1="6" x2="21" y2="6"></line>
+                                    <line x1="8" y1="12" x2="21" y2="12"></line>
+                                    <line x1="8" y1="18" x2="21" y2="18"></line>
+                                    <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                                    <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                                    <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="media-toolbar-right">
+                        <button class="media-btn media-btn-danger hidden" id="batchDeleteBtn" onclick="batchDelete()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                            <span id="batchDeleteCount">删除选中</span>
+                        </button>
                     </div>
                 </div>
 
-                <div class="admin-pagination" style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-top: none;">
-                    <div class="admin-pagination-info" id="paginationInfo">
-                        显示 0-0 条，共 0 条
+                <!-- Type filter tabs -->
+                <div class="media-tabs">
+                    <div class="media-tab active" data-type="" onclick="setTypeFilter(this, '')">全部<span class="media-tab-count" id="countAll"></span></div>
+                    <div class="media-tab" data-type="image" onclick="setTypeFilter(this, 'image')">图片<span class="media-tab-count" id="countImage"></span></div>
+                    <div class="media-tab" data-type="video" onclick="setTypeFilter(this, 'video')">视频<span class="media-tab-count" id="countVideo"></span></div>
+                    <div class="media-tab" data-type="file" onclick="setTypeFilter(this, 'file')">文件<span class="media-tab-count" id="countFile"></span></div>
+                </div>
+
+                <!-- Content -->
+                <div class="media-content" id="mediaContent">
+                    <!-- Grid View -->
+                    <div class="media-grid active" id="mediaGridView">
+                        <div class="media-empty">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                <polyline points="21 15 16 10 5 21"></polyline>
+                            </svg>
+                            <p>加载中...</p>
+                        </div>
                     </div>
+
+                    <!-- List View -->
+                    <div class="media-list" id="mediaListView">
+                        <table class="media-list-table">
+                            <thead>
+                                <tr>
+                                    <th style="width:40px"><input type="checkbox" class="media-list-checkbox" id="listSelectAll" onchange="toggleSelectAll(this.checked)"></th>
+                                    <th data-sort="name" onclick="handleSort('name')">名称 <span class="sort-icon">&#9650;</span></th>
+                                    <th style="width:80px" data-sort="type" onclick="handleSort('type')">类型 <span class="sort-icon">&#9650;</span></th>
+                                    <th style="width:100px" data-sort="size" onclick="handleSort('size')">大小 <span class="sort-icon">&#9650;</span></th>
+                                    <th style="width:120px" data-sort="date" onclick="handleSort('date')">日期 <span class="sort-icon">&#9650;</span></th>
+                                    <th style="width:140px">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="mediaListBody">
+                                <tr><td colspan="6" style="text-align:center;color:var(--fg-muted);padding:var(--space-8)">加载中...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="admin-pagination" style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-top: none;">
+                    <div class="admin-pagination-info" id="paginationInfo">显示 0-0 条，共 0 条</div>
                     <div class="admin-pagination-nav" id="paginationNav"></div>
                 </div>
             </div>
         </main>
     </div>
 
+    <!-- Drag & Drop Overlay -->
+    <div class="media-drop-overlay" id="dropOverlay">
+        <div class="media-drop-overlay-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            <p>拖放文件到此处上传</p>
+            <div class="sub">支持图片、视频、PDF 文件</div>
+        </div>
+    </div>
+
+    <!-- Preview Modal -->
+    <div class="media-preview-backdrop" id="previewBackdrop">
+        <div class="media-preview-container" id="previewContainer">
+            <button class="media-preview-close" onclick="closePreview()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div id="previewContent"></div>
+            <div class="media-preview-info" id="previewInfo"></div>
+        </div>
+    </div>
+
+    <!-- Rename Modal -->
+    <div class="admin-modal-backdrop" id="renameModal">
+        <div class="admin-modal" style="max-width:420px">
+            <div class="admin-modal-header">
+                <h3 class="admin-modal-title">重命名文件</h3>
+                <div class="admin-modal-close" onclick="closeRenameModal()">&times;</div>
+            </div>
+            <div class="admin-modal-body">
+                <label style="font-size:var(--text-sm);color:var(--fg-muted);display:block;margin-bottom:var(--space-2)">文件名称</label>
+                <input type="text" class="media-rename-input" id="renameInput" placeholder="输入新文件名">
+            </div>
+            <div class="admin-modal-footer">
+                <button class="btn btn-outline" onclick="closeRenameModal()">取消</button>
+                <button class="btn btn-primary" id="confirmRenameBtn">确认</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Delete Confirm Modal -->
     <div class="admin-modal-backdrop" id="deleteModal">
-        <div class="admin-modal">
+        <div class="admin-modal" style="max-width:420px">
             <div class="admin-modal-header">
                 <h3 class="admin-modal-title">确认删除</h3>
                 <div class="admin-modal-close" onclick="closeDeleteModal()">&times;</div>
             </div>
             <div class="admin-modal-body">
-                <p>确定要删除这个文件吗？此操作不可恢复。</p>
+                <p id="deleteMessage">确定要删除这个文件吗？此操作不可恢复。</p>
             </div>
             <div class="admin-modal-footer">
                 <button class="btn btn-outline" onclick="closeDeleteModal()">取消</button>
-                <button class="btn btn-primary" id="confirmDeleteBtn">删除</button>
+                <button class="btn btn-primary" id="confirmDeleteBtn" style="background:var(--error);border-color:var(--error)">删除</button>
             </div>
         </div>
     </div>
 
-    <!-- Preview Modal -->
-    <div class="admin-modal-backdrop" id="previewModal">
-        <div class="admin-modal" style="max-width: 90vw; max-height: 90vh; padding: 0;">
-            <img id="previewImg" src="" style="max-width: 100%; max-height: 90vh; display: block; margin: auto;">
+    <!-- Upload Progress Panel -->
+    <div class="media-upload-progress" id="uploadProgress">
+        <div class="media-upload-progress-header">
+            <span class="media-upload-progress-title">上传进度</span>
+            <button class="media-upload-progress-close" onclick="closeUploadProgress()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
         </div>
+        <div class="media-upload-progress-list" id="uploadList"></div>
     </div>
 
     <script src="/js/admin.js"></script>
     <script>
-        // 检查登录状态
-        checkAuth();
-
+        // ===== State =====
         let currentPage = 1;
-        let deleteTargetId = null;
+        let currentType = '';
+        let currentSearch = '';
+        let currentView = 'grid';
+        let selectedIds = new Set();
+        let allMediaItems = [];
+        let deleteTargetIds = [];
+        let renameTargetId = null;
+        let sortField = '';
+        let sortAsc = true;
+        let searchTimer = null;
+        let uploadQueue = [];
+        let isUploading = false;
 
-        // 加载媒体列表
+        // ===== Init =====
+        checkAuth();
+        loadMedia();
+
+        // ===== File Type Helpers =====
+        function getFileType(mimeType) {
+            if (!mimeType) return 'file';
+            if (mimeType.startsWith('image/')) return 'image';
+            if (mimeType.startsWith('video/')) return 'video';
+            return 'file';
+        }
+
+        function getTypeLabel(type) {
+            const labels = { image: '图片', video: '视频', file: '文件' };
+            return labels[type] || '文件';
+        }
+
+        function getTypeIcon(type) {
+            if (type === 'image') {
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>';
+            }
+            if (type === 'video') {
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>';
+            }
+            return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>';
+        }
+
+        // ===== Load Media =====
         async function loadMedia(page = 1) {
             currentPage = page;
-            
+            selectedIds.clear();
+            updateBatchUI();
+
+            let url = `/api/admin/media?page=${page}&limit=20`;
+            if (currentType) url += `&type=${currentType}`;
+            if (currentSearch) url += `&search=${encodeURIComponent(currentSearch)}`;
+
             try {
-                const res = await fetch(`/api/admin/media?page=${page}&limit=20`, {
-                    headers: getAuthHeaders()
-                });
+                const res = await fetch(url, { headers: getAuthHeaders() });
                 const data = await res.json();
 
                 if (data.success) {
                     const { media, pagination } = data.data;
-
-                    const grid = document.getElementById('mediaGrid');
-                    if (media.length === 0) {
-                        grid.innerHTML = `
-                            <div style="text-align: center; color: var(--fg-muted); padding: var(--space-8); grid-column: 1/-1;">
-                                暂无媒体文件，点击右上角上传
-                            </div>
-                        `;
-                    } else {
-                        grid.innerHTML = media.map(item => `
-                            <div class="admin-media-item">
-                                <img src="${item.file_path}" alt="${item.original_name || item.filename}" onclick="previewImage('${item.file_path}')">
-                                <div class="overlay">
-                                    <div class="actions">
-                                        <div class="action" onclick="copyUrl('${item.file_path}')" title="复制链接"><svg style="width:14px;height:14px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></div>
-                                        <div class="action" onclick="openDeleteModal(${item.id})" title="删除"><svg style="width:14px;height:14px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
-                                    </div>
-                                </div>
-                            </div>
-                        `).join('');
-                    }
-
+                    allMediaItems = media;
+                    renderGrid(media);
+                    renderList(media);
                     renderPagination(pagination);
+                } else {
+                    renderEmpty('加载失败，请重试');
                 }
             } catch (error) {
                 console.error('加载媒体列表失败:', error);
+                renderEmpty('网络错误，请检查连接');
             }
         }
 
-        // 渲染分页
+        // ===== Render Grid View =====
+        function renderGrid(media) {
+            const grid = document.getElementById('mediaGridView');
+
+            if (!media || media.length === 0) {
+                grid.innerHTML = `
+                    <div class="media-empty" style="grid-column:1/-1">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                            <polyline points="21 15 16 10 5 21"></polyline>
+                        </svg>
+                        <p>${currentSearch ? '未找到匹配的文件' : '暂无媒体文件'}</p>
+                        <div class="sub">${currentSearch ? '尝试其他关键词' : '点击右上角按钮或拖放文件上传'}</div>
+                    </div>`;
+                return;
+            }
+
+            grid.innerHTML = media.map(item => {
+                const type = getFileType(item.mime_type);
+                const isSelected = selectedIds.has(item.id);
+                const name = escapeHtml(item.original_name || item.filename || '未命名');
+                const size = item.file_size ? formatFileSize(item.file_size) : '';
+                const date = item.created_at ? formatDate(item.created_at) : '';
+
+                let thumbContent = '';
+                if (type === 'image') {
+                    thumbContent = `<img src="${escapeHtml(item.file_path)}" alt="${name}" loading="lazy">`;
+                } else if (type === 'video') {
+                    thumbContent = `
+                        <img src="${escapeHtml(item.file_path)}" alt="${name}" loading="lazy" style="object-fit:cover">
+                        <div class="play-overlay" onclick="event.stopPropagation();previewItem(${item.id})">
+                            <div class="play-overlay-circle">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            </div>
+                        </div>`;
+                } else {
+                    thumbContent = `
+                        <div class="media-icon-placeholder">
+                            ${getTypeIcon(type)}
+                            <span>PDF</span>
+                        </div>`;
+                }
+
+                return `
+                    <div class="media-card ${isSelected ? 'selected' : ''}" data-id="${item.id}" onclick="toggleSelect(${item.id}, event)">
+                        <div class="media-card-check" onclick="event.stopPropagation();toggleSelect(${item.id})">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        </div>
+                        <div class="media-card-actions">
+                            <button class="media-card-action" onclick="event.stopPropagation();previewItem(${item.id})" title="预览">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            </button>
+                            <button class="media-card-action" onclick="event.stopPropagation();copyUrl('${escapeHtml(item.file_path)}')" title="复制链接">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                            </button>
+                            <button class="media-card-action" onclick="event.stopPropagation();openRenameModal(${item.id})" title="重命名">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                            </button>
+                            <button class="media-card-action" onclick="event.stopPropagation();openDeleteModal([${item.id}])" title="删除" style="color:var(--error)">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                            </button>
+                        </div>
+                        <div class="media-card-thumb" ondblclick="event.stopPropagation();previewItem(${item.id})">
+                            ${thumbContent}
+                        </div>
+                        <div class="media-card-info">
+                            <div class="media-card-name" title="${name}">${name}</div>
+                            <div class="media-card-meta">
+                                <span>${size}</span>
+                                <span>${date}</span>
+                            </div>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        // ===== Render List View =====
+        function renderList(media) {
+            const tbody = document.getElementById('mediaListBody');
+
+            if (!media || media.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--fg-muted);padding:var(--space-8)">${currentSearch ? '未找到匹配的文件' : '暂无媒体文件'}</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = media.map(item => {
+                const type = getFileType(item.mime_type);
+                const isSelected = selectedIds.has(item.id);
+                const name = escapeHtml(item.original_name || item.filename || '未命名');
+                const size = item.file_size ? formatFileSize(item.file_size) : '-';
+                const date = item.created_at ? formatDateTime(item.created_at) : '-';
+
+                let thumbContent = '';
+                if (type === 'image') {
+                    thumbContent = `<img src="${escapeHtml(item.file_path)}" alt="${name}">`;
+                } else {
+                    thumbContent = getTypeIcon(type);
+                }
+
+                return `
+                    <tr class="${isSelected ? 'selected' : ''}" data-id="${item.id}" onclick="toggleSelect(${item.id}, event)">
+                        <td><input type="checkbox" class="media-list-checkbox" ${isSelected ? 'checked' : ''} onclick="event.stopPropagation();toggleSelect(${item.id})"></td>
+                        <td>
+                            <div class="media-list-file">
+                                <div class="media-list-thumb">${thumbContent}</div>
+                                <span class="media-list-filename" title="${name}">${name}</span>
+                            </div>
+                        </td>
+                        <td><span class="media-list-type-badge ${type}">${getTypeLabel(type)}</span></td>
+                        <td style="color:var(--fg-muted)">${size}</td>
+                        <td style="color:var(--fg-muted)">${date}</td>
+                        <td>
+                            <div class="media-list-actions">
+                                <button class="media-list-action" onclick="event.stopPropagation();previewItem(${item.id})" title="预览">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                </button>
+                                <button class="media-list-action" onclick="event.stopPropagation();copyUrl('${escapeHtml(item.file_path)}')" title="复制链接">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                                </button>
+                                <button class="media-list-action" onclick="event.stopPropagation();openRenameModal(${item.id})" title="重命名">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                                </button>
+                                <button class="media-list-action delete" onclick="event.stopPropagation();openDeleteModal([${item.id}])" title="删除">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>`;
+            }).join('');
+        }
+
+        // ===== Render Empty =====
+        function renderEmpty(message) {
+            document.getElementById('mediaGridView').innerHTML = `
+                <div class="media-empty" style="grid-column:1/-1">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    <p>${message}</p>
+                </div>`;
+            document.getElementById('mediaListBody').innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--fg-muted);padding:var(--space-8)">${message}</td></tr>`;
+        }
+
+        // ===== Render Pagination =====
         function renderPagination(pagination) {
             const { page, total, limit, totalPages } = pagination;
-            const start = (page - 1) * limit + 1;
+            const start = total > 0 ? (page - 1) * limit + 1 : 0;
             const end = Math.min(page * limit, total);
 
-            document.getElementById('paginationInfo').textContent = 
-                `显示 ${start}-${end} 条，共 ${total} 条`;
+            document.getElementById('paginationInfo').textContent = `显示 ${start}-${end} 条，共 ${total} 条`;
 
             const nav = document.getElementById('paginationNav');
-            let html = '';
+            if (totalPages <= 1) {
+                nav.innerHTML = '';
+                return;
+            }
 
+            let html = '';
             html += `<button class="admin-pagination-btn" onclick="loadMedia(${page - 1})" ${page <= 1 ? 'disabled' : ''}>上一页</button>`;
 
+            const range = [];
             for (let i = 1; i <= totalPages; i++) {
                 if (i === 1 || i === totalPages || (i >= page - 2 && i <= page + 2)) {
-                    html += `<button class="admin-pagination-btn ${i === page ? 'active' : ''}" onclick="loadMedia(${i})">${i}</button>`;
-                } else if (i === page - 3 || i === page + 3) {
-                    html += `<span style="color: var(--fg-muted);">...</span>`;
+                    range.push(i);
+                } else if (range[range.length - 1] !== '...') {
+                    range.push('...');
                 }
             }
 
-            html += `<button class="admin-pagination-btn" onclick="loadMedia(${page + 1})" ${page >= totalPages ? 'disabled' : ''}>下一页</button>`;
+            range.forEach(p => {
+                if (p === '...') {
+                    html += `<span style="color:var(--fg-muted);padding:0 0.3rem">...</span>`;
+                } else {
+                    html += `<button class="admin-pagination-btn ${p === page ? 'active' : ''}" onclick="loadMedia(${p})">${p}</button>`;
+                }
+            });
 
+            html += `<button class="admin-pagination-btn" onclick="loadMedia(${page + 1})" ${page >= totalPages ? 'disabled' : ''}>下一页</button>`;
             nav.innerHTML = html;
         }
 
-        // 上传图片
-        async function uploadImages(event) {
+        // ===== View Toggle =====
+        function setView(view) {
+            currentView = view;
+            const grid = document.getElementById('mediaGridView');
+            const list = document.getElementById('mediaListView');
+            const gridBtn = document.getElementById('gridViewBtn');
+            const listBtn = document.getElementById('listViewBtn');
+
+            if (view === 'grid') {
+                grid.classList.add('active');
+                list.classList.remove('active');
+                gridBtn.classList.add('active');
+                listBtn.classList.remove('active');
+            } else {
+                grid.classList.remove('active');
+                list.classList.add('active');
+                gridBtn.classList.remove('active');
+                listBtn.classList.add('active');
+            }
+        }
+
+        // ===== Type Filter =====
+        function setTypeFilter(el, type) {
+            currentType = type;
+            document.querySelectorAll('.media-tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            loadMedia(1);
+        }
+
+        // ===== Search =====
+        function handleSearch() {
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(() => {
+                currentSearch = document.getElementById('searchInput').value.trim();
+                loadMedia(1);
+            }, 350);
+        }
+
+        // ===== Sort (list view) =====
+        function handleSort(field) {
+            if (sortField === field) {
+                sortAsc = !sortAsc;
+            } else {
+                sortField = field;
+                sortAsc = true;
+            }
+
+            // Update header UI
+            document.querySelectorAll('.media-list-table th').forEach(th => {
+                th.classList.remove('sorted');
+                const icon = th.querySelector('.sort-icon');
+                if (icon) icon.innerHTML = '&#9650;';
+            });
+            const activeTh = document.querySelector(`.media-list-table th[data-sort="${field}"]`);
+            if (activeTh) {
+                activeTh.classList.add('sorted');
+                const icon = activeTh.querySelector('.sort-icon');
+                if (icon) icon.innerHTML = sortAsc ? '&#9650;' : '&#9660;';
+            }
+
+            // Sort items
+            allMediaItems.sort((a, b) => {
+                let valA, valB;
+                switch (field) {
+                    case 'name':
+                        valA = (a.original_name || a.filename || '').toLowerCase();
+                        valB = (b.original_name || b.filename || '').toLowerCase();
+                        break;
+                    case 'type':
+                        valA = getFileType(a.mime_type);
+                        valB = getFileType(b.mime_type);
+                        break;
+                    case 'size':
+                        valA = a.file_size || 0;
+                        valB = b.file_size || 0;
+                        break;
+                    case 'date':
+                        valA = a.created_at || '';
+                        valB = b.created_at || '';
+                        break;
+                    default:
+                        return 0;
+                }
+                if (valA < valB) return sortAsc ? -1 : 1;
+                if (valA > valB) return sortAsc ? 1 : -1;
+                return 0;
+            });
+
+            renderList(allMediaItems);
+        }
+
+        // ===== Selection =====
+        function toggleSelect(id, event) {
+            if (event && (event.target.tagName === 'INPUT' || event.target.tagName === 'BUTTON' || event.target.closest('button') || event.target.closest('.media-card-action') || event.target.closest('.media-card-check'))) {
+                return;
+            }
+
+            if (selectedIds.has(id)) {
+                selectedIds.delete(id);
+            } else {
+                selectedIds.add(id);
+            }
+
+            updateSelectionUI();
+        }
+
+        function toggleSelectAll(checked) {
+            if (checked) {
+                allMediaItems.forEach(item => selectedIds.add(item.id));
+            } else {
+                selectedIds.clear();
+            }
+            updateSelectionUI();
+        }
+
+        function updateSelectionUI() {
+            // Update grid cards
+            document.querySelectorAll('.media-card').forEach(card => {
+                const id = parseInt(card.dataset.id);
+                card.classList.toggle('selected', selectedIds.has(id));
+            });
+
+            // Update list rows
+            document.querySelectorAll('.media-list-table tbody tr[data-id]').forEach(row => {
+                const id = parseInt(row.dataset.id);
+                const isSelected = selectedIds.has(id);
+                row.classList.toggle('selected', isSelected);
+                const cb = row.querySelector('.media-list-checkbox');
+                if (cb) cb.checked = isSelected;
+            });
+
+            // Update select all checkbox
+            const selectAll = document.getElementById('listSelectAll');
+            if (selectAll) {
+                selectAll.checked = allMediaItems.length > 0 && allMediaItems.every(item => selectedIds.has(item.id));
+            }
+
+            updateBatchUI();
+        }
+
+        function updateBatchUI() {
+            const btn = document.getElementById('batchDeleteBtn');
+            const countEl = document.getElementById('batchDeleteCount');
+            if (selectedIds.size > 0) {
+                btn.classList.remove('hidden');
+                countEl.textContent = `删除选中 (${selectedIds.size})`;
+            } else {
+                btn.classList.add('hidden');
+            }
+        }
+
+        // ===== Preview =====
+        function previewItem(id) {
+            const item = allMediaItems.find(m => m.id === id);
+            if (!item) return;
+
+            const type = getFileType(item.mime_type);
+            const name = item.original_name || item.filename || '未命名';
+            const size = item.file_size ? formatFileSize(item.file_size) : '';
+            const content = document.getElementById('previewContent');
+            const info = document.getElementById('previewInfo');
+
+            if (type === 'image') {
+                content.innerHTML = `<img src="${escapeHtml(item.file_path)}" alt="${escapeHtml(name)}">`;
+                info.textContent = `${name}  |  ${size}`;
+            } else if (type === 'video') {
+                content.innerHTML = `<video src="${escapeHtml(item.file_path)}" controls autoplay style="max-width:90vw;max-height:85vh"></video>`;
+                info.textContent = `${name}  |  ${size}`;
+            } else {
+                // For files, open in new tab
+                window.open(item.file_path, '_blank');
+                return;
+            }
+
+            document.getElementById('previewBackdrop').classList.add('open');
+        }
+
+        function closePreview() {
+            const backdrop = document.getElementById('previewBackdrop');
+            backdrop.classList.remove('open');
+            // Stop video if playing
+            const video = backdrop.querySelector('video');
+            if (video) video.pause();
+            setTimeout(() => {
+                document.getElementById('previewContent').innerHTML = '';
+                document.getElementById('previewInfo').textContent = '';
+            }, 300);
+        }
+
+        document.getElementById('previewBackdrop').addEventListener('click', function(e) {
+            if (e.target === this) closePreview();
+        });
+
+        // ===== Copy URL =====
+        function copyUrl(path) {
+            const fullUrl = window.location.origin + path;
+            navigator.clipboard.writeText(fullUrl).then(() => {
+                showToast('链接已复制到剪贴板', 'success');
+            }).catch(() => {
+                // Fallback
+                const ta = document.createElement('textarea');
+                ta.value = fullUrl;
+                ta.style.position = 'fixed';
+                ta.style.left = '-9999px';
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                showToast('链接已复制到剪贴板', 'success');
+            });
+        }
+
+        // ===== Rename =====
+        function openRenameModal(id) {
+            renameTargetId = id;
+            const item = allMediaItems.find(m => m.id === id);
+            if (!item) return;
+
+            const input = document.getElementById('renameInput');
+            input.value = item.original_name || item.filename || '';
+            document.getElementById('renameModal').classList.add('open');
+            setTimeout(() => {
+                input.focus();
+                input.select();
+            }, 200);
+        }
+
+        function closeRenameModal() {
+            renameTargetId = null;
+            document.getElementById('renameModal').classList.remove('open');
+        }
+
+        document.getElementById('confirmRenameBtn').addEventListener('click', async () => {
+            if (!renameTargetId) return;
+            const newName = document.getElementById('renameInput').value.trim();
+            if (!newName) {
+                showToast('文件名不能为空', 'error');
+                return;
+            }
+
+            try {
+                const res = await fetch(`/api/admin/media/${renameTargetId}`, {
+                    method: 'PUT',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({ original_name: newName })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    closeRenameModal();
+                    loadMedia(currentPage);
+                    showToast('重命名成功', 'success');
+                } else {
+                    showToast(data.message || '重命名失败', 'error');
+                }
+            } catch (error) {
+                showToast('重命名失败', 'error');
+            }
+        });
+
+        document.getElementById('renameInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') document.getElementById('confirmRenameBtn').click();
+            if (e.key === 'Escape') closeRenameModal();
+        });
+
+        // ===== Delete =====
+        function openDeleteModal(ids) {
+            deleteTargetIds = ids;
+            const msg = document.getElementById('deleteMessage');
+            if (ids.length === 1) {
+                msg.textContent = '确定要删除这个文件吗？此操作不可恢复。';
+            } else {
+                msg.textContent = `确定要删除选中的 ${ids.length} 个文件吗？此操作不可恢复。`;
+            }
+            document.getElementById('deleteModal').classList.add('open');
+        }
+
+        function closeDeleteModal() {
+            deleteTargetIds = [];
+            document.getElementById('deleteModal').classList.remove('open');
+        }
+
+        document.getElementById('confirmDeleteBtn').addEventListener('click', async () => {
+            if (!deleteTargetIds.length) return;
+
+            try {
+                let allSuccess = true;
+                for (const id of deleteTargetIds) {
+                    const res = await fetch(`/api/admin/media/${id}`, {
+                        method: 'DELETE',
+                        headers: getAuthHeaders()
+                    });
+                    const data = await res.json();
+                    if (!data.success) {
+                        allSuccess = false;
+                        showToast(data.message || `删除 ID ${id} 失败`, 'error');
+                    }
+                }
+
+                if (allSuccess) {
+                    closeDeleteModal();
+                    selectedIds.clear();
+                    loadMedia(currentPage);
+                    showToast(`已删除 ${deleteTargetIds.length} 个文件`, 'success');
+                }
+            } catch (error) {
+                showToast('删除失败', 'error');
+            }
+        });
+
+        function batchDelete() {
+            if (selectedIds.size === 0) return;
+            openDeleteModal([...selectedIds]);
+        }
+
+        // ===== File Upload =====
+        async function handleFileUpload(event) {
             const files = event.target.files;
-            if (!files.length) return;
+            if (!files || !files.length) return;
+            await uploadFiles(files);
+            event.target.value = '';
+        }
+
+        async function uploadFiles(files) {
+            const progressPanel = document.getElementById('uploadProgress');
+            const uploadList = document.getElementById('uploadList');
+            progressPanel.classList.add('active');
+
+            let successCount = 0;
+            let failCount = 0;
 
             for (const file of files) {
+                // Add item to progress list
+                const itemEl = document.createElement('div');
+                itemEl.className = 'media-upload-item';
+                itemEl.innerHTML = `
+                    <span class="status-icon uploading">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </span>
+                    <span class="filename">${escapeHtml(file.name)}</span>
+                `;
+                uploadList.appendChild(itemEl);
+
                 const formData = new FormData();
                 formData.append('image', file);
 
@@ -244,74 +1810,118 @@
                     const data = await res.json();
 
                     if (data.success) {
-                        showToast(`${file.name} 上传成功`, 'success');
+                        successCount++;
+                        itemEl.querySelector('.status-icon').className = 'status-icon success';
+                        itemEl.querySelector('.status-icon').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><polyline points="20 6 9 17 4 12"/></svg>';
                     } else {
-                        showToast(`${file.name} 上传失败: ${data.message}`, 'error');
+                        failCount++;
+                        itemEl.querySelector('.status-icon').className = 'status-icon error';
+                        itemEl.querySelector('.status-icon').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
                     }
                 } catch (error) {
-                    showToast(`${file.name} 上传失败`, 'error');
+                    failCount++;
+                    itemEl.querySelector('.status-icon').className = 'status-icon error';
+                    itemEl.querySelector('.status-icon').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
                 }
             }
 
-            event.target.value = '';
+            // Summary toast
+            if (successCount > 0 && failCount === 0) {
+                showToast(`${successCount} 个文件上传成功`, 'success');
+            } else if (successCount > 0 && failCount > 0) {
+                showToast(`${successCount} 个成功，${failCount} 个失败`, 'error');
+            } else {
+                showToast(`${failCount} 个文件上传失败`, 'error');
+            }
+
+            // Reload media
             loadMedia(currentPage);
+
+            // Auto-hide progress after 3s
+            setTimeout(() => {
+                closeUploadProgress();
+            }, 3000);
         }
 
-        // 预览图片
-        function previewImage(url) {
-            document.getElementById('previewImg').src = url;
-            document.getElementById('previewModal').classList.add('open');
+        function closeUploadProgress() {
+            document.getElementById('uploadProgress').classList.remove('active');
+            setTimeout(() => {
+                document.getElementById('uploadList').innerHTML = '';
+            }, 300);
         }
 
-        document.getElementById('previewModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.classList.remove('open');
+        // ===== Drag & Drop =====
+        let dragCounter = 0;
+
+        document.addEventListener('dragenter', function(e) {
+            e.preventDefault();
+            dragCounter++;
+            if (e.dataTransfer && e.dataTransfer.types.includes('Files')) {
+                document.getElementById('dropOverlay').classList.add('active');
             }
         });
 
-        // 复制链接
-        function copyUrl(url) {
-            const fullUrl = window.location.origin + url;
-            navigator.clipboard.writeText(fullUrl).then(() => {
-                showToast('链接已复制', 'success');
-            });
-        }
+        document.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            dragCounter--;
+            if (dragCounter <= 0) {
+                dragCounter = 0;
+                document.getElementById('dropOverlay').classList.remove('active');
+            }
+        });
 
-        // 删除模态框
-        function openDeleteModal(id) {
-            deleteTargetId = id;
-            document.getElementById('deleteModal').classList.add('open');
-        }
+        document.addEventListener('dragover', function(e) {
+            e.preventDefault();
+        });
 
-        function closeDeleteModal() {
-            deleteTargetId = null;
-            document.getElementById('deleteModal').classList.remove('open');
-        }
+        document.addEventListener('drop', function(e) {
+            e.preventDefault();
+            dragCounter = 0;
+            document.getElementById('dropOverlay').classList.remove('active');
 
-        document.getElementById('confirmDeleteBtn').addEventListener('click', async () => {
-            if (!deleteTargetId) return;
-
-            try {
-                const res = await fetch(`/api/admin/media/${deleteTargetId}`, {
-                    method: 'DELETE',
-                    headers: getAuthHeaders()
-                });
-                const data = await res.json();
-
-                if (data.success) {
-                    closeDeleteModal();
-                    loadMedia(currentPage);
-                    showToast('文件已删除', 'success');
-                } else {
-                    showToast(data.message, 'error');
+            const files = e.dataTransfer.files;
+            if (files && files.length > 0) {
+                // Filter accepted types
+                const accepted = [];
+                for (const file of files) {
+                    if (file.type.startsWith('image/') || file.type.startsWith('video/') || file.name.toLowerCase().endsWith('.pdf')) {
+                        accepted.push(file);
+                    }
                 }
-            } catch (error) {
-                showToast('删除失败', 'error');
+                if (accepted.length > 0) {
+                    uploadFiles(accepted);
+                } else {
+                    showToast('不支持的文件类型', 'error');
+                }
             }
         });
 
-        // 初始化
-        loadMedia();
+        // ===== Keyboard Shortcuts =====
+        document.addEventListener('keydown', function(e) {
+            // Escape to close modals
+            if (e.key === 'Escape') {
+                closePreview();
+                closeRenameModal();
+                closeDeleteModal();
+            }
+
+            // Ctrl/Cmd + A to select all
+            if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
+                // Only if not focused on input
+                if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+                    e.preventDefault();
+                    allMediaItems.forEach(item => selectedIds.add(item.id));
+                    updateSelectionUI();
+                }
+            }
+
+            // Delete key to batch delete
+            if (e.key === 'Delete' && selectedIds.size > 0) {
+                if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+                    batchDelete();
+                }
+            }
+        });
     </script>
 </body>
 </html>

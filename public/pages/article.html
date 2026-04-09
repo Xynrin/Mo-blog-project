@@ -7,7 +7,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/feed/rss">
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed/atom">
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="icon" id="siteFavicon" href="">
     <style>
         .article-hero { padding: 8rem 3rem 4rem; background: var(--bg-secondary); text-align: center; }
         .article-category { display: inline-block; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; background: var(--accent-coral); color: var(--bg-primary); padding: 0.3rem 1rem; margin-bottom: 1.5rem; font-weight: 700; }
@@ -30,6 +33,9 @@
         .article-content ul, .article-content ol { margin: 1.5rem 0 1.5rem 2rem; color: var(--fg-secondary); }
         .article-content li { margin-bottom: 0.5rem; line-height: 1.8; }
         .article-content img { max-width: 100%; margin: 2rem 0; }
+        .article-content iframe,
+        .article-content video { max-width: 100%; width: 100%; aspect-ratio: 16/9; border-radius: 8px; margin: 1.5rem 0; border: none; }
+        .article-content video { background: #000; }
         .article-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-subtle); }
         .article-tags a { padding: 0.4rem 1rem; font-size: 0.75rem; border: 1px solid var(--border-subtle); color: var(--fg-muted); transition: var(--transition-fast); }
         .article-tags a:hover { border-color: var(--accent-coral); color: var(--accent-coral); }
@@ -45,6 +51,7 @@
     </style>
 </head>
 <body>
+    <div class="reading-progress" id="readingProgress" style="width:0%"></div>
     <nav class="nav" id="navbar">
         <a href="/" class="nav-logo"><span class="dot"></span>墨</a>
         <ul class="nav-links" id="navLinks">
@@ -62,8 +69,19 @@
     </main>
 
     <footer class="footer">
-        <span>© 2026 墨 · Mo — 以文字记录灵感</span>
-        <div class="footer-links"><a href="#">RSS</a></div>
+        <span id="footerText">© 2026 墨 · Mo — 以文字记录灵感</span>
+        <div id="icpInfo" style="display:none;">
+            <a id="icpLink" class="footer-icp" href="#" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span id="icpText"></span>
+            </a>
+        </div>
+        <div class="footer-links">
+            <a href="/feed/rss" class="footer-rss" title="RSS订阅">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1" fill="currentColor" stroke="none"/></svg>
+                RSS
+            </a>
+        </div>
     </footer>
 
     <script src="/js/main.js"></script>
@@ -88,6 +106,10 @@
                 const main = document.getElementById('articleMain');
                 main.innerHTML = `
                     <header class="article-hero">
+                        <a href="/articles" class="btn-back">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                            返回文章列表
+                        </a>
                         <span class="article-category" style="background: ${article.category_color || 'var(--accent-coral)'}">${article.category_name || '未分类'}</span>
                         <h1 class="article-title">${escapeHtml(article.title)}</h1>
                         <div class="article-meta">
@@ -124,6 +146,26 @@
                         </section>
                     ` : ''}
                 `;
+                // 上一篇/下一篇
+                if (data.data.prevArticle || data.data.nextArticle) {
+                    let navHtml = '<div class="article-nav">';
+                    if (data.data.prevArticle) {
+                        navHtml += `<a href="/article/${data.data.prevArticle.slug}" class="article-nav-item prev">
+                            <div class="article-nav-label">← 上一篇</div>
+                            <div class="article-nav-title">${escapeHtml(data.data.prevArticle.title)}</div>
+                        </a>`;
+                    } else {
+                        navHtml += '<div></div>';
+                    }
+                    if (data.data.nextArticle) {
+                        navHtml += `<a href="/article/${data.data.nextArticle.slug}" class="article-nav-item next">
+                            <div class="article-nav-label">下一篇 →</div>
+                            <div class="article-nav-title">${escapeHtml(data.data.nextArticle.title)}</div>
+                        </a>`;
+                    }
+                    navHtml += '</div>';
+                    main.insertAdjacentHTML('beforeend', navHtml);
+                }
             } catch (error) {
                 console.error('加载文章失败:', error);
                 showNotFound();
@@ -153,6 +195,40 @@
         }
 
         loadArticle();
+
+        // Load footer settings
+        fetch('/api/settings').then(r => r.json()).then(data => {
+            if (!data.success) return;
+            const s = data.data;
+            if (s.site_favicon) {
+                const favicon = document.getElementById('siteFavicon');
+                if (favicon) favicon.href = s.site_favicon;
+            }
+            const ft = document.getElementById('footerText');
+            if (ft && s.footer_text) ft.textContent = s.footer_text;
+            if (s.icp_text) {
+                const icpInfo = document.getElementById('icpInfo');
+                const icpText = document.getElementById('icpText');
+                const icpLink = document.getElementById('icpLink');
+                if (icpInfo && icpText) {
+                    icpText.textContent = s.icp_text;
+                    if (s.icp_url && icpLink) icpLink.href = s.icp_url;
+                    icpInfo.style.display = 'flex';
+                }
+            }
+        }).catch(() => {});
+
+        // 阅读进度条
+        window.addEventListener('scroll', () => {
+            const articleContent = document.querySelector('.article-content');
+            if (!articleContent) return;
+            const rect = articleContent.getBoundingClientRect();
+            const total = articleContent.scrollHeight;
+            const visible = window.innerHeight;
+            const scrolled = -rect.top;
+            const progress = Math.min(Math.max((scrolled / (total - visible)) * 100, 0), 100);
+            document.getElementById('readingProgress').style.width = progress + '%';
+        });
     </script>
 </body>
 </html>

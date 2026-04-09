@@ -7,7 +7,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Noto+Serif+SC:wght@200;400;700;900&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/feed/rss">
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed/atom">
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="icon" id="siteFavicon" href="">
     <style>
         /* Hero Section */
         .hero {
@@ -180,6 +183,7 @@
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="hero-bg">
+                        <canvas id="particles-canvas"></canvas>
             <div class="blob"></div>
             <div class="blob"></div>
             <div class="blob"></div>
@@ -222,12 +226,22 @@
     <!-- Footer -->
     <footer class="footer">
         <span id="footerText">© 2026 墨 · Mo — 以文字记录灵感</span>
+        <div class="social-links" id="socialLinks"></div>
+        <div id="icpInfo" style="display:none;">
+            <a id="icpLink" class="footer-icp" href="#" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span id="icpText"></span>
+            </a>
+        </div>
         <div class="footer-links">
-            <a href="#">RSS</a>
-            <a href="#">Sitemap</a>
+            <a href="/feed/rss" class="footer-rss" title="RSS订阅">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1" fill="currentColor" stroke="none"/></svg>
+                RSS
+            </a>
         </div>
     </footer>
 
+    <script src="/js/particles.js"></script>
     <script src="/js/main.js"></script>
     <script>
         // 加载网站设置
@@ -244,10 +258,45 @@
                     if (settings.site_name) {
                         document.title = settings.site_name;
                     }
+                    if (settings.site_favicon) {
+                        const favicon = document.getElementById('siteFavicon');
+                        if (favicon) favicon.href = settings.site_favicon;
+                    }
                     if (settings.footer_text) {
                         document.getElementById('footerText').textContent = settings.footer_text;
                     }
+                    if (settings.icp_text) {
+                        const icpInfo = document.getElementById('icpInfo');
+                        const icpText = document.getElementById('icpText');
+                        const icpLink = document.getElementById('icpLink');
+                        if (icpInfo && icpText) {
+                            icpText.textContent = settings.icp_text;
+                            if (settings.icp_url && icpLink) icpLink.href = settings.icp_url;
+                            icpInfo.style.display = 'flex';
+                        }
+                    }
                 }
+
+                    // 加载社交链接
+                    const socialRes = await fetch('/api/settings');
+                    const socialData = await socialRes.json();
+                    const socials = socialData.data;
+                    const socialPlatforms = [
+                        { key: 'social_github', label: 'GitHub', icon: '<path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>' },
+                        { key: 'social_bilibili', label: 'Bilibili', icon: '<path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="M13 13l6 6"/>' },
+                        { key: 'social_youtube', label: 'YouTube', icon: '<path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.43z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>' },
+                        { key: 'social_x', label: 'X', icon: '<path d="M4 4l11.733 16h4.267l-11.733 -16h-4.267z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/>' },
+                        { key: 'social_gitee', label: 'Gitee', icon: '<circle cx="12" cy="12" r="3"/><path d="M12 2v4m0 12v4M2 12h4m12 0h4"/>' },
+                        { key: 'social_qq', label: 'QQ', icon: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
+                        { key: 'social_email', label: 'Email', icon: '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>' }
+                    ];
+                    const linksHtml = socialPlatforms.filter(p => socials[p.key]).map(p =>
+                        `<a href="${socials[p.key]}" target="_blank" rel="noopener" class="social-link" title="${p.label}">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${p.icon}</svg>
+                        </a>`
+                    ).join('');
+                    const socialEl = document.getElementById('socialLinks');
+                    if (socialEl) socialEl.innerHTML = linksHtml;
             } catch (error) {
                 console.error('加载设置失败:', error);
             }
@@ -286,15 +335,16 @@
                                 <h3 class="article-title">${escapeHtml(article.title)}</h3>
                                 <p class="article-excerpt">${escapeHtml(article.excerpt || '')}</p>
                                 <div class="article-footer">
-                                    <div class="article-tags"></div>
+                                    <div class="article-tags">${(article.tags || []).map(tag => `<span class="tag" style="--tag-bg: ${article.category_color || 'var(--accent-coral)'}"><span>${escapeHtml(tag)}</span></span>`).join('')}</div>
                                     <span class="article-read-more">阅读全文 <span class="arrow">→</span></span>
                                 </div>
                             </div>
                         </article>
                     `).join('');
                     
-                    // 重新初始化滚动动画
+                    // 重新初始化滚动动画和卡片倾斜效果
                     initRevealAnimations();
+                    initCardTiltEffect();
                 }
             } catch (error) {
                 console.error('加载文章失败:', error);

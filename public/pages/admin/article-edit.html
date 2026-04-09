@@ -327,6 +327,11 @@
                                     <polyline points="21 15 16 10 5 21"></polyline>
                                 </svg>
                             </button>
+                            <button class="editor-toolbar-btn" onclick="openVideoModal()" title="插入视频">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                </svg>
+                            </button>
                         </div>
                         
                         <div class="editor-tabs">
@@ -364,6 +369,7 @@
                                     <polyline points="21 15 16 10 5 21"></polyline>
                                 </svg>
                                 <div class="text">点击上传封面图</div>
+                                <div style="font-size:11px;color:var(--fg-muted);margin-top:4px;">建议比例 16:9，支持 JPG/PNG/WebP</div>
                             </div>
                         </div>
 
@@ -431,7 +437,7 @@
             </div>
             <div class="admin-modal-body">
                 <div style="margin-bottom: var(--space-4);">
-                    <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="uploadImage(event)">
+                    <input type="file" id="fileInput" accept="image/*,video/*,.pdf" style="display: none;" onchange="uploadImage(event)" multiple>
                     <button class="btn btn-outline" onclick="document.getElementById('fileInput').click()">
                         上传新图片
                     </button>
@@ -440,6 +446,29 @@
                     <div style="text-align: center; color: var(--fg-muted); padding: var(--space-8);">
                         加载中...
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Embed Modal -->
+    <div class="admin-modal-backdrop" id="videoModal">
+        <div class="admin-modal" style="max-width: 500px;">
+            <div class="admin-modal-header">
+                <h3 class="admin-modal-title">插入视频</h3>
+                <div class="admin-modal-close" onclick="closeVideoModal()">&times;</div>
+            </div>
+            <div class="admin-modal-body">
+                <div class="form-group">
+                    <label class="form-label">视频链接</label>
+                    <input type="text" class="form-input" id="videoUrl" placeholder="支持 YouTube、Bilibili 或直接 mp4 链接">
+                </div>
+                <div style="font-size: var(--text-xs); color: var(--fg-muted); margin-bottom: var(--space-4);">
+                    支持格式：https://www.youtube.com/watch?v=xxx 、 https://www.bilibili.com/video/BVxxx 、 https://xxx.mp4
+                </div>
+                <div style="display: flex; gap: var(--space-3); justify-content: flex-end;">
+                    <button class="btn btn-outline" onclick="closeVideoModal()">取消</button>
+                    <button class="btn btn-primary" onclick="insertVideo()">插入</button>
                 </div>
             </div>
         </div>
@@ -637,8 +666,8 @@
                 const grid = document.getElementById('mediaGrid');
                 if (data.success && data.data.media.length > 0) {
                     grid.innerHTML = data.data.media.map(item => `
-                        <div class="admin-media-item" onclick="selectMedia('${item.url}')">
-                            <img src="${item.url}" alt="">
+                        <div class="admin-media-item" onclick="selectMedia('${item.file_path}')">
+                            <img src="${item.file_path}" alt="">
                             <div class="overlay">
                                 <div class="actions">
                                     <div class="action">选择</div>
@@ -693,6 +722,53 @@
                 insertMarkdown('![image](', `${url})`);
             }
             closeMediaModal();
+        }
+
+        // 视频嵌入
+        function openVideoModal() {
+            document.getElementById('videoModal').classList.add('open');
+            document.getElementById('videoUrl').value = '';
+            setTimeout(() => document.getElementById('videoUrl').focus(), 100);
+        }
+
+        function closeVideoModal() {
+            document.getElementById('videoModal').classList.remove('open');
+        }
+
+        function insertVideo() {
+            const url = document.getElementById('videoUrl').value.trim();
+            if (!url) { showToast('请输入视频链接', 'error'); return; }
+
+            let embedHtml = '';
+
+            // YouTube
+            const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
+            if (ytMatch) {
+                embedHtml = `<div style="max-width:100%;aspect-ratio:16/9;margin:1.5rem 0;"><iframe src="https://www.youtube.com/embed/${ytMatch[1]}" frameborder="0" allowfullscreen style="width:100%;height:100%;border-radius:8px;"></iframe></div>`;
+            }
+            // Bilibili
+            const biliMatch = url.match(/bilibili\.com\/video\/(BV[a-zA-Z0-9]+)/);
+            if (biliMatch) {
+                embedHtml = `<div style="max-width:100%;aspect-ratio:16/9;margin:1.5rem 0;"><iframe src="https://player.bilibili.com/player.html?bvid=${biliMatch[1]}&high_quality=1" frameborder="0" allowfullscreen style="width:100%;height:100%;border-radius:8px;"></iframe></div>`;
+            }
+            // 直接视频链接
+            if (!embedHtml && (url.endsWith('.mp4') || url.endsWith('.webm') || url.endsWith('.ogg'))) {
+                embedHtml = `<div style="max-width:100%;aspect-ratio:16/9;margin:1.5rem 0;"><video src="${url}" controls style="width:100%;height:100%;border-radius:8px;background:#000;"></video></div>`;
+            }
+
+            if (!embedHtml) {
+                showToast('无法识别的视频链接格式', 'error');
+                return;
+            }
+
+            const textarea = document.getElementById('content');
+            const pos = textarea.selectionStart;
+            const text = textarea.value;
+            textarea.value = text.substring(0, pos) + '\n' + embedHtml + '\n' + text.substring(pos);
+            textarea.focus();
+            updatePreview();
+            closeVideoModal();
+            showToast('视频已插入', 'success');
         }
 
         // 保存文章

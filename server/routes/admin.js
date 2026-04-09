@@ -433,8 +433,8 @@ router.post('/portfolios', (req, res) => {
         const result = db.prepare(`
             INSERT INTO portfolios (title, description, cover_image, project_url, tags, sort_order, is_visible)
             VALUES (?, ?, ?, ?, ?, ?, ?)
-        `).run(title, description, cover_image, project_url, 
-               tags ? JSON.stringify(tags) : null, sort_order || 0, is_visible !== false ? 1 : 0);
+        `).run(title, description, cover_image, project_url,
+               tags || null, sort_order || 0, is_visible !== false ? 1 : 0);
 
         res.json({ success: true, data: { id: result.lastInsertRowid }, message: '作品创建成功' });
     } catch (error) {
@@ -461,8 +461,8 @@ router.put('/portfolios/:id', (req, res) => {
                 sort_order = COALESCE(?, sort_order),
                 is_visible = COALESCE(?, is_visible)
             WHERE id = ?
-        `).run(title, description, cover_image, project_url, 
-               tags ? JSON.stringify(tags) : null, sort_order, is_visible, id);
+        `).run(title, description, cover_image, project_url,
+               tags !== undefined ? tags : null, sort_order, is_visible, id);
 
         res.json({ success: true, message: '作品更新成功' });
     } catch (error) {
@@ -494,12 +494,32 @@ router.get('/media', (req, res) => {
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 20;
         const offset = (page - 1) * limit;
+        const type = req.query.type; // image, video, file
+        const search = req.query.search; // 搜索文件名
+
+        let whereClause = '1=1';
+        const params = [];
+
+        if (type) {
+            if (type === 'image') {
+                whereClause += " AND mime_type LIKE 'image/%'";
+            } else if (type === 'video') {
+                whereClause += " AND mime_type LIKE 'video/%'";
+            } else if (type === 'file') {
+                whereClause += " AND mime_type NOT LIKE 'image/%' AND mime_type NOT LIKE 'video/%'";
+            }
+        }
+
+        if (search) {
+            whereClause += ' AND original_name LIKE ?';
+            params.push(`%${search}%`);
+        }
 
         const media = db.prepare(`
-            SELECT * FROM media ORDER BY created_at DESC LIMIT ? OFFSET ?
-        `).all(limit, offset);
+            SELECT * FROM media WHERE ${whereClause} ORDER BY created_at DESC LIMIT ? OFFSET ?
+        `).all(...params, limit, offset);
 
-        const total = db.prepare('SELECT COUNT(*) as count FROM media').get();
+        const total = db.prepare(`SELECT COUNT(*) as count FROM media WHERE ${whereClause}`).get(...params);
 
         res.json({
             success: true,
@@ -560,6 +580,33 @@ router.post('/media/upload', upload.single('image'), processImage, (req, res) =>
     } catch (error) {
         console.error('上传错误:', error);
         res.status(500).json({ success: false, message: '上传失败' });
+    }
+});
+
+/**
+ * 重命名媒体
+ * PUT /api/admin/media/:id
+ */
+router.put('/media/:id', (req, res) => {
+    try {
+        const { id } = req.params;
+        const { original_name, alt_text } = req.body;
+
+        const media = db.prepare('SELECT * FROM media WHERE id = ?').get(id);
+        if (!media) {
+            return res.status(404).json({ success: false, message: '文件不存在' });
+        }
+
+        db.prepare(`
+            UPDATE media SET
+                original_name = COALESCE(?, original_name),
+                alt_text = COALESCE(?, alt_text)
+            WHERE id = ?
+        `).run(original_name, alt_text, id);
+
+        res.json({ success: true, message: '重命名成功' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: '重命名失败' });
     }
 });
 
@@ -694,6 +741,39 @@ router.delete('/messages/:id', (req, res) => {
         res.json({ success: true, message: '消息已删除' });
     } catch (error) {
         res.status(500).json({ success: false, message: '删除失败' });
+    }
+});
+
+/**
+ * 修改用户名
+ * PUT /api/admin/username
+ */
+router.put('/username', authMiddleware, (req, res) => {
+    try {
+        const { username } = req.body;
+        if (!username || username.trim().length < 2 || username.trim().length > 20) {
+            return res.status(400).json({ success: false, message: '用户名长度应在2-20个字符之间' });
+        }
+
+        const trimmed = username.trim();
+
+        // 检查用户名唯一性
+        const existing = db.prepare('SELECT id FROM admins WHERE username = ? AND id != ?').get(trimmed, req.user.id);
+        if (existing) {
+            return res.status(400).json({ success: false, message: '用户名已存在' });
+        }
+
+        // 更新用户名
+        db.prepare('UPDATE admins SET username = ? WHERE id = ?').run(trimmed, req.user.id);
+
+        // 同步更新作者名称
+        db.prepare(`INSERT INTO settings (key, value) VALUES ('author_name', ?)
+            ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = datetime('now')`).run(trimmed);
+
+        res.json({ success: true, message: '用户名修改成功' });
+    } catch (error) {
+        console.error('修改用户名错误:', error);
+        res.status(500).json({ success: false, message: '修改用户名失败' });
     }
 });
 

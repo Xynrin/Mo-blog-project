@@ -73,23 +73,28 @@ window.addEventListener('mousemove', (e) => {
 });
 
 // ===== Article Card Tilt Effect =====
-document.querySelectorAll('.article-card').forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const rotateX = (y - centerY) / 30;
-        const rotateY = (centerX - x) / 30;
+function initCardTiltEffect() {
+    document.querySelectorAll('.article-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = (y - centerY) / 30;
+            const rotateY = (centerX - x) / 30;
 
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
-    });
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+        });
 
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = '';
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+        });
     });
-});
+}
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', initCardTiltEffect);
 
 // ===== Utility Functions =====
 function formatDate(dateString) {
@@ -138,3 +143,4 @@ window.formatDate = formatDate;
 window.formatNumber = formatNumber;
 window.escapeHtml = escapeHtml;
 window.initRevealAnimations = initRevealAnimations;
+window.initCardTiltEffect = initCardTiltEffect;

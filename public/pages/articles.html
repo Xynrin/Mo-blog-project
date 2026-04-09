@@ -7,7 +7,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/feed/rss">
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed/atom">
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="icon" id="siteFavicon" href="">
     <style>
         .page-header { padding: 8rem 3rem 4rem; text-align: center; background: var(--bg-secondary); }
         .page-title { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; margin-bottom: 1rem; }
@@ -67,8 +70,19 @@
     <div class="pagination" id="pagination"></div>
 
     <footer class="footer">
-        <span>© 2026 墨 · Mo — 以文字记录灵感</span>
-        <div class="footer-links"><a href="#">RSS</a></div>
+        <span id="footerText">© 2026 墨 · Mo — 以文字记录灵感</span>
+        <div id="icpInfo" style="display:none;">
+            <a id="icpLink" class="footer-icp" href="#" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span id="icpText"></span>
+            </a>
+        </div>
+        <div class="footer-links">
+            <a href="/feed/rss" class="footer-rss" title="RSS订阅">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1" fill="currentColor" stroke="none"/></svg>
+                RSS
+            </a>
+        </div>
     </footer>
 
     <script src="/js/main.js"></script>
@@ -102,8 +116,8 @@
 
             const container = document.getElementById('articlesList');
             if (data.success && data.data.articles.length > 0) {
-                container.innerHTML = data.data.articles.map(article => `
-                    <article class="article-card" onclick="window.location.href='/article/${article.slug}'">
+                container.innerHTML = data.data.articles.map((article, index) => `
+                    <article class="article-card reveal ${index > 0 ? 'reveal-delay-' + Math.min(index, 4) : ''}" onclick="window.location.href='/article/${article.slug}'">
                         <div class="article-thumb">
                             ${article.cover_image 
                                 ? `<img src="${article.cover_image}" alt="">`
@@ -119,10 +133,13 @@
                             </div>
                             <h3 class="article-title">${escapeHtml(article.title)}</h3>
                             <p class="article-excerpt">${escapeHtml(article.excerpt || '')}</p>
+                            <div class="article-tags" style="margin-top:0.8rem">${(article.tags || []).map(tag => `<span class="tag" style="--tag-bg: ${article.category_color || 'var(--accent-coral)'}"><span>${escapeHtml(tag)}</span></span>`).join('')}</div>
                         </div>
                     </article>
                 `).join('');
                 renderPagination(data.data.pagination);
+                initRevealAnimations();
+                initCardTiltEffect();
             } else {
                 container.innerHTML = '<div class="empty-state">暂无文章</div>';
                 document.getElementById('pagination').innerHTML = '';
@@ -174,6 +191,28 @@
             }
             loadArticles(1);
         });
+
+        // Load footer settings
+        fetch('/api/settings').then(r => r.json()).then(data => {
+            if (!data.success) return;
+            const s = data.data;
+            if (s.site_favicon) {
+                const favicon = document.getElementById('siteFavicon');
+                if (favicon) favicon.href = s.site_favicon;
+            }
+            const ft = document.getElementById('footerText');
+            if (ft && s.footer_text) ft.textContent = s.footer_text;
+            if (s.icp_text) {
+                const icpInfo = document.getElementById('icpInfo');
+                const icpText = document.getElementById('icpText');
+                const icpLink = document.getElementById('icpLink');
+                if (icpInfo && icpText) {
+                    icpText.textContent = s.icp_text;
+                    if (s.icp_url && icpLink) icpLink.href = s.icp_url;
+                    icpInfo.style.display = 'flex';
+                }
+            }
+        }).catch(() => {});
     </script>
 </body>
 </html>

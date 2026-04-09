@@ -496,3 +496,436 @@ body::before {
 @media (max-width: 600px) {
     .section-title { font-size: var(--text-2xl); }
 }
+
+/* ===== Enhanced Interactions ===== */
+
+/* 按钮点击反馈 */
+.btn:active {
+    transform: translateY(0) scale(0.97) !important;
+    box-shadow: none !important;
+    transition-duration: 0.1s;
+}
+
+/* 卡片悬停光泽效果 */
+.card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(240, 236, 226, 0.03), transparent);
+    transition: left 0.6s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.card:hover::after {
+    left: 100%;
+}
+
+/* 图片悬停缩放 */
+.article-card .card-image img,
+.portfolio-card img {
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.article-card:hover .card-image img,
+.portfolio-card:hover img {
+    transform: scale(1.05);
+}
+
+/* 页面入场动画 */
+body {
+    animation: page-enter 0.4s ease;
+}
+
+@keyframes page-enter {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* 滚动指示器弹跳 */
+@keyframes bounce-down {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(8px); }
+}
+
+.scroll-indicator {
+    animation: bounce-down 2s ease-in-out infinite;
+}
+
+/* 返回按钮 */
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: var(--text-sm);
+    color: var(--fg-muted);
+    transition: var(--transition-smooth);
+    margin-bottom: var(--space-4);
+}
+
+.btn-back:hover {
+    color: var(--accent-coral);
+    transform: translateX(4px);
+}
+
+.btn-back svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* 阅读进度条 */
+.reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-coral), var(--accent-gold));
+    z-index: 10000;
+    transition: width 0.1s linear;
+}
+
+/* 文章导航（上一篇/下一篇） */
+.article-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--border-subtle);
+}
+
+.article-nav-item {
+    flex: 1;
+    padding: var(--space-4);
+    border: 1px solid var(--border-subtle);
+    transition: var(--transition-smooth);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.article-nav-item:hover {
+    border-color: var(--accent-coral);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.article-nav-item.next {
+    text-align: right;
+}
+
+.article-nav-label {
+    font-size: var(--text-xs);
+    color: var(--fg-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.article-nav-title {
+    font-size: var(--text-base);
+    color: var(--fg-primary);
+    font-weight: var(--font-medium);
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* 社交图标 */
+.social-links {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border-subtle);
+    color: var(--fg-muted);
+    transition: var(--transition-smooth);
+    text-decoration: none;
+}
+
+.social-link:hover {
+    color: var(--accent-coral);
+    border-color: var(--accent-coral);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(232, 97, 77, 0.15);
+}
+
+.social-link svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* 粒子画布 */
+#particles-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* 验证码输入区域 */
+.code-input-group {
+    display: flex;
+    gap: 0.5rem;
+    align-items: stretch;
+}
+
+.code-input-group .form-input {
+    flex: 1;
+}
+
+.btn-send-code {
+    white-space: nowrap;
+    padding: 0.8rem 1rem;
+    font-size: var(--text-sm);
+    background: var(--bg-secondary);
+    color: var(--fg-secondary);
+    border: 1px solid var(--border-subtle);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    min-width: 120px;
+    text-align: center;
+}
+
+.btn-send-code:hover:not(:disabled) {
+    border-color: var(--accent-coral);
+    color: var(--accent-coral);
+}
+
+.btn-send-code:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ===== Additional Interaction Animations ===== */
+
+/* Logo hover */
+.nav-logo:hover .dot {
+    transform: scale(1.6);
+    background: var(--accent-gold);
+}
+
+/* About avatar hover */
+.about-avatar:hover .about-avatar-inner {
+    border-color: var(--accent-coral);
+    transform: scale(1.05);
+}
+
+/* Skill card hover */
+.skill-card {
+    transition: var(--transition-smooth);
+}
+
+.skill-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-accent);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Active states for clickable elements */
+.social-link:active {
+    transform: translateY(-1px) scale(0.92);
+    transition-duration: 0.1s;
+}
+
+.card:active {
+    transform: translateY(-2px) scale(0.98);
+    transition-duration: 0.1s;
+}
+
+.tag:active {
+    transform: scale(0.95);
+    transition-duration: 0.1s;
+}
+
+/* Global footer links hover */
+.footer-links a {
+    transition: var(--transition-smooth);
+}
+
+.footer-links a:hover {
+    color: var(--accent-coral);
+}
+
+/* Portfolio link hover */
+.portfolio-link {
+    transition: var(--transition-smooth);
+}
+
+.portfolio-link:hover {
+    color: var(--accent-coral);
+}
+
+/* Pagination button active */
+.pagination-btn:active:not(:disabled) {
+    transform: scale(0.95);
+    transition-duration: 0.1s;
+}
+
+/* Form submit active */
+.form-submit:active,
+.contact-form button[type="submit"]:active {
+    transform: translateY(0) scale(0.97);
+    transition-duration: 0.1s;
+}
+
+/* Info card active */
+.info-card:active {
+    transform: translateX(2px) scale(0.98);
+    transition-duration: 0.1s;
+}
+
+/* ===== Additional Hover/Active Animations ===== */
+
+/* Nav toggle hover */
+.nav-toggle {
+    transition: var(--transition-fast);
+}
+.nav-toggle:hover {
+    opacity: 0.8;
+}
+.nav-toggle:hover span {
+    background: var(--accent-coral);
+}
+
+/* Stat card active */
+.stat-card {
+    transition: var(--transition-smooth);
+}
+.stat-card:active {
+    transform: translateY(-2px) scale(0.97);
+    transition-duration: 0.1s;
+}
+
+/* Form input focus enhancement */
+.form-input:focus,
+.form-textarea:focus {
+    border-color: var(--accent-coral);
+    box-shadow: 0 0 0 3px rgba(232, 97, 77, 0.15);
+}
+
+/* Send code button active */
+.btn-send-code:active:not(:disabled) {
+    transform: scale(0.95);
+    transition-duration: 0.1s;
+}
+
+/* Social link hover icon color */
+.social-link:hover svg {
+    stroke: var(--accent-coral);
+}
+
+/* Portfolio card active */
+.portfolio-card:active {
+    transform: translateY(-4px) scale(0.98);
+    transition-duration: 0.1s;
+}
+
+/* Section link hover */
+.section-link:active {
+    transform: translateX(2px);
+    transition-duration: 0.1s;
+}
+
+/* Nav links active feedback */
+.nav-links a:active {
+    transform: scale(0.97);
+    transition-duration: 0.1s;
+}
+
+/* Article nav item active */
+.article-nav-item:active {
+    transform: scale(0.97);
+    transition-duration: 0.1s;
+}
+
+/* Reading progress bar glow */
+.reading-progress {
+    box-shadow: 0 0 8px rgba(232, 97, 77, 0.5);
+}
+
+/* ===== Accessibility: Reduced Motion ===== */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ===== Touch Device Optimization ===== */
+@media (hover: none) and (pointer: coarse) {
+    .card:hover,
+    .article-card:hover,
+    .portfolio-card:hover {
+        transform: none;
+    }
+}
+
+/* ===== Tag Color Variable ===== */
+.tag::before {
+    background: var(--tag-bg, var(--accent-coral));
+}
+.tag:hover {
+    color: var(--bg-primary);
+    border-color: var(--tag-bg, var(--accent-coral));
+}
+
+/* ===== Footer Fixed Bottom ===== */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.footer {
+    margin-top: auto;
+}
+.footer-icp {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: var(--text-xs);
+    color: var(--fg-muted);
+    text-decoration: none;
+    transition: var(--transition-fast);
+}
+.footer-icp:hover {
+    color: var(--fg-secondary);
+}
+.footer-icp svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+.footer-rss {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: var(--text-xs);
+    color: var(--fg-muted);
+    text-decoration: none;
+    transition: var(--transition-fast);
+}
+.footer-rss:hover {
+    color: var(--accent-coral);
+}
+.footer-rss svg {
+    width: 14px;
+    height: 14px;
+}

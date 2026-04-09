@@ -7,34 +7,39 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/variables.css">
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="icon" id="siteFavicon" href="">
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/feed/rss">
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed/atom">
     <style>
         .contact-hero { padding: 8rem 3rem 4rem; background: var(--bg-secondary); text-align: center; }
         .contact-title { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; margin-bottom: 1rem; }
         .contact-title .accent { color: var(--accent-coral); }
         .contact-subtitle { color: var(--fg-secondary); font-size: 1rem; max-width: 500px; margin: 0 auto; line-height: 1.8; }
-        .contact-section { padding: 4rem 3rem; background: var(--bg-primary); }
-        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1000px; margin: 0 auto; }
-        .contact-form { background: var(--bg-card); border: 1px solid var(--border-subtle); padding: 2rem; }
+        .contact-form-section { padding: 4rem 3rem; background: var(--bg-primary); }
+        .contact-form-wrapper { max-width: 600px; margin: 0 auto; background: var(--bg-card); border: 1px solid var(--border-subtle); padding: 2rem; }
         .form-title { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; }
         .form-group { margin-bottom: 1.5rem; }
         .form-label { display: block; font-size: 0.8rem; color: var(--fg-secondary); margin-bottom: 0.5rem; letter-spacing: 0.05em; }
-        .form-input, .form-textarea { width: 100%; padding: 1rem; background: var(--bg-input); border: 1px solid var(--border-subtle); color: var(--fg-primary); font-family: var(--font-body); font-size: 0.95rem; transition: var(--transition-fast); }
+        .form-input, .form-textarea { width: 100%; padding: 1rem; background: var(--bg-input); border: 1px solid var(--border-subtle); color: var(--fg-primary); font-family: var(--font-body); font-size: 0.95rem; transition: var(--transition-fast); box-sizing: border-box; }
         .form-input:focus, .form-textarea:focus { outline: none; border-color: var(--accent-coral); }
         .form-textarea { min-height: 150px; resize: vertical; }
         .form-submit { width: 100%; padding: 1rem; background: var(--accent-coral); color: var(--bg-primary); border: none; font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: var(--transition-smooth); }
         .form-submit:hover { background: #d4553f; }
         .form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
-        .contact-info { display: flex; flex-direction: column; gap: 2rem; }
-        .info-card { background: var(--bg-card); border: 1px solid var(--border-subtle); padding: 1.5rem; display: flex; align-items: flex-start; gap: 1rem; transition: var(--transition-smooth); }
-        .info-card:hover { border-color: var(--accent-coral); transform: translateX(4px); }
-        .info-icon { width: 48px; height: 48px; background: rgba(232, 97, 77, 0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .info-icon svg { width: 24px; height: 24px; stroke: var(--accent-coral); }
-        .info-content h4 { font-weight: 700; margin-bottom: 0.3rem; }
-        .info-content p { font-size: 0.9rem; color: var(--fg-secondary); }
-        .info-content a { color: var(--accent-coral); }
         .success-message { background: rgba(45, 212, 168, 0.1); border: 1px solid var(--accent-teal); color: var(--accent-teal); padding: 1rem; margin-bottom: 1.5rem; text-align: center; display: none; }
-        @media (max-width: 768px) { .contact-grid { grid-template-columns: 1fr; } }
+        .code-input-group { display: flex; gap: 0.75rem; }
+        .code-input-group .form-input { flex: 1; }
+        .btn-send-code { padding: 0 1.5rem; background: var(--bg-input); border: 1px solid var(--border-subtle); color: var(--fg-primary); font-size: 0.85rem; cursor: pointer; white-space: nowrap; transition: var(--transition-fast); }
+        .btn-send-code:hover { border-color: var(--accent-coral); color: var(--accent-coral); }
+        .btn-send-code:disabled { opacity: 0.6; cursor: not-allowed; }
+        .social-section { padding: 3rem; background: var(--bg-primary); text-align: center; }
+        .social-section-title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--fg-secondary); }
+        .social-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+        .social-links a.social-link { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid var(--border-subtle); border-radius: 50%; transition: var(--transition-smooth); }
+        .social-links a.social-link:hover { border-color: var(--accent-coral); transform: translateY(-2px); }
+        .social-links a.social-link svg { width: 20px; height: 20px; stroke: var(--fg-primary); }
     </style>
 </head>
 <body>
@@ -55,120 +60,186 @@
         <p class="contact-subtitle">无论是项目合作、设计咨询，还是单纯想聊聊天，都欢迎联系我。</p>
     </header>
 
-    <section class="contact-section">
-        <div class="contact-grid">
-            <div class="contact-form">
-                <h3 class="form-title">发送消息</h3>
-                <div class="success-message" id="successMsg">消息已发送，感谢您的联系！</div>
-                <form id="contactForm">
-                    <div class="form-group">
-                        <label class="form-label">您的姓名</label>
-                        <input type="text" class="form-input" id="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">电子邮箱</label>
-                        <input type="email" class="form-input" id="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">消息内容</label>
-                        <textarea class="form-textarea" id="message" required></textarea>
-                    </div>
-                    <button type="submit" class="form-submit" id="submitBtn">发送消息</button>
-                </form>
-            </div>
-
-            <div class="contact-info">
-                <div class="info-card">
-                    <div class="info-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                            <polyline points="22,6 12,13 2,6"></polyline>
-                        </svg>
-                    </div>
-                    <div class="info-content">
-                        <h4>电子邮件</h4>
-                        <p><a href="mailto:hello@mo-blog.com">hello@mo-blog.com</a></p>
+    <section class="contact-form-section">
+        <div class="contact-form-wrapper">
+            <h3 class="form-title">发送消息</h3>
+            <div class="success-message" id="successMsg">消息已发送，感谢您的联系！</div>
+            <form id="contactForm">
+                <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;overflow:hidden!important;">
+                <input type="hidden" id="formTimestamp" name="_timestamp">
+                <div class="form-group">
+                    <label class="form-label">您的姓名</label>
+                    <input type="text" class="form-input" id="name" name="name" required maxlength="50">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">电子邮箱</label>
+                    <input type="email" class="form-input" id="email" name="email" required maxlength="254">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">消息内容</label>
+                    <textarea class="form-textarea" id="message" name="message" required maxlength="2000"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">邮箱验证码</label>
+                    <div class="code-input-group">
+                        <input type="text" class="form-input" id="verifyCode" placeholder="6位验证码" maxlength="6" required>
+                        <button type="button" class="btn-send-code" id="sendCodeBtn" onclick="sendVerifyCode()">发送验证码</button>
                     </div>
                 </div>
-                <div class="info-card">
-                    <div class="info-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                        </svg>
-                    </div>
-                    <div class="info-content">
-                        <h4>所在地</h4>
-                        <p>中国 · 远程办公</p>
-                    </div>
-                </div>
-                <div class="info-card">
-                    <div class="info-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <polyline points="12 6 12 12 16 14"></polyline>
-                        </svg>
-                    </div>
-                    <div class="info-content">
-                        <h4>响应时间</h4>
-                        <p>通常在 24 小时内回复</p>
-                    </div>
-                </div>
-                <div class="info-card">
-                    <div class="info-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                        </svg>
-                    </div>
-                    <div class="info-content">
-                        <h4>社交媒体</h4>
-                        <p>Twitter / GitHub / Dribbble</p>
-                    </div>
-                </div>
-            </div>
+                <button type="submit" class="form-submit" id="submitBtn">发送消息</button>
+            </form>
         </div>
     </section>
 
+    <section class="social-section">
+        <p class="social-section-title">或者在这些地方找到我</p>
+        <div class="social-links" id="socialLinks"></div>
+    </section>
+
     <footer class="footer">
-        <span>© 2026 墨 · Mo — 以文字记录灵感</span>
-        <div class="footer-links"><a href="#">RSS</a></div>
+        <span id="footerText">&copy; 2026 墨 &middot; Mo &mdash; 以文字记录灵感</span>
+        <div id="icpInfo" style="display:none;">
+            <a id="icpLink" class="footer-icp" href="#" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span id="icpText"></span>
+            </a>
+        </div>
+        <div class="footer-links">
+            <a href="/feed/rss" class="footer-rss" title="RSS订阅">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1" fill="currentColor" stroke="none"/></svg>
+                RSS
+            </a>
+        </div>
     </footer>
 
     <script src="/js/main.js"></script>
     <script>
+        // 页面加载时设置时间戳
+        document.getElementById('formTimestamp').value = Date.now();
+
+        let codeVerified = false;
+
+        async function sendVerifyCode() {
+            const email = document.getElementById('email').value.trim();
+            if (!email) { showToast('请先填写邮箱', 'error'); return; }
+            const btn = document.getElementById('sendCodeBtn');
+            btn.disabled = true;
+            let countdown = 60;
+            btn.textContent = countdown + 's';
+            const timer = setInterval(() => {
+                countdown--;
+                btn.textContent = countdown + 's';
+                if (countdown <= 0) { clearInterval(timer); btn.disabled = false; btn.textContent = '发送验证码'; }
+            }, 1000);
+            try {
+                const formData = { email, website: '', _timestamp: Date.now() };
+                const res = await fetch('/api/contact/send-code', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(formData) });
+                const data = await res.json();
+                if (data.success) { showToast('验证码已发送', 'success'); } else { showToast(data.message, 'error'); clearInterval(timer); btn.disabled = false; btn.textContent = '发送验证码'; }
+            } catch(e) { showToast('发送失败', 'error'); clearInterval(timer); btn.disabled = false; btn.textContent = '发送验证码'; }
+        }
+
+        async function verifyCode() {
+            const email = document.getElementById('email').value.trim();
+            const code = document.getElementById('verifyCode').value.trim();
+            if (!code) { showToast('请输入验证码', 'error'); return false; }
+            try {
+                const res = await fetch('/api/contact/verify-code', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({email, code}) });
+                const data = await res.json();
+                if (data.success) { codeVerified = true; showToast('验证成功', 'success'); return true; }
+                else { showToast(data.message, 'error'); return false; }
+            } catch(e) { showToast('验证失败', 'error'); return false; }
+        }
+
+        // 加载社交链接
+        (async function loadSocialLinks() {
+            try {
+                const socialRes = await fetch('/api/settings');
+                const socialData = await socialRes.json();
+                const socials = socialData.data;
+
+                // Favicon & ICP settings
+                if (socials.site_favicon) {
+                    const favicon = document.getElementById('siteFavicon');
+                    if (favicon) favicon.href = socials.site_favicon;
+                }
+                const ft = document.getElementById('footerText');
+                if (ft && socials.footer_text) ft.textContent = socials.footer_text;
+                if (socials.icp_text) {
+                    const icpInfo = document.getElementById('icpInfo');
+                    const icpText = document.getElementById('icpText');
+                    const icpLink = document.getElementById('icpLink');
+                    if (icpInfo && icpText) {
+                        icpText.textContent = socials.icp_text;
+                        if (socials.icp_url && icpLink) icpLink.href = socials.icp_url;
+                        icpInfo.style.display = 'flex';
+                    }
+                }
+
+                const socialPlatforms = [
+                    { key: 'social_github', label: 'GitHub', icon: '<path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>' },
+                    { key: 'social_bilibili', label: 'Bilibili', icon: '<path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="M13 13l6 6"/>' },
+                    { key: 'social_youtube', label: 'YouTube', icon: '<path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.43z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>' },
+                    { key: 'social_x', label: 'X', icon: '<path d="M4 4l11.733 16h4.267l-11.733 -16h-4.267z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/>' },
+                    { key: 'social_gitee', label: 'Gitee', icon: '<circle cx="12" cy="12" r="3"/><path d="M12 2v4m0 12v4M2 12h4m12 0h4"/>' },
+                    { key: 'social_qq', label: 'QQ', icon: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
+                    { key: 'social_email', label: 'Email', icon: '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>' }
+                ];
+                const linksHtml = socialPlatforms.filter(p => socials[p.key]).map(p =>
+                    `<a href="${socials[p.key]}" target="_blank" rel="noopener" class="social-link" title="${p.label}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${p.icon}</svg>
+                    </a>`
+                ).join('');
+                const socialEl = document.getElementById('socialLinks');
+                if (socialEl) socialEl.innerHTML = linksHtml;
+            } catch (error) {
+                console.error('加载社交链接失败:', error);
+            }
+        })();
+
         document.getElementById('contactForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
+            // 提交前先验证验证码
+            if (!codeVerified) {
+                const verified = await verifyCode();
+                if (!verified) return;
+            }
+
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
             submitBtn.textContent = '发送中...';
-            
+
             const data = {
                 name: document.getElementById('name').value,
                 email: document.getElementById('email').value,
-                message: document.getElementById('message').value
+                message: document.getElementById('message').value,
+                website: document.querySelector('input[name="website"]').value,
+                _timestamp: document.getElementById('formTimestamp').value
             };
-            
+
             try {
                 const res = await fetch('/api/contact', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
-                
+
                 const result = await res.json();
-                
+
                 if (result.success) {
                     document.getElementById('successMsg').style.display = 'block';
                     document.getElementById('contactForm').reset();
+                    document.getElementById('formTimestamp').value = Date.now();
+                    codeVerified = false;
                     setTimeout(() => {
                         document.getElementById('successMsg').style.display = 'none';
                     }, 5000);
                 } else {
-                    alert(result.message || '发送失败，请稍后重试');
+                    showToast(result.message || '发送失败，请稍后重试', 'error');
                 }
             } catch (error) {
-                alert('网络错误，请稍后重试');
+                showToast('网络错误，请稍后重试', 'error');
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = '发送消息';
