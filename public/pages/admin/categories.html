@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分类管理 - 墨 · 管理后台</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/variables.css">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="admin-sidebar-header">
+                <a href="/admin" class="admin-sidebar-logo">
+                    <span class="dot"></span> 墨
+                    <span class="text">管理后台</span>
+                </a>
+            </div>
+            <nav class="admin-sidebar-nav">
+                <div class="admin-nav-section">
+                    <div class="admin-nav-section-title">概览</div>
+                    <a href="/admin" class="admin-nav-item">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                        仪表盘
+                    </a>
+                </div>
+                <div class="admin-nav-section">
+                    <div class="admin-nav-section-title">内容</div>
+                    <a href="/admin/articles" class="admin-nav-item">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                        文章管理
+                    </a>
+                    <a href="/admin/categories" class="admin-nav-item active">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                        分类管理
+                    </a>
+                    <a href="/admin/portfolios" class="admin-nav-item">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                        作品集
+                    </a>
+                    <a href="/admin/media" class="admin-nav-item">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                        媒体库
+                    </a>
+                </div>
+                <div class="admin-nav-section">
+                    <div class="admin-nav-section-title">系统</div>
+                    <a href="/admin/settings" class="admin-nav-item">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                        系统设置
+                    </a>
+                </div>
+            </nav>
+            <div class="admin-sidebar-footer">
+                <div class="admin-user">
+                    <div class="admin-user-avatar" id="userAvatar">M</div>
+                    <div class="admin-user-info">
+                        <div class="admin-user-name" id="userName">管理员</div>
+                        <div class="admin-user-role">Administrator</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1 class="admin-header-title">分类管理</h1>
+                <div class="admin-header-actions">
+                    <button class="btn btn-primary" style="padding: 0.6rem 1.2rem;" onclick="openModal()">+ 新建分类</button>
+                </div>
+            </header>
+
+            <div class="admin-content">
+                <div class="admin-table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>颜色</th>
+                                <th>名称</th>
+                                <th>Slug</th>
+                                <th>描述</th>
+                                <th>文章数</th>
+                                <th>排序</th>
+                                <th style="width: 100px;">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="categoriesTable">
+                            <tr><td colspan="7" style="text-align: center; color: var(--fg-muted); padding: 3rem;">加载中...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div class="admin-modal-backdrop" id="modal">
+        <div class="admin-modal">
+            <div class="admin-modal-header">
+                <h3 class="admin-modal-title" id="modalTitle">新建分类</h3>
+                <div class="admin-modal-close" onclick="closeModal()">&times;</div>
+            </div>
+            <div class="admin-modal-body">
+                <input type="hidden" id="editId">
+                <div class="form-group">
+                    <label class="form-label">分类名称 *</label>
+                    <input type="text" class="form-input" id="catName" placeholder="例如：设计思考">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">URL 标识</label>
+                    <input type="text" class="form-input" id="catSlug" placeholder="留空自动生成">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">描述</label>
+                    <input type="text" class="form-input" id="catDesc" placeholder="分类描述（可选）">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">颜色</label>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <input type="color" id="catColor" value="#e8614d" style="width: 48px; height: 36px; border: 1px solid var(--border-subtle); background: var(--bg-input); cursor: pointer; padding: 2px;">
+                        <input type="text" class="form-input" id="catColorText" value="#e8614d" style="max-width: 120px;" oninput="document.getElementById('catColor').value = this.value">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">排序</label>
+                    <input type="number" class="form-input" id="catSort" value="0" min="0">
+                </div>
+            </div>
+            <div class="admin-modal-footer">
+                <button class="btn btn-outline" onclick="closeModal()">取消</button>
+                <button class="btn btn-primary" onclick="saveCategory()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="admin-modal-backdrop" id="deleteModal">
+        <div class="admin-modal">
+            <div class="admin-modal-header">
+                <h3 class="admin-modal-title">确认删除</h3>
+                <div class="admin-modal-close" onclick="closeDeleteModal()">&times;</div>
+            </div>
+            <div class="admin-modal-body"><p>确定要删除这个分类吗？该分类下的文章不会被删除，但会变为未分类状态。</p></div>
+            <div class="admin-modal-footer">
+                <button class="btn btn-outline" onclick="closeDeleteModal()">取消</button>
+                <button class="btn btn-primary" id="confirmDeleteBtn">删除</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/admin.js"></script>
+    <script>
+        checkAuth();
+
+        let deleteTargetId = null;
+
+        // 同步颜色选择器
+        document.getElementById('catColor').addEventListener('input', function() {
+            document.getElementById('catColorText').value = this.value;
+        });
+
+        async function loadCategories() {
+            try {
+                const res = await fetch('/api/admin/categories', { headers: getAuthHeaders() });
+                const data = await res.json();
+                if (data.success) {
+                    const tbody = document.getElementById('categoriesTable');
+                    if (data.data.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--fg-muted); padding: 3rem;">暂无分类</td></tr>';
+                        return;
+                    }
+                    tbody.innerHTML = data.data.map(cat => `
+                        <tr>
+                            <td><span style="display:inline-block;width:20px;height:20px;background:${cat.color};border-radius:2px;vertical-align:middle;"></span></td>
+                            <td style="font-weight:500;">${escapeHtml(cat.name)}</td>
+                            <td class="text-muted">${escapeHtml(cat.slug)}</td>
+                            <td class="text-muted">${escapeHtml(cat.description || '-')}</td>
+                            <td>${cat.article_count || 0}</td>
+                            <td>${cat.sort_order || 0}</td>
+                            <td>
+                                <div class="admin-table-actions">
+                                    <button class="admin-table-action" title="编辑" onclick="editCategory(${cat.id}, '${escapeHtml(cat.name)}', '${escapeHtml(cat.slug)}', '${escapeHtml(cat.description || '')}', '${cat.color}', ${cat.sort_order || 0})">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                    </button>
+                                    <button class="admin-table-action delete" title="删除" onclick="openDeleteModal(${cat.id})">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('加载分类失败:', error);
+            }
+        }
+
+        function openModal(id) {
+            document.getElementById('editId').value = id || '';
+            document.getElementById('modalTitle').textContent = id ? '编辑分类' : '新建分类';
+            if (!id) {
+                document.getElementById('catName').value = '';
+                document.getElementById('catSlug').value = '';
+                document.getElementById('catDesc').value = '';
+                document.getElementById('catColor').value = '#e8614d';
+                document.getElementById('catColorText').value = '#e8614d';
+                document.getElementById('catSort').value = '0';
+            }
+            document.getElementById('modal').classList.add('open');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('open');
+        }
+
+        function editCategory(id, name, slug, desc, color, sort) {
+            document.getElementById('editId').value = id;
+            document.getElementById('catName').value = name;
+            document.getElementById('catSlug').value = slug;
+            document.getElementById('catDesc').value = desc;
+            document.getElementById('catColor').value = color;
+            document.getElementById('catColorText').value = color;
+            document.getElementById('catSort').value = sort;
+            openModal(id);
+        }
+
+        async function saveCategory() {
+            const name = document.getElementById('catName').value.trim();
+            if (!name) { showToast('请输入分类名称', 'error'); return; }
+
+            const id = document.getElementById('editId').value;
+            const body = {
+                name,
+                slug: document.getElementById('catSlug').value.trim(),
+                description: document.getElementById('catDesc').value.trim(),
+                color: document.getElementById('catColor').value,
+                sort_order: parseInt(document.getElementById('catSort').value) || 0
+            };
+
+            try {
+                const url = id ? `/api/admin/categories/${id}` : '/api/admin/categories';
+                const res = await fetch(url, { method: id ? 'PUT' : 'POST', headers: getAuthHeaders(), body: JSON.stringify(body) });
+                const data = await res.json();
+                if (data.success) { closeModal(); loadCategories(); showToast(id ? '分类已更新' : '分类已创建', 'success'); }
+                else { showToast(data.message, 'error'); }
+            } catch (error) { showToast('操作失败', 'error'); }
+        }
+
+        function openDeleteModal(id) { deleteTargetId = id; document.getElementById('deleteModal').classList.add('open'); }
+        function closeDeleteModal() { deleteTargetId = null; document.getElementById('deleteModal').classList.remove('open'); }
+
+        document.getElementById('confirmDeleteBtn').addEventListener('click', async () => {
+            if (!deleteTargetId) return;
+            try {
+                const res = await fetch(`/api/admin/categories/${deleteTargetId}`, { method: 'DELETE', headers: getAuthHeaders() });
+                const data = await res.json();
+                if (data.success) { closeDeleteModal(); loadCategories(); showToast('分类已删除', 'success'); }
+                else { showToast(data.message, 'error'); }
+            } catch (error) { showToast('删除失败', 'error'); }
+        });
+
+        loadCategories();
+    </script>
+</body>
+</html>

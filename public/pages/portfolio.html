@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作品集 - 墨 · 创意博客</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+    <style>
+        .page-header { padding: 8rem 3rem 4rem; background: var(--bg-secondary); text-align: center; }
+        .page-title { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; margin-bottom: 1rem; }
+        .page-subtitle { color: var(--fg-secondary); font-size: 1rem; }
+        .portfolio-section { padding: 4rem 3rem; background: var(--bg-primary); min-height: 60vh; }
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+        .portfolio-card { background: var(--bg-card); border: 1px solid var(--border-subtle); overflow: hidden; transition: var(--transition-smooth); }
+        .portfolio-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); border-color: var(--border-accent); }
+        .portfolio-thumb { aspect-ratio: 16/10; overflow: hidden; position: relative; }
+        .portfolio-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .portfolio-card:hover .portfolio-thumb img { transform: scale(1.05); }
+        .portfolio-thumb-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, #1a1a2e, #16213e); display: flex; align-items: center; justify-content: center; font-size: 3rem; opacity: 0.3; }
+        .portfolio-overlay { position: absolute; inset: 0; background: rgba(10,10,10,0.8); display: flex; align-items: center; justify-content: center; opacity: 0; transition: var(--transition-smooth); }
+        .portfolio-card:hover .portfolio-overlay { opacity: 1; }
+        .portfolio-link { padding: 0.8rem 1.5rem; background: var(--accent-coral); color: var(--bg-primary); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; }
+        .portfolio-body { padding: 1.5rem; }
+        .portfolio-title { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .portfolio-desc { font-size: 0.85rem; color: var(--fg-secondary); line-height: 1.7; margin-bottom: 1rem; }
+        .portfolio-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .portfolio-tag { font-size: 0.65rem; padding: 0.3rem 0.8rem; background: var(--bg-secondary); color: var(--fg-muted); border: 1px solid var(--border-subtle); }
+        .empty-state { text-align: center; padding: 4rem; color: var(--fg-muted); }
+    </style>
+</head>
+<body>
+    <nav class="nav" id="navbar">
+        <a href="/" class="nav-logo"><span class="dot"></span>墨</a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="/"><span class="nav-num">01</span>首页</a></li>
+            <li><a href="/articles"><span class="nav-num">02</span>文章</a></li>
+            <li><a href="/about"><span class="nav-num">03</span>关于我</a></li>
+            <li><a href="/portfolio" class="active"><span class="nav-num">04</span>作品集</a></li>
+            <li><a href="/contact"><span class="nav-num">05</span>联系我</a></li>
+        </ul>
+        <div class="nav-toggle" id="navToggle"><span></span><span></span><span></span></div>
+    </nav>
+
+    <header class="page-header">
+        <h1 class="page-title">作品集</h1>
+        <p class="page-subtitle">精选项目与创作</p>
+    </header>
+
+    <section class="portfolio-section">
+        <div class="portfolio-grid" id="portfolioGrid">
+            <div class="empty-state">加载中...</div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <span>© 2026 墨 · Mo — 以文字记录灵感</span>
+        <div class="footer-links"><a href="#">RSS</a></div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+    <script>
+        async function loadPortfolios() {
+            try {
+                const res = await fetch('/api/portfolios');
+                const data = await res.json();
+                const container = document.getElementById('portfolioGrid');
+                
+                if (data.success && data.data.length > 0) {
+                    container.innerHTML = data.data.map(item => {
+                        let tags = [];
+                        try { tags = JSON.parse(item.tags || '[]'); } catch(e) {}
+                        
+                        return `
+                            <article class="portfolio-card">
+                                <div class="portfolio-thumb">
+                                    ${item.cover_image 
+                                        ? `<img src="${item.cover_image}" alt="${escapeHtml(item.title)}">`
+                                        : '<div class="portfolio-thumb-placeholder">💼</div>'
+                                    }
+                                    ${item.project_url ? `
+                                        <div class="portfolio-overlay">
+                                            <a href="${item.project_url}" target="_blank" class="portfolio-link">查看项目</a>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                                <div class="portfolio-body">
+                                    <h3 class="portfolio-title">${escapeHtml(item.title)}</h3>
+                                    <p class="portfolio-desc">${escapeHtml(item.description || '')}</p>
+                                    ${tags.length > 0 ? `
+                                        <div class="portfolio-tags">
+                                            ${tags.map(t => `<span class="portfolio-tag">${escapeHtml(t)}</span>`).join('')}
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </article>
+                        `;
+                    }).join('');
+                } else {
+                    container.innerHTML = '<div class="empty-state">暂无作品</div>';
+                }
+            } catch (error) {
+                console.error('加载作品集失败:', error);
+                document.getElementById('portfolioGrid').innerHTML = '<div class="empty-state">加载失败</div>';
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        loadPortfolios();
+    </script>
+</body>
+</html>

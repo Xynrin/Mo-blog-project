@@ -1,0 +1,136 @@
+/**
+ * 墨 · 创意博客 - 设计系统变量
+ * Design System Variables
+ */
+
+:root {
+    color-scheme: dark;
+
+    /* ===== 色彩系统 Colors ===== */
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #111111;
+    --bg-card: #161616;
+    --bg-input: #1a1a1a;
+    --bg-hover: #1e1e1e;
+    
+    --fg-primary: #f0ece2;
+    --fg-secondary: #c4bfb6;
+    --fg-muted: #a8a29e;
+    
+    --accent-coral: #e8614d;
+    --accent-gold: #d4a853;
+    --accent-teal: #2dd4a8;
+    --accent-violet: #a78bfa;
+    
+    --border-subtle: rgba(240, 236, 226, 0.12);
+    --border-accent: rgba(232, 97, 77, 0.3);
+    
+    /* 状态色 */
+    --success: #2dd4a8;
+    --warning: #d4a853;
+    --error: #e8614d;
+    --info: #a78bfa;
+    
+    /* ===== 字体系统 Typography ===== */
+    --font-display: 'Playfair Display', 'Noto Serif SC', serif;
+    --font-body: 'Noto Serif SC', serif;
+    --font-accent: 'ZCOOL XiaoWei', serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+    
+    /* 字号 */
+    --text-xs: 0.7rem;
+    --text-sm: 0.8rem;
+    --text-base: 0.95rem;
+    --text-lg: 1.1rem;
+    --text-xl: 1.4rem;
+    --text-2xl: 1.8rem;
+    --text-3xl: 2.5rem;
+    --text-4xl: 3.5rem;
+    --text-5xl: 5rem;
+    
+    /* 行高 */
+    --leading-tight: 1.2;
+    --leading-normal: 1.6;
+    --leading-relaxed: 1.8;
+    
+    /* 字重 */
+    --font-normal: 400;
+    --font-medium: 500;
+    --font-bold: 700;
+    --font-black: 900;
+    
+    /* ===== 间距系统 Spacing ===== */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.5rem;
+    --space-6: 2rem;
+    --space-8: 3rem;
+    --space-10: 4rem;
+    --space-12: 5rem;
+    --space-16: 8rem;
+    
+    /* ===== 圆角 Border Radius ===== */
+    --radius-none: 0;
+    --radius-sm: 2px;
+    --radius-md: 4px;
+    --radius-lg: 8px;
+    --radius-full: 9999px;
+    
+    /* ===== 阴影 Shadows ===== */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+    --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.6);
+    --shadow-glow: 0 0 30px rgba(232, 97, 77, 0.2);
+    
+    /* ===== 过渡动画 Transitions ===== */
+    --transition-fast: 0.15s ease;
+    --transition-base: 0.3s ease;
+    --transition-slow: 0.5s ease;
+    --transition-smooth: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    
+    /* ===== 布局 Layout ===== */
+    --container-sm: 640px;
+    --container-md: 768px;
+    --container-lg: 1024px;
+    --container-xl: 1200px;
+    --container-2xl: 1400px;
+    
+    --nav-height: 72px;
+    --sidebar-width: 240px;
+    
+    /* ===== Z-Index ===== */
+    --z-dropdown: 100;
+    --z-sticky: 200;
+    --z-fixed: 300;
+    --z-modal-backdrop: 400;
+    --z-modal: 500;
+    --z-popover: 600;
+    --z-tooltip: 700;
+}
+
+/* 深色主题（默认） */
+[data-theme="dark"] {
+    color-scheme: dark;
+}
+
+/* 浅色主题 */
+[data-theme="light"] {
+    --bg-primary: #fafaf9;
+    --bg-secondary: #f5f5f4;
+    --bg-card: #ffffff;
+    --bg-input: #ffffff;
+    --bg-hover: #f0f0f0;
+    
+    --fg-primary: #1c1917;
+    --fg-secondary: #57534e;
+    --fg-muted: #a8a29e;
+    
+    --border-subtle: rgba(28, 25, 23, 0.08);
+    --border-accent: rgba(232, 97, 77, 0.3);
+    
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.15);
+}

@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>墨 · 创意博客</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Noto+Serif+SC:wght@200;400;700;900&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+    <style>
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 6rem 3rem 4rem;
+            overflow: hidden;
+        }
+        .hero-bg { position: absolute; inset: 0; z-index: 0; }
+        .hero-bg .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+            animation: float-blob 20s ease-in-out infinite;
+        }
+        .hero-bg .blob:nth-child(1) { width: 600px; height: 600px; background: var(--accent-coral); top: -10%; right: -10%; }
+        .hero-bg .blob:nth-child(2) { width: 400px; height: 400px; background: var(--accent-gold); bottom: -5%; left: -5%; animation-delay: -7s; }
+        .hero-bg .blob:nth-child(3) { width: 300px; height: 300px; background: var(--accent-teal); top: 40%; left: 30%; animation-delay: -14s; }
+        @keyframes float-blob {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.05); }
+            66% { transform: translate(-20px, 20px) scale(0.95); }
+        }
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(240,236,226,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(240,236,226,0.03) 1px, transparent 1px);
+            background-size: 80px 80px;
+            z-index: 1;
+        }
+        .hero-content { position: relative; z-index: 2; max-width: 900px; text-align: center; }
+        .hero-tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent-coral);
+            border: 1px solid var(--border-accent);
+            padding: 0.4rem 1.2rem;
+            margin-bottom: 2rem;
+            animation: fade-up 0.8s ease-out 0.2s both;
+        }
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+            animation: fade-up 0.8s ease-out 0.4s both;
+        }
+        .hero-title .line { display: block; }
+        .hero-title .highlight {
+            color: transparent;
+            -webkit-text-stroke: 2px var(--accent-coral);
+            position: relative;
+        }
+        .hero-subtitle {
+            font-family: var(--font-accent);
+            font-size: 1.2rem;
+            color: var(--fg-secondary);
+            max-width: 500px;
+            margin: 0 auto 2.5rem;
+            animation: fade-up 0.8s ease-out 0.6s both;
+        }
+        .hero-cta { display: flex; gap: 1rem; justify-content: center; animation: fade-up 0.8s ease-out 0.8s both; }
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            animation: fade-up 0.8s ease-out 1.2s both;
+        }
+        .scroll-indicator span { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-muted); }
+        .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--fg-muted), transparent); animation: scroll-pulse 2s ease-in-out infinite; }
+        @keyframes scroll-pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+        
+        /* Articles Grid */
+        .articles-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+        .article-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            overflow: hidden;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+        .article-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); border-color: var(--border-accent); }
+        .article-card:first-child { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; }
+        .article-thumb { position: relative; overflow: hidden; aspect-ratio: 16/10; }
+        .article-card:first-child .article-thumb { aspect-ratio: auto; height: 100%; }
+        .article-thumb-bg { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .article-card:hover .article-thumb-bg { transform: scale(1.05); }
+        .article-thumb-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,10,10,0.8), transparent 60%); }
+        .article-category {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            background: var(--accent-coral);
+            color: var(--bg-primary);
+            padding: 0.3rem 0.8rem;
+            font-weight: 700;
+        }
+        .article-body { padding: 1.8rem; display: flex; flex-direction: column; justify-content: center; }
+        .article-meta { display: flex; align-items: center; gap: 1rem; font-size: 0.72rem; color: var(--fg-muted); letter-spacing: 0.05em; margin-bottom: 0.8rem; }
+        .article-meta .sep { width: 3px; height: 3px; background: var(--fg-muted); border-radius: 50%; }
+        .article-title { font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; line-height: 1.3; margin-bottom: 0.8rem; transition: var(--transition-smooth); }
+        .article-card:first-child .article-title { font-size: 1.8rem; }
+        .article-card:hover .article-title { color: var(--accent-coral); }
+        .article-excerpt { font-size: 0.85rem; color: var(--fg-secondary); line-height: 1.7; margin-bottom: 1.2rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        .article-footer { display: flex; align-items: center; justify-content: space-between; }
+        .article-tags { display: flex; gap: 0.5rem; }
+        .article-tags span { font-size: 0.65rem; color: var(--fg-muted); border: 1px solid var(--border-subtle); padding: 0.2rem 0.6rem; }
+        .article-read-more { font-size: 0.75rem; letter-spacing: 0.1em; color: var(--accent-coral); display: flex; align-items: center; gap: 0.3rem; }
+        .article-read-more .arrow { transition: transform 0.3s ease; }
+        .article-card:hover .article-read-more .arrow { transform: translateX(4px); }
+        
+        /* About Section */
+        .about { background: var(--bg-secondary); }
+        .about-grid { display: grid; grid-template-columns: 300px 1fr; gap: 4rem; align-items: start; }
+        .about-avatar { position: relative; }
+        .about-avatar-frame {
+            width: 100%;
+            aspect-ratio: 3/4;
+            background: linear-gradient(135deg, var(--accent-coral), var(--accent-gold));
+            padding: 3px;
+            position: relative;
+            overflow: hidden;
+        }
+        .about-avatar-frame::before { content: ''; position: absolute; inset: 3px; background: var(--bg-secondary); z-index: 1; }
+        .about-avatar-inner {
+            position: absolute;
+            inset: 6px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+        .about-avatar-inner .initial { font-family: var(--font-display); font-size: 5rem; font-weight: 900; color: var(--accent-coral); opacity: 0.8; }
+        .about-avatar .tag {
+            position: absolute;
+            bottom: -12px;
+            right: -12px;
+            background: var(--accent-coral);
+            color: var(--bg-primary);
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 0.5rem 1rem;
+            z-index: 3;
+        }
+        .about-info { padding-top: 1rem; }
+        .about-name { font-family: var(--font-display); font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; }
+        .about-role { font-family: var(--font-accent); font-size: 1.1rem; color: var(--accent-gold); margin-bottom: 1.5rem; }
+        .about-bio { color: var(--fg-secondary); font-size: 0.95rem; line-height: 2; margin-bottom: 2rem; }
+        .about-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 2rem; }
+        .stat-item { text-align: center; padding: 1.5rem 1rem; background: var(--bg-card); border: 1px solid var(--border-subtle); transition: var(--transition-smooth); }
+        .stat-item:hover { border-color: var(--accent-coral); transform: translateY(-4px); }
+        .stat-number { font-family: var(--font-display); font-size: 2.2rem; font-weight: 900; color: var(--accent-coral); line-height: 1; margin-bottom: 0.3rem; }
+        .stat-label { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fg-muted); }
+        
+        /* Tags Cloud */
+        .tags-section { background: var(--bg-primary); padding: 4rem 3rem; }
+        .tags-cloud { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; }
+        
+        /* Contact Section */
+        .contact { background: var(--bg-primary); text-align: center; }
+        .contact-content { max-width: 600px; margin: 0 auto; }
+        .contact-heading { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; margin-bottom: 1rem; line-height: 1.1; }
+        .contact-heading .accent { color: var(--accent-coral); }
+        .contact-desc { color: var(--fg-secondary); font-size: 1rem; margin-bottom: 2.5rem; line-height: 1.8; }
+        .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.8rem 1.6rem;
+            border: 1px solid var(--border-subtle);
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            color: var(--fg-secondary);
+            transition: var(--transition-smooth);
+        }
+        .contact-link:hover { border-color: var(--accent-coral); color: var(--accent-coral); transform: translateY(-2px); }
+        .contact-link .icon { width: 18px; height: 18px; fill: currentColor; }
+        
+        /* Footer */
+        .footer {
+            padding: 3rem;
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--fg-muted);
+        }
+        .footer-links { display: flex; gap: 2rem; }
+        .footer-links a { color: var(--fg-muted); letter-spacing: 0.05em; }
+        .footer-links a:hover { color: var(--accent-coral); }
+        
+        @media (max-width: 900px) {
+            .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .about-avatar { max-width: 200px; margin: 0 auto; }
+            .about-stats { grid-template-columns: repeat(2, 1fr); }
+            .articles-grid { grid-template-columns: 1fr; }
+            .article-card:first-child { grid-column: 1; grid-template-columns: 1fr; }
+            .article-card:first-child .article-thumb { aspect-ratio: 16/10; height: auto; }
+            .footer { flex-direction: column; gap: 1rem; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="nav" id="navbar">
+        <a href="/" class="nav-logo">
+            <span class="dot"></span>
+            墨
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="/" class="active"><span class="nav-num">01</span>首页</a></li>
+            <li><a href="/articles"><span class="nav-num">02</span>文章</a></li>
+            <li><a href="/about"><span class="nav-num">03</span>关于我</a></li>
+            <li><a href="/portfolio"><span class="nav-num">04</span>作品集</a></li>
+            <li><a href="/contact"><span class="nav-num">05</span>联系我</a></li>
+        </ul>
+        <div class="nav-toggle" id="navToggle">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-bg">
+            <div class="blob"></div>
+            <div class="blob"></div>
+            <div class="blob"></div>
+        </div>
+        <div class="hero-grid"></div>
+        <div class="hero-content">
+            <div class="hero-tag">✦ 创意 · 设计 · 生活</div>
+            <h1 class="hero-title">
+                <span class="line">以文字</span>
+                <span class="line"><span class="highlight">记录灵感</span></span>
+            </h1>
+            <p class="hero-subtitle" id="siteDescription">在这里，我分享关于设计、技术与生活的思考碎片</p>
+            <div class="hero-cta">
+                <a href="/articles" class="btn btn-primary">浏览文章 <span class="arrow">→</span></a>
+                <a href="/about" class="btn btn-outline">了解更多</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>向下滚动</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section about" id="about">
+        <div class="container">
+            <div class="section-header reveal">
+                <div>
+                    <div class="section-label">About</div>
+                    <h2 class="section-title">关于<span class="accent">我</span></h2>
+                </div>
+            </div>
+            <div class="about-grid">
+                <div class="about-avatar reveal reveal-delay-1">
+                    <div class="about-avatar-frame">
+                        <div class="about-avatar-inner">
+                            <span class="initial" id="authorInitial">M</span>
+                        </div>
+                    </div>
+                    <span class="tag">创作者</span>
+                </div>
+                <div class="about-info">
+                    <h3 class="about-name reveal reveal-delay-2" id="authorName">墨 · Mo</h3>
+                    <p class="about-role reveal reveal-delay-2" id="authorRole">独立设计师 / 创意写作者 / 数字游民</p>
+                    <p class="about-bio reveal reveal-delay-3" id="authorBio">
+                        热衷于探索设计与技术的交汇点。相信好的设计不仅是视觉上的美感，更是思维方式的传达。
+                        在这里，你会找到关于 UI/UX 设计、前端开发、创意思维以及旅途见闻的文章。
+                        每一篇文字都是一次与自我的对话，也是与你的连接。
+                    </p>
+                    <div class="about-stats reveal reveal-delay-4">
+                        <div class="stat-item">
+                            <div class="stat-number" id="statArticles">0</div>
+                            <div class="stat-label">篇文章</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="statViews">0</div>
+                            <div class="stat-label">总阅读</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="statPortfolios">0</div>
+                            <div class="stat-label">个项目</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">∞</div>
+                            <div class="stat-label">灵感</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tags Section -->
+    <section class="tags-section" id="portfolio">
+        <div class="container">
+            <div class="section-header reveal">
+                <div>
+                    <div class="section-label">Categories</div>
+                    <h2 class="section-title">标签<span class="accent">云</span></h2>
+                </div>
+            </div>
+            <div class="tags-cloud reveal reveal-delay-1" id="tagsCloud">
+                <!-- 动态加载 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Articles Section -->
+    <section class="section articles" id="articles">
+        <div class="container">
+            <div class="section-header reveal">
+                <div>
+                    <div class="section-label">Blog</div>
+                    <h2 class="section-title">最新<span class="accent">文章</span></h2>
+                </div>
+                <a href="/articles" class="section-link">查看全部 <span>→</span></a>
+            </div>
+            <div class="articles-grid" id="articlesGrid">
+                <!-- 动态加载 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section contact" id="contact">
+        <div class="container">
+            <div class="contact-content">
+                <div class="section-label reveal" style="text-align:center;">Contact</div>
+                <h2 class="contact-heading reveal reveal-delay-1">一起<span class="accent">创造</span>点什么？</h2>
+                <p class="contact-desc reveal reveal-delay-2">
+                    无论是项目合作、设计咨询，还是单纯想聊聊天，<br>都欢迎通过以下方式联系我。
+                </p>
+                <div class="contact-links reveal reveal-delay-3">
+                    <a href="mailto:hello@mo-blog.com" class="contact-link">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                        邮件联系
+                    </a>
+                    <a href="/contact" class="contact-link">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        联系表单
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <span id="footerText">© 2026 墨 · Mo — 以文字记录灵感</span>
+        <div class="footer-links">
+            <a href="#">RSS</a>
+            <a href="#">Sitemap</a>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+    <script>
+        // 加载网站设置
+        async function loadSettings() {
+            try {
+                const res = await fetch('/api/settings');
+                const data = await res.json();
+                if (data.success) {
+                    const settings = data.data;
+                    
+                    if (settings.site_description) {
+                        document.getElementById('siteDescription').textContent = settings.site_description;
+                    }
+                    if (settings.author_name) {
+                        document.getElementById('authorName').textContent = settings.author_name;
+                        document.getElementById('authorInitial').textContent = settings.author_name.charAt(0);
+                        document.title = settings.site_name || '墨 · 创意博客';
+                    }
+                    if (settings.author_bio) {
+                        document.getElementById('authorBio').textContent = settings.author_bio;
+                    }
+                    if (settings.footer_text) {
+                        document.getElementById('footerText').textContent = settings.footer_text;
+                    }
+                }
+            } catch (error) {
+                console.error('加载设置失败:', error);
+            }
+        }
+
+        // 加载统计数据
+        async function loadStats() {
+            try {
+                const res = await fetch('/api/stats');
+                const data = await res.json();
+                if (data.success) {
+                    animateNumber('statArticles', data.data.articleCount);
+                    animateNumber('statViews', data.data.totalViews);
+                    animateNumber('statPortfolios', data.data.portfolioCount);
+                }
+            } catch (error) {
+                console.error('加载统计失败:', error);
+            }
+        }
+
+        // 数字动画
+        function animateNumber(elementId, target) {
+            const el = document.getElementById(elementId);
+            const duration = 2000;
+            const start = performance.now();
+            
+            function animate(currentTime) {
+                const elapsed = currentTime - start;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = Math.floor(target * eased);
+                
+                el.textContent = current >= 1000 ? (current / 1000).toFixed(1) + 'K' : current;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    el.textContent = target >= 1000 ? (target / 1000).toFixed(1) + 'K' : target;
+                }
+            }
+            
+            requestAnimationFrame(animate);
+        }
+
+        // 加载标签云
+        async function loadTags() {
+            try {
+                const res = await fetch('/api/categories');
+                const data = await res.json();
+                if (data.success) {
+                    const container = document.getElementById('tagsCloud');
+                    container.innerHTML = data.data.map((cat, index) => `
+                        <a href="/articles?category=${cat.id}" class="tag ${index === 0 ? 'featured' : ''}">
+                            <span>${cat.name}</span>
+                            <span class="count">${cat.article_count || 0}</span>
+                        </a>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('加载标签失败:', error);
+            }
+        }
+
+        // 加载文章列表
+        async function loadArticles() {
+            try {
+                const res = await fetch('/api/articles?limit=5');
+                const data = await res.json();
+                if (data.success) {
+                    const container = document.getElementById('articlesGrid');
+                    const articles = data.data.articles;
+                    
+                    if (articles.length === 0) {
+                        container.innerHTML = '<p style="text-align: center; color: var(--fg-muted); grid-column: 1/-1;">暂无文章</p>';
+                        return;
+                    }
+                    
+                    container.innerHTML = articles.map((article, index) => `
+                        <article class="article-card reveal ${index > 0 ? 'reveal-delay-' + Math.min(index, 4) : ''}" onclick="window.location.href='/article/${article.slug}'">
+                            <div class="article-thumb">
+                                ${article.cover_image 
+                                    ? `<img src="${article.cover_image}" class="article-thumb-bg" alt="">`
+                                    : `<div class="article-thumb-bg" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);"></div>`
+                                }
+                                <div class="article-thumb-overlay"></div>
+                                <span class="article-category" style="background: ${article.category_color || 'var(--accent-coral)'}">${article.category_name || '未分类'}</span>
+                            </div>
+                            <div class="article-body">
+                                <div class="article-meta">
+                                    <span>${formatDate(article.published_at)}</span>
+                                    <span class="sep"></span>
+                                    <span>阅读 ${Math.ceil((article.excerpt || '').length / 200) || 5} 分钟</span>
+                                </div>
+                                <h3 class="article-title">${escapeHtml(article.title)}</h3>
+                                <p class="article-excerpt">${escapeHtml(article.excerpt || '')}</p>
+                                <div class="article-footer">
+                                    <div class="article-tags"></div>
+                                    <span class="article-read-more">阅读全文 <span class="arrow">→</span></span>
+                                </div>
+                            </div>
+                        </article>
+                    `).join('');
+                    
+                    // 重新初始化滚动动画
+                    initRevealAnimations();
+                }
+            } catch (error) {
+                console.error('加载文章失败:', error);
+            }
+        }
+
+        // 格式化日期
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
+        }
+
+        // HTML 转义
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // 初始化
+        loadSettings();
+        loadStats();
+        loadTags();
+        loadArticles();
+    </script>
+</body>
+</html>

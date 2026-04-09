@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我 - 墨 · 创意博客</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+    <style>
+        .about-hero { padding: 8rem 3rem 4rem; background: var(--bg-secondary); text-align: center; }
+        .about-avatar { width: 150px; height: 150px; margin: 0 auto 2rem; background: linear-gradient(135deg, var(--accent-coral), var(--accent-gold)); padding: 4px; border-radius: 50%; }
+        .about-avatar-inner { width: 100%; height: 100%; background: var(--bg-secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .about-avatar-inner span { font-family: var(--font-display); font-size: 4rem; font-weight: 900; color: var(--accent-coral); }
+        .about-name { font-family: var(--font-display); font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; }
+        .about-role { font-size: 1.1rem; color: var(--accent-gold); margin-bottom: 2rem; }
+        .about-bio { max-width: 600px; margin: 0 auto; color: var(--fg-secondary); line-height: 2; }
+        .stats-section { padding: 4rem 3rem; background: var(--bg-primary); }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; max-width: 800px; margin: 0 auto; }
+        .stat-card { text-align: center; padding: 2rem; background: var(--bg-card); border: 1px solid var(--border-subtle); transition: var(--transition-smooth); }
+        .stat-card:hover { border-color: var(--accent-coral); transform: translateY(-4px); }
+        .stat-number { font-family: var(--font-display); font-size: 2.5rem; font-weight: 900; color: var(--accent-coral); }
+        .stat-label { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fg-muted); margin-top: 0.5rem; }
+        .skills-section { padding: 4rem 3rem; background: var(--bg-secondary); }
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 1000px; margin: 0 auto; }
+        .skill-card { padding: 2rem; background: var(--bg-card); border: 1px solid var(--border-subtle); }
+        .skill-title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .skill-title span { font-size: 1.5rem; }
+        .skill-list { list-style: none; }
+        .skill-list li { padding: 0.5rem 0; color: var(--fg-secondary); font-size: 0.9rem; border-bottom: 1px solid var(--border-subtle); }
+        .skill-list li:last-child { border-bottom: none; }
+        @media (max-width: 768px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+    </style>
+</head>
+<body>
+    <nav class="nav" id="navbar">
+        <a href="/" class="nav-logo"><span class="dot"></span>墨</a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="/"><span class="nav-num">01</span>首页</a></li>
+            <li><a href="/articles"><span class="nav-num">02</span>文章</a></li>
+            <li><a href="/about" class="active"><span class="nav-num">03</span>关于我</a></li>
+            <li><a href="/portfolio"><span class="nav-num">04</span>作品集</a></li>
+            <li><a href="/contact"><span class="nav-num">05</span>联系我</a></li>
+        </ul>
+        <div class="nav-toggle" id="navToggle"><span></span><span></span><span></span></div>
+    </nav>
+
+    <header class="about-hero">
+        <div class="about-avatar">
+            <div class="about-avatar-inner"><span id="authorInitial">M</span></div>
+        </div>
+        <h1 class="about-name" id="authorName">墨 · Mo</h1>
+        <p class="about-role" id="authorRole">独立设计师 / 创意写作者 / 数字游民</p>
+        <p class="about-bio" id="authorBio">热衷于探索设计与技术的交汇点。相信好的设计不仅是视觉上的美感，更是思维方式的传达。</p>
+    </header>
+
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="statArticles">0</div>
+                <div class="stat-label">篇文章</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="statViews">0</div>
+                <div class="stat-label">总阅读</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="statPortfolios">0</div>
+                <div class="stat-label">个项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">灵感</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="skills-section">
+        <div class="section-header" style="max-width: 1000px; margin: 0 auto 2rem;">
+            <div class="section-label">Skills</div>
+            <h2 class="section-title">技能<span class="accent">专长</span></h2>
+        </div>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <h3 class="skill-title"><span>🎨</span> 设计</h3>
+                <ul class="skill-list">
+                    <li>UI/UX 设计</li>
+                    <li>品牌视觉设计</li>
+                    <li>交互原型设计</li>
+                    <li>设计系统构建</li>
+                </ul>
+            </div>
+            <div class="skill-card">
+                <h3 class="skill-title"><span>💻</span> 开发</h3>
+                <ul class="skill-list">
+                    <li>HTML / CSS / JavaScript</li>
+                    <li>React / Vue.js</li>
+                    <li>Node.js / Express</li>
+                    <li>数据库设计</li>
+                </ul>
+            </div>
+            <div class="skill-card">
+                <h3 class="skill-title"><span>✍️</span> 写作</h3>
+                <ul class="skill-list">
+                    <li>技术博客</li>
+                    <li>设计思考</li>
+                    <li>产品文案</li>
+                    <li>旅行随笔</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <span>© 2026 墨 · Mo — 以文字记录灵感</span>
+        <div class="footer-links"><a href="#">RSS</a></div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+    <script>
+        async function loadData() {
+            const [settingsRes, statsRes] = await Promise.all([
+                fetch('/api/settings'),
+                fetch('/api/stats')
+            ]);
+            
+            const settings = await settingsRes.json();
+            const stats = await statsRes.json();
+            
+            if (settings.success) {
+                const s = settings.data;
+                if (s.author_name) {
+                    document.getElementById('authorName').textContent = s.author_name;
+                    document.getElementById('authorInitial').textContent = s.author_name.charAt(0);
+                    document.title = `关于我 - ${s.site_name || '墨 · 创意博客'}`;
+                }
+                if (s.author_bio) document.getElementById('authorBio').textContent = s.author_bio;
+            }
+            
+            if (stats.success) {
+                animateNumber('statArticles', stats.data.articleCount);
+                animateNumber('statViews', stats.data.totalViews);
+                animateNumber('statPortfolios', stats.data.portfolioCount);
+            }
+        }
+
+        function animateNumber(id, target) {
+            const el = document.getElementById(id);
+            const duration = 2000;
+            const start = performance.now();
+            function animate(t) {
+                const progress = Math.min((t - start) / duration, 1);
+                const current = Math.floor(target * (1 - Math.pow(1 - progress, 3)));
+                el.textContent = current >= 1000 ? (current / 1000).toFixed(1) + 'K' : current;
+                if (progress < 1) requestAnimationFrame(animate);
+                else el.textContent = target >= 1000 ? (target / 1000).toFixed(1) + 'K' : target;
+            }
+            requestAnimationFrame(animate);
+        }
+
+        loadData();
+    </script>
+</body>
+</html>

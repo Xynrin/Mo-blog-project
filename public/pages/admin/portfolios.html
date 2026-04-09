@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作品集管理 - 墨 · 管理后台</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/variables.css">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="admin-sidebar-header">
+                <a href="/admin" class="admin-sidebar-logo">
+                    <span class="dot"></span> 墨
+                    <span class="text">管理后台</span>
+                </a>
+            </div>
+            <nav class="admin-sidebar-nav">
+                <div class="admin-nav-section">
+                    <div class="admin-nav-section-title">概览</div>
+                    <a href="/admin" class="admin-nav-item">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                        仪表盘
+                    </a>
+                </div>
+                <div class="admin-nav-section">
+                    <div class="admin-nav-section-title">内容</div>
+                    <a href="/admin/articles" class="admin-nav-item">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                        文章管理
+                    </a>
+                    <a href="/admin/categories" class="admin-nav-item">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                        分类管理
+                    </a>
+                    <a href="/admin/portfolios" class="admin-nav-item active">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                        作品集
+                    </a>
+                    <a href="/admin/media" class="admin-nav-item">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                        媒体库
+                    </a>
+                </div>
+                <div class="admin-nav-section">
+                    <div class="admin-nav-section-title">系统</div>
+                    <a href="/admin/settings" class="admin-nav-item">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                        系统设置
+                    </a>
+                </div>
+            </nav>
+            <div class="admin-sidebar-footer">
+                <div class="admin-user">
+                    <div class="admin-user-avatar" id="userAvatar">M</div>
+                    <div class="admin-user-info">
+                        <div class="admin-user-name" id="userName">管理员</div>
+                        <div class="admin-user-role">Administrator</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1 class="admin-header-title">作品集管理</h1>
+                <div class="admin-header-actions">
+                    <button class="btn btn-primary" style="padding: 0.6rem 1.2rem;" onclick="openModal()">+ 新建作品</button>
+                </div>
+            </header>
+
+            <div class="admin-content">
+                <div class="admin-table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 80px;">封面</th>
+                                <th>标题</th>
+                                <th>描述</th>
+                                <th>项目链接</th>
+                                <th>排序</th>
+                                <th>可见</th>
+                                <th style="width: 100px;">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="portfoliosTable">
+                            <tr><td colspan="7" style="text-align: center; color: var(--fg-muted); padding: 3rem;">加载中...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div class="admin-modal-backdrop" id="modal">
+        <div class="admin-modal" style="max-width: 600px;">
+            <div class="admin-modal-header">
+                <h3 class="admin-modal-title" id="modalTitle">新建作品</h3>
+                <div class="admin-modal-close" onclick="closeModal()">&times;</div>
+            </div>
+            <div class="admin-modal-body">
+                <input type="hidden" id="editId">
+                <div class="form-group">
+                    <label class="form-label">作品标题 *</label>
+                    <input type="text" class="form-input" id="pTitle" placeholder="项目名称">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">描述</label>
+                    <textarea class="form-textarea" id="pDesc" placeholder="项目简介" style="min-height: 80px;"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">封面图</label>
+                    <div id="coverPreview" style="display:none; margin-bottom: 0.5rem;">
+                        <img id="coverImg" src="" style="max-width: 200px; border: 1px solid var(--border-subtle);">
+                        <button class="btn btn-outline" style="padding: 0.3rem 0.6rem; font-size: 0.7rem; margin-top: 0.5rem;" onclick="removeCover()">移除</button>
+                    </div>
+                    <input type="text" class="form-input" id="pCover" placeholder="图片URL 或点击下方上传">
+                    <input type="file" id="fileInput" accept="image/*" style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--fg-secondary);" onchange="uploadCover(event)">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">项目链接</label>
+                    <input type="text" class="form-input" id="pUrl" placeholder="https://example.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">标签（逗号分隔）</label>
+                    <input type="text" class="form-input" id="pTags" placeholder="React, Node.js, 设计">
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <div class="form-group" style="flex:1;">
+                        <label class="form-label">排序</label>
+                        <input type="number" class="form-input" id="pSort" value="0" min="0">
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label class="form-label">可见</label>
+                        <select class="form-select" id="pVisible" style="width:100%;">
+                            <option value="1">显示</option>
+                            <option value="0">隐藏</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="admin-modal-footer">
+                <button class="btn btn-outline" onclick="closeModal()">取消</button>
+                <button class="btn btn-primary" onclick="savePortfolio()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="admin-modal-backdrop" id="deleteModal">
+        <div class="admin-modal">
+            <div class="admin-modal-header">
+                <h3 class="admin-modal-title">确认删除</h3>
+                <div class="admin-modal-close" onclick="closeDeleteModal()">&times;</div>
+            </div>
+            <div class="admin-modal-body"><p>确定要删除这个作品吗？此操作不可恢复。</p></div>
+            <div class="admin-modal-footer">
+                <button class="btn btn-outline" onclick="closeDeleteModal()">取消</button>
+                <button class="btn btn-primary" id="confirmDeleteBtn">删除</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/admin.js"></script>
+    <script>
+        checkAuth();
+
+        let deleteTargetId = null;
+        let coverImage = '';
+
+        async function loadPortfolios() {
+            try {
+                const res = await fetch('/api/admin/portfolios', { headers: getAuthHeaders() });
+                const data = await res.json();
+                if (data.success) {
+                    const tbody = document.getElementById('portfoliosTable');
+                    if (data.data.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--fg-muted); padding: 3rem;">暂无作品</td></tr>';
+                        return;
+                    }
+                    tbody.innerHTML = data.data.map(p => `
+                        <tr>
+                            <td>${p.cover_image ? `<img src="${p.cover_image}" class="admin-table-thumb" alt="">` : '<span class="text-muted">无</span>'}</td>
+                            <td style="font-weight:500;">${escapeHtml(p.title)}</td>
+                            <td class="text-muted" style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHtml(p.description || '-')}</td>
+                            <td>${p.project_url ? `<a href="${p.project_url}" target="_blank" style="color:var(--accent-coral);">链接</a>` : '<span class="text-muted">-</span>'}</td>
+                            <td>${p.sort_order || 0}</td>
+                            <td><span class="admin-table-status ${p.is_visible ? 'published' : 'draft'}">${p.is_visible ? '显示' : '隐藏'}</span></td>
+                            <td>
+                                <div class="admin-table-actions">
+                                    <button class="admin-table-action" title="编辑" onclick='editPortfolio(${JSON.stringify(p).replace(/'/g, "\\'")})'>
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                    </button>
+                                    <button class="admin-table-action delete" title="删除" onclick="openDeleteModal(${p.id})">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `).join('');
+                }
+            } catch (error) { console.error('加载作品失败:', error); }
+        }
+
+        function openModal() {
+            document.getElementById('editId').value = '';
+            document.getElementById('modalTitle').textContent = '新建作品';
+            document.getElementById('pTitle').value = '';
+            document.getElementById('pDesc').value = '';
+            document.getElementById('pCover').value = '';
+            document.getElementById('pUrl').value = '';
+            document.getElementById('pTags').value = '';
+            document.getElementById('pSort').value = '0';
+            document.getElementById('pVisible').value = '1';
+            coverImage = '';
+            document.getElementById('coverPreview').style.display = 'none';
+            document.getElementById('modal').classList.add('open');
+        }
+
+        function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+        function editPortfolio(p) {
+            document.getElementById('editId').value = p.id;
+            document.getElementById('modalTitle').textContent = '编辑作品';
+            document.getElementById('pTitle').value = p.title;
+            document.getElementById('pDesc').value = p.description || '';
+            document.getElementById('pCover').value = p.cover_image || '';
+            document.getElementById('pUrl').value = p.project_url || '';
+            let tags = [];
+            try { tags = JSON.parse(p.tags || '[]'); } catch(e) {}
+            document.getElementById('pTags').value = tags.join(', ');
+            document.getElementById('pSort').value = p.sort_order || 0;
+            document.getElementById('pVisible').value = p.is_visible ? '1' : '0';
+            coverImage = p.cover_image || '';
+            if (coverImage) {
+                document.getElementById('coverImg').src = coverImage;
+                document.getElementById('coverPreview').style.display = 'block';
+            } else {
+                document.getElementById('coverPreview').style.display = 'none';
+            }
+            document.getElementById('modal').classList.add('open');
+        }
+
+        function removeCover() {
+            coverImage = '';
+            document.getElementById('pCover').value = '';
+            document.getElementById('coverPreview').style.display = 'none';
+        }
+
+        async function uploadCover(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const formData = new FormData();
+            formData.append('image', file);
+            try {
+                const res = await fetch('/api/admin/media/upload', { method: 'POST', headers: getAuthHeaders(true), body: formData });
+                const data = await res.json();
+                if (data.success) {
+                    coverImage = data.data.url;
+                    document.getElementById('pCover').value = coverImage;
+                    document.getElementById('coverImg').src = coverImage;
+                    document.getElementById('coverPreview').style.display = 'block';
+                    showToast('上传成功', 'success');
+                } else { showToast(data.message, 'error'); }
+            } catch (error) { showToast('上传失败', 'error'); }
+            event.target.value = '';
+        }
+
+        async function savePortfolio() {
+            const title = document.getElementById('pTitle').value.trim();
+            if (!title) { showToast('请输入作品标题', 'error'); return; }
+
+            const id = document.getElementById('editId').value;
+            const tagsStr = document.getElementById('pTags').value.trim();
+            const tags = tagsStr ? tagsStr.split(',').map(t => t.trim()).filter(Boolean) : [];
+
+            const body = {
+                title,
+                description: document.getElementById('pDesc').value.trim(),
+                cover_image: document.getElementById('pCover').value.trim(),
+                project_url: document.getElementById('pUrl').value.trim(),
+                tags: JSON.stringify(tags),
+                sort_order: parseInt(document.getElementById('pSort').value) || 0,
+                is_visible: document.getElementById('pVisible').value === '1'
+            };
+
+            try {
+                const url = id ? `/api/admin/portfolios/${id}` : '/api/admin/portfolios';
+                const res = await fetch(url, { method: id ? 'PUT' : 'POST', headers: getAuthHeaders(), body: JSON.stringify(body) });
+                const data = await res.json();
+                if (data.success) { closeModal(); loadPortfolios(); showToast(id ? '作品已更新' : '作品已创建', 'success'); }
+                else { showToast(data.message, 'error'); }
+            } catch (error) { showToast('操作失败', 'error'); }
+        }
+
+        function openDeleteModal(id) { deleteTargetId = id; document.getElementById('deleteModal').classList.add('open'); }
+        function closeDeleteModal() { deleteTargetId = null; document.getElementById('deleteModal').classList.remove('open'); }
+
+        document.getElementById('confirmDeleteBtn').addEventListener('click', async () => {
+            if (!deleteTargetId) return;
+            try {
+                const res = await fetch(`/api/admin/portfolios/${deleteTargetId}`, { method: 'DELETE', headers: getAuthHeaders() });
+                const data = await res.json();
+                if (data.success) { closeDeleteModal(); loadPortfolios(); showToast('作品已删除', 'success'); }
+                else { showToast(data.message, 'error'); }
+            } catch (error) { showToast('删除失败', 'error'); }
+        });
+
+        loadPortfolios();
+    </script>
+</body>
+</html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>媒体库 - 墨 · 管理后台</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/variables.css">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="admin-sidebar-header">
+                <a href="/admin" class="admin-sidebar-logo">
+                    <span class="dot"></span>
+                    墨
+                    <span class="text">管理后台</span>
+                </a>
+            </div>
+            
+            <nav class="admin-sidebar-nav">
+                <div class="admin-nav-section">
+                    <div class="admin-nav-section-title">概览</div>
+                    <a href="/admin" class="admin-nav-item">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                        仪表盘
+                    </a>
+                </div>
+                
+                <div class="admin-nav-section">
+                    <div class="admin-nav-section-title">内容</div>
+                    <a href="/admin/articles" class="admin-nav-item">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                        </svg>
+                        文章管理
+                    </a>
+                    <a href="/admin/categories" class="admin-nav-item">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                        分类管理
+                    </a>
+                    <a href="/admin/portfolios" class="admin-nav-item">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                        </svg>
+                        作品集
+                    </a>
+                    <a href="/admin/media" class="admin-nav-item active">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                            <polyline points="21 15 16 10 5 21"></polyline>
+                        </svg>
+                        媒体库
+                    </a>
+                </div>
+                
+                <div class="admin-nav-section">
+                    <div class="admin-nav-section-title">系统</div>
+                    <a href="/admin/settings" class="admin-nav-item">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                        系统设置
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="admin-sidebar-footer">
+                <div class="admin-user">
+                    <div class="admin-user-avatar" id="userAvatar">M</div>
+                    <div class="admin-user-info">
+                        <div class="admin-user-name" id="userName">管理员</div>
+                        <div class="admin-user-role">Administrator</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1 class="admin-header-title">媒体库</h1>
+                <div class="admin-header-actions">
+                    <button class="btn btn-primary" style="padding: 0.6rem 1.2rem;" onclick="document.getElementById('fileInput').click()">
+                        + 上传图片
+                    </button>
+                    <input type="file" id="fileInput" accept="image/*" multiple style="display: none;" onchange="uploadImages(event)">
+                </div>
+            </header>
+
+            <div class="admin-content">
+                <div class="admin-table-container" style="padding: var(--space-6);">
+                    <div class="admin-media-grid" id="mediaGrid">
+                        <div style="text-align: center; color: var(--fg-muted); padding: var(--space-8); grid-column: 1/-1;">
+                            加载中...
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-pagination" style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-top: none;">
+                    <div class="admin-pagination-info" id="paginationInfo">
+                        显示 0-0 条，共 0 条
+                    </div>
+                    <div class="admin-pagination-nav" id="paginationNav"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Delete Confirm Modal -->
+    <div class="admin-modal-backdrop" id="deleteModal">
+        <div class="admin-modal">
+            <div class="admin-modal-header">
+                <h3 class="admin-modal-title">确认删除</h3>
+                <div class="admin-modal-close" onclick="closeDeleteModal()">&times;</div>
+            </div>
+            <div class="admin-modal-body">
+                <p>确定要删除这个文件吗？此操作不可恢复。</p>
+            </div>
+            <div class="admin-modal-footer">
+                <button class="btn btn-outline" onclick="closeDeleteModal()">取消</button>
+                <button class="btn btn-primary" id="confirmDeleteBtn">删除</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preview Modal -->
+    <div class="admin-modal-backdrop" id="previewModal">
+        <div class="admin-modal" style="max-width: 90vw; max-height: 90vh; padding: 0;">
+            <img id="previewImg" src="" style="max-width: 100%; max-height: 90vh; display: block; margin: auto;">
+        </div>
+    </div>
+
+    <script src="/js/admin.js"></script>
+    <script>
+        // 检查登录状态
+        checkAuth();
+
+        let currentPage = 1;
+        let deleteTargetId = null;
+
+        // 加载媒体列表
+        async function loadMedia(page = 1) {
+            currentPage = page;
+            
+            try {
+                const res = await fetch(`/api/admin/media?page=${page}&limit=20`, {
+                    headers: getAuthHeaders()
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    const { media, pagination } = data.data;
+
+                    const grid = document.getElementById('mediaGrid');
+                    if (media.length === 0) {
+                        grid.innerHTML = `
+                            <div style="text-align: center; color: var(--fg-muted); padding: var(--space-8); grid-column: 1/-1;">
+                                暂无媒体文件，点击右上角上传
+                            </div>
+                        `;
+                    } else {
+                        grid.innerHTML = media.map(item => `
+                            <div class="admin-media-item">
+                                <img src="${item.file_path}" alt="${item.original_name || item.filename}" onclick="previewImage('${item.file_path}')">
+                                <div class="overlay">
+                                    <div class="actions">
+                                        <div class="action" onclick="copyUrl('${item.file_path}')" title="复制链接">📋</div>
+                                        <div class="action" onclick="openDeleteModal(${item.id})" title="删除">🗑️</div>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+
+                    renderPagination(pagination);
+                }
+            } catch (error) {
+                console.error('加载媒体列表失败:', error);
+            }
+        }
+
+        // 渲染分页
+        function renderPagination(pagination) {
+            const { page, total, limit, totalPages } = pagination;
+            const start = (page - 1) * limit + 1;
+            const end = Math.min(page * limit, total);
+
+            document.getElementById('paginationInfo').textContent = 
+                `显示 ${start}-${end} 条，共 ${total} 条`;
+
+            const nav = document.getElementById('paginationNav');
+            let html = '';
+
+            html += `<button class="admin-pagination-btn" onclick="loadMedia(${page - 1})" ${page <= 1 ? 'disabled' : ''}>上一页</button>`;
+
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= page - 2 && i <= page + 2)) {
+                    html += `<button class="admin-pagination-btn ${i === page ? 'active' : ''}" onclick="loadMedia(${i})">${i}</button>`;
+                } else if (i === page - 3 || i === page + 3) {
+                    html += `<span style="color: var(--fg-muted);">...</span>`;
+                }
+            }
+
+            html += `<button class="admin-pagination-btn" onclick="loadMedia(${page + 1})" ${page >= totalPages ? 'disabled' : ''}>下一页</button>`;
+
+            nav.innerHTML = html;
+        }
+
+        // 上传图片
+        async function uploadImages(event) {
+            const files = event.target.files;
+            if (!files.length) return;
+
+            for (const file of files) {
+                const formData = new FormData();
+                formData.append('image', file);
+
+                try {
+                    const res = await fetch('/api/admin/media/upload', {
+                        method: 'POST',
+                        headers: getAuthHeaders(true),
+                        body: formData
+                    });
+                    const data = await res.json();
+
+                    if (data.success) {
+                        showToast(`${file.name} 上传成功`, 'success');
+                    } else {
+                        showToast(`${file.name} 上传失败: ${data.message}`, 'error');
+                    }
+                } catch (error) {
+                    showToast(`${file.name} 上传失败`, 'error');
+                }
+            }
+
+            event.target.value = '';
+            loadMedia(currentPage);
+        }
+
+        // 预览图片
+        function previewImage(url) {
+            document.getElementById('previewImg').src = url;
+            document.getElementById('previewModal').classList.add('open');
+        }
+
+        document.getElementById('previewModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('open');
+            }
+        });
+
+        // 复制链接
+        function copyUrl(url) {
+            const fullUrl = window.location.origin + url;
+            navigator.clipboard.writeText(fullUrl).then(() => {
+                showToast('链接已复制', 'success');
+            });
+        }
+
+        // 删除模态框
+        function openDeleteModal(id) {
+            deleteTargetId = id;
+            document.getElementById('deleteModal').classList.add('open');
+        }
+
+        function closeDeleteModal() {
+            deleteTargetId = null;
+            document.getElementById('deleteModal').classList.remove('open');
+        }
+
+        document.getElementById('confirmDeleteBtn').addEventListener('click', async () => {
+            if (!deleteTargetId) return;
+
+            try {
+                const res = await fetch(`/api/admin/media/${deleteTargetId}`, {
+                    method: 'DELETE',
+                    headers: getAuthHeaders()
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    closeDeleteModal();
+                    loadMedia(currentPage);
+                    showToast('文件已删除', 'success');
+                } else {
+                    showToast(data.message, 'error');
+                }
+            } catch (error) {
+                showToast('删除失败', 'error');
+            }
+        });
+
+        // 初始化
+        loadMedia();
+    </script>
+</body>
+</html>

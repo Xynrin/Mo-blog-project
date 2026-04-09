@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章详情 - 墨 · 创意博客</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+    <style>
+        .article-hero { padding: 8rem 3rem 4rem; background: var(--bg-secondary); text-align: center; }
+        .article-category { display: inline-block; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; background: var(--accent-coral); color: var(--bg-primary); padding: 0.3rem 1rem; margin-bottom: 1.5rem; font-weight: 700; }
+        .article-title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; line-height: 1.2; margin-bottom: 1.5rem; max-width: 800px; margin-left: auto; margin-right: auto; }
+        .article-meta { display: flex; justify-content: center; align-items: center; gap: 1.5rem; color: var(--fg-muted); font-size: 0.85rem; }
+        .article-meta span { display: flex; align-items: center; gap: 0.5rem; }
+        .article-cover { max-width: 1000px; margin: -2rem auto 0; padding: 0 2rem; }
+        .article-cover img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border: 1px solid var(--border-subtle); }
+        .article-content { max-width: 720px; margin: 0 auto; padding: 4rem 2rem; }
+        .article-content h1 { font-family: var(--font-display); font-size: 2rem; font-weight: 700; margin: 2.5rem 0 1rem; }
+        .article-content h2 { font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; margin: 2rem 0 1rem; }
+        .article-content h3 { font-size: 1.3rem; font-weight: 700; margin: 1.5rem 0 0.8rem; }
+        .article-content p { margin-bottom: 1.5rem; line-height: 2; color: var(--fg-secondary); }
+        .article-content a { color: var(--accent-coral); border-bottom: 1px solid transparent; }
+        .article-content a:hover { border-color: var(--accent-coral); }
+        .article-content blockquote { border-left: 3px solid var(--accent-coral); padding-left: 1.5rem; margin: 2rem 0; color: var(--fg-muted); font-style: italic; }
+        .article-content pre { background: var(--bg-card); padding: 1.5rem; overflow-x: auto; margin: 1.5rem 0; border: 1px solid var(--border-subtle); font-family: var(--font-mono); font-size: 0.85rem; }
+        .article-content code { background: var(--bg-card); padding: 0.2rem 0.5rem; font-family: var(--font-mono); font-size: 0.85rem; }
+        .article-content pre code { background: transparent; padding: 0; }
+        .article-content ul, .article-content ol { margin: 1.5rem 0 1.5rem 2rem; color: var(--fg-secondary); }
+        .article-content li { margin-bottom: 0.5rem; line-height: 1.8; }
+        .article-content img { max-width: 100%; margin: 2rem 0; }
+        .article-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-subtle); }
+        .article-tags a { padding: 0.4rem 1rem; font-size: 0.75rem; border: 1px solid var(--border-subtle); color: var(--fg-muted); transition: var(--transition-fast); }
+        .article-tags a:hover { border-color: var(--accent-coral); color: var(--accent-coral); }
+        .related-section { background: var(--bg-secondary); padding: 4rem 3rem; }
+        .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; max-width: 1000px; margin: 0 auto; }
+        .related-card { background: var(--bg-card); border: 1px solid var(--border-subtle); padding: 1.5rem; transition: var(--transition-smooth); cursor: pointer; }
+        .related-card:hover { border-color: var(--border-accent); transform: translateY(-4px); }
+        .related-card .title { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .related-card .date { font-size: 0.75rem; color: var(--fg-muted); }
+        .not-found { text-align: center; padding: 8rem 2rem; }
+        .not-found h1 { font-family: var(--font-display); font-size: 4rem; margin-bottom: 1rem; }
+        @media (max-width: 768px) { .article-hero { padding: 6rem 1.5rem 3rem; } .article-content { padding: 2rem 1.5rem; } }
+    </style>
+</head>
+<body>
+    <nav class="nav" id="navbar">
+        <a href="/" class="nav-logo"><span class="dot"></span>墨</a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="/"><span class="nav-num">01</span>首页</a></li>
+            <li><a href="/articles"><span class="nav-num">02</span>文章</a></li>
+            <li><a href="/about"><span class="nav-num">03</span>关于我</a></li>
+            <li><a href="/portfolio"><span class="nav-num">04</span>作品集</a></li>
+            <li><a href="/contact"><span class="nav-num">05</span>联系我</a></li>
+        </ul>
+        <div class="nav-toggle" id="navToggle"><span></span><span></span><span></span></div>
+    </nav>
+
+    <main id="articleMain">
+        <!-- 动态加载 -->
+    </main>
+
+    <footer class="footer">
+        <span>© 2026 墨 · Mo — 以文字记录灵感</span>
+        <div class="footer-links"><a href="#">RSS</a></div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        // 获取文章 slug
+        const slug = window.location.pathname.replace('/article/', '');
+
+        async function loadArticle() {
+            try {
+                const res = await fetch(`/api/articles/${slug}`);
+                const data = await res.json();
+
+                if (!data.success) {
+                    showNotFound();
+                    return;
+                }
+
+                const article = data.data;
+                document.title = `${article.title} - 墨 · 创意博客`;
+
+                const main = document.getElementById('articleMain');
+                main.innerHTML = `
+                    <header class="article-hero">
+                        <span class="article-category" style="background: ${article.category_color || 'var(--accent-coral)'}">${article.category_name || '未分类'}</span>
+                        <h1 class="article-title">${escapeHtml(article.title)}</h1>
+                        <div class="article-meta">
+                            <span>📅 ${formatDate(article.published_at)}</span>
+                            <span>👁 ${article.view_count || 0} 阅读</span>
+                        </div>
+                    </header>
+                    ${article.cover_image ? `
+                        <div class="article-cover">
+                            <img src="${article.cover_image}" alt="${escapeHtml(article.title)}">
+                        </div>
+                    ` : ''}
+                    <article class="article-content">
+                        ${marked.parse(article.content || '')}
+                        ${article.tags && article.tags.length > 0 ? `
+                            <div class="article-tags">
+                                ${article.tags.map(tag => `<a href="/articles?tag=${tag.slug}">${tag.name}</a>`).join('')}
+                            </div>
+                        ` : ''}
+                    </article>
+                    ${article.related && article.related.length > 0 ? `
+                        <section class="related-section">
+                            <div class="section-header" style="max-width: 1000px; margin: 0 auto;">
+                                <h2 class="section-title">相关<span class="accent">文章</span></h2>
+                            </div>
+                            <div class="related-grid">
+                                ${article.related.map(r => `
+                                    <div class="related-card" onclick="window.location.href='/article/${r.slug}'">
+                                        <div class="title">${escapeHtml(r.title)}</div>
+                                        <div class="date">${formatDate(r.published_at)}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </section>
+                    ` : ''}
+                `;
+            } catch (error) {
+                console.error('加载文章失败:', error);
+                showNotFound();
+            }
+        }
+
+        function showNotFound() {
+            document.getElementById('articleMain').innerHTML = `
+                <div class="not-found">
+                    <h1>404</h1>
+                    <p style="color: var(--fg-muted); margin-bottom: 2rem;">文章不存在或已被删除</p>
+                    <a href="/articles" class="btn btn-primary">返回文章列表</a>
+                </div>
+            `;
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        loadArticle();
+    </script>
+</body>
+</html>
