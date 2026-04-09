@@ -38,6 +38,10 @@
 
 ---
 
+## GIF 预览
+![20260409-1610-06 6395949](https://github.com/user-attachments/assets/96e55c1c-68c8-491b-9f88-739311e2e4b5)
+
+
 ## 功能特性
 
 ### 前台展示
