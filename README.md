@@ -27,15 +27,14 @@
 
 ## 截图预览
 
-> 💡 将下方占位图替换为实际截图即可，建议尺寸 1280×720，可添加圆角和阴影效果。
 
 | 前台首页 | 后台仪表盘 |
 |:---:|:---:|
-| ![前台首页](docs/assets/screenshot-home.png) | ![后台仪表盘](docs/assets/screenshot-admin.png) |
+| <img width="1026" height="596" alt="前台首页" src="https://github.com/user-attachments/assets/38288d70-2e8c-42be-b977-dfe3163d0af6" /> | <img width="1018" height="589" alt="后台仪表盘" src="https://github.com/user-attachments/assets/ec5a8e8c-0634-4186-a65d-632aa5239cc1" /> |
 
 | 文章编辑 | 作品集 |
 |:---:|:---:|
-| ![文章编辑](docs/assets/screenshot-editor.png) | ![作品集](docs/assets/screenshot-portfolio.png) |
+| <img width="1013" height="589" alt="文章编辑" src="https://github.com/user-attachments/assets/d097b24f-4901-4c3b-b71d-57b611b0c2cd" /> | <img width="1028" height="596" alt="作品集" src="https://github.com/user-attachments/assets/94c87a0e-c922-42ee-bdf7-cb84a0c74b54" /> |
 
 ---
 
