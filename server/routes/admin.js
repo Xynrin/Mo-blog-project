@@ -639,6 +639,64 @@ router.put('/settings', (req, res) => {
     }
 });
 
+// ==================== 消息管理 ====================
+
+/**
+ * 获取消息列表
+ * GET /api/admin/messages
+ */
+router.get('/messages', (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 20;
+        const offset = (page - 1) * limit;
+
+        const messages = db.prepare(`
+            SELECT * FROM messages ORDER BY created_at DESC LIMIT ? OFFSET ?
+        `).all(limit, offset);
+
+        const total = db.prepare('SELECT COUNT(*) as count FROM messages').get();
+        const unread = db.prepare('SELECT COUNT(*) as count FROM messages WHERE is_read = 0').get();
+
+        res.json({
+            success: true,
+            data: {
+                messages,
+                pagination: { page, limit, total: total.count, totalPages: Math.ceil(total.count / limit) },
+                unreadCount: unread.count
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: '获取消息失败' });
+    }
+});
+
+/**
+ * 标记消息已读
+ * PUT /api/admin/messages/:id
+ */
+router.put('/messages/:id', (req, res) => {
+    try {
+        db.prepare('UPDATE messages SET is_read = 1 WHERE id = ?').run(req.params.id);
+        res.json({ success: true, message: '已标记为已读' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: '操作失败' });
+    }
+});
+
+/**
+ * 删除消息
+ * DELETE /api/admin/messages/:id
+ */
+router.delete('/messages/:id', (req, res) => {
+    try {
+        db.prepare('DELETE FROM messages WHERE id = ?').run(req.params.id);
+        res.json({ success: true, message: '消息已删除' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: '删除失败' });
+    }
+});
+
 // 错误处理
 router.use(handleUploadError);
 

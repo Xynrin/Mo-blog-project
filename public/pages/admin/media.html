@@ -66,6 +66,10 @@
                         </svg>
                         媒体库
                     </a>
+                    <a href="/admin/messages" class="admin-nav-item">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        消息管理
+                    </a>
                 </div>
                 
                 <div class="admin-nav-section">
@@ -180,8 +184,8 @@
                                 <img src="${item.file_path}" alt="${item.original_name || item.filename}" onclick="previewImage('${item.file_path}')">
                                 <div class="overlay">
                                     <div class="actions">
-                                        <div class="action" onclick="copyUrl('${item.file_path}')" title="复制链接">📋</div>
-                                        <div class="action" onclick="openDeleteModal(${item.id})" title="删除">🗑️</div>
+                                        <div class="action" onclick="copyUrl('${item.file_path}')" title="复制链接"><svg style="width:14px;height:14px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></div>
+                                        <div class="action" onclick="openDeleteModal(${item.id})" title="删除"><svg style="width:14px;height:14px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
                                     </div>
                                 </div>
                             </div>

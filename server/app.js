@@ -97,6 +97,10 @@ app.get('/admin/settings', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'pages', 'admin', 'settings.html'));
 });
 
+app.get('/admin/messages', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public', 'pages', 'admin', 'messages.html'));
+});
+
 // 错误处理中间件
 app.use((err, req, res, next) => {
     console.error('Error:', err.message);

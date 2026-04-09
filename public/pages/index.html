@@ -134,78 +134,7 @@
         .article-read-more { font-size: 0.75rem; letter-spacing: 0.1em; color: var(--accent-coral); display: flex; align-items: center; gap: 0.3rem; }
         .article-read-more .arrow { transition: transform 0.3s ease; }
         .article-card:hover .article-read-more .arrow { transform: translateX(4px); }
-        
-        /* About Section */
-        .about { background: var(--bg-secondary); }
-        .about-grid { display: grid; grid-template-columns: 300px 1fr; gap: 4rem; align-items: start; }
-        .about-avatar { position: relative; }
-        .about-avatar-frame {
-            width: 100%;
-            aspect-ratio: 3/4;
-            background: linear-gradient(135deg, var(--accent-coral), var(--accent-gold));
-            padding: 3px;
-            position: relative;
-            overflow: hidden;
-        }
-        .about-avatar-frame::before { content: ''; position: absolute; inset: 3px; background: var(--bg-secondary); z-index: 1; }
-        .about-avatar-inner {
-            position: absolute;
-            inset: 6px;
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2;
-        }
-        .about-avatar-inner .initial { font-family: var(--font-display); font-size: 5rem; font-weight: 900; color: var(--accent-coral); opacity: 0.8; }
-        .about-avatar .tag {
-            position: absolute;
-            bottom: -12px;
-            right: -12px;
-            background: var(--accent-coral);
-            color: var(--bg-primary);
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            padding: 0.5rem 1rem;
-            z-index: 3;
-        }
-        .about-info { padding-top: 1rem; }
-        .about-name { font-family: var(--font-display); font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; }
-        .about-role { font-family: var(--font-accent); font-size: 1.1rem; color: var(--accent-gold); margin-bottom: 1.5rem; }
-        .about-bio { color: var(--fg-secondary); font-size: 0.95rem; line-height: 2; margin-bottom: 2rem; }
-        .about-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 2rem; }
-        .stat-item { text-align: center; padding: 1.5rem 1rem; background: var(--bg-card); border: 1px solid var(--border-subtle); transition: var(--transition-smooth); }
-        .stat-item:hover { border-color: var(--accent-coral); transform: translateY(-4px); }
-        .stat-number { font-family: var(--font-display); font-size: 2.2rem; font-weight: 900; color: var(--accent-coral); line-height: 1; margin-bottom: 0.3rem; }
-        .stat-label { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fg-muted); }
-        
-        /* Tags Cloud */
-        .tags-section { background: var(--bg-primary); padding: 4rem 3rem; }
-        .tags-cloud { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; }
-        
-        /* Contact Section */
-        .contact { background: var(--bg-primary); text-align: center; }
-        .contact-content { max-width: 600px; margin: 0 auto; }
-        .contact-heading { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; margin-bottom: 1rem; line-height: 1.1; }
-        .contact-heading .accent { color: var(--accent-coral); }
-        .contact-desc { color: var(--fg-secondary); font-size: 1rem; margin-bottom: 2.5rem; line-height: 1.8; }
-        .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
-        .contact-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            padding: 0.8rem 1.6rem;
-            border: 1px solid var(--border-subtle);
-            font-size: 0.8rem;
-            letter-spacing: 0.08em;
-            color: var(--fg-secondary);
-            transition: var(--transition-smooth);
-        }
-        .contact-link:hover { border-color: var(--accent-coral); color: var(--accent-coral); transform: translateY(-2px); }
-        .contact-link .icon { width: 18px; height: 18px; fill: currentColor; }
-        
+
         /* Footer */
         .footer {
             padding: 3rem;
@@ -221,9 +150,6 @@
         .footer-links a:hover { color: var(--accent-coral); }
         
         @media (max-width: 900px) {
-            .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-            .about-avatar { max-width: 200px; margin: 0 auto; }
-            .about-stats { grid-template-columns: repeat(2, 1fr); }
             .articles-grid { grid-template-columns: 1fr; }
             .article-card:first-child { grid-column: 1; grid-template-columns: 1fr; }
             .article-card:first-child .article-thumb { aspect-ratio: 16/10; height: auto; }
@@ -277,71 +203,7 @@
         </div>
     </section>
 
-    <!-- About Section -->
-    <section class="section about" id="about">
-        <div class="container">
-            <div class="section-header reveal">
-                <div>
-                    <div class="section-label">About</div>
-                    <h2 class="section-title">关于<span class="accent">我</span></h2>
-                </div>
-            </div>
-            <div class="about-grid">
-                <div class="about-avatar reveal reveal-delay-1">
-                    <div class="about-avatar-frame">
-                        <div class="about-avatar-inner">
-                            <span class="initial" id="authorInitial">M</span>
-                        </div>
-                    </div>
-                    <span class="tag">创作者</span>
-                </div>
-                <div class="about-info">
-                    <h3 class="about-name reveal reveal-delay-2" id="authorName">墨 · Mo</h3>
-                    <p class="about-role reveal reveal-delay-2" id="authorRole">独立设计师 / 创意写作者 / 数字游民</p>
-                    <p class="about-bio reveal reveal-delay-3" id="authorBio">
-                        热衷于探索设计与技术的交汇点。相信好的设计不仅是视觉上的美感，更是思维方式的传达。
-                        在这里，你会找到关于 UI/UX 设计、前端开发、创意思维以及旅途见闻的文章。
-                        每一篇文字都是一次与自我的对话，也是与你的连接。
-                    </p>
-                    <div class="about-stats reveal reveal-delay-4">
-                        <div class="stat-item">
-                            <div class="stat-number" id="statArticles">0</div>
-                            <div class="stat-label">篇文章</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number" id="statViews">0</div>
-                            <div class="stat-label">总阅读</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number" id="statPortfolios">0</div>
-                            <div class="stat-label">个项目</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">∞</div>
-                            <div class="stat-label">灵感</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Tags Section -->
-    <section class="tags-section" id="portfolio">
-        <div class="container">
-            <div class="section-header reveal">
-                <div>
-                    <div class="section-label">Categories</div>
-                    <h2 class="section-title">标签<span class="accent">云</span></h2>
-                </div>
-            </div>
-            <div class="tags-cloud reveal reveal-delay-1" id="tagsCloud">
-                <!-- 动态加载 -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Articles Section -->
     <section class="section articles" id="articles">
         <div class="container">
             <div class="section-header reveal">
@@ -353,29 +215,6 @@
             </div>
             <div class="articles-grid" id="articlesGrid">
                 <!-- 动态加载 -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="section contact" id="contact">
-        <div class="container">
-            <div class="contact-content">
-                <div class="section-label reveal" style="text-align:center;">Contact</div>
-                <h2 class="contact-heading reveal reveal-delay-1">一起<span class="accent">创造</span>点什么？</h2>
-                <p class="contact-desc reveal reveal-delay-2">
-                    无论是项目合作、设计咨询，还是单纯想聊聊天，<br>都欢迎通过以下方式联系我。
-                </p>
-                <div class="contact-links reveal reveal-delay-3">
-                    <a href="mailto:hello@mo-blog.com" class="contact-link">
-                        <svg class="icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                        邮件联系
-                    </a>
-                    <a href="/contact" class="contact-link">
-                        <svg class="icon" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                        联系表单
-                    </a>
-                </div>
             </div>
         </div>
     </section>
@@ -398,17 +237,12 @@
                 const data = await res.json();
                 if (data.success) {
                     const settings = data.data;
-                    
+
                     if (settings.site_description) {
                         document.getElementById('siteDescription').textContent = settings.site_description;
                     }
-                    if (settings.author_name) {
-                        document.getElementById('authorName').textContent = settings.author_name;
-                        document.getElementById('authorInitial').textContent = settings.author_name.charAt(0);
-                        document.title = settings.site_name || '墨 · 创意博客';
-                    }
-                    if (settings.author_bio) {
-                        document.getElementById('authorBio').textContent = settings.author_bio;
+                    if (settings.site_name) {
+                        document.title = settings.site_name;
                     }
                     if (settings.footer_text) {
                         document.getElementById('footerText').textContent = settings.footer_text;
@@ -416,64 +250,6 @@
                 }
             } catch (error) {
                 console.error('加载设置失败:', error);
-            }
-        }
-
-        // 加载统计数据
-        async function loadStats() {
-            try {
-                const res = await fetch('/api/stats');
-                const data = await res.json();
-                if (data.success) {
-                    animateNumber('statArticles', data.data.articleCount);
-                    animateNumber('statViews', data.data.totalViews);
-                    animateNumber('statPortfolios', data.data.portfolioCount);
-                }
-            } catch (error) {
-                console.error('加载统计失败:', error);
-            }
-        }
-
-        // 数字动画
-        function animateNumber(elementId, target) {
-            const el = document.getElementById(elementId);
-            const duration = 2000;
-            const start = performance.now();
-            
-            function animate(currentTime) {
-                const elapsed = currentTime - start;
-                const progress = Math.min(elapsed / duration, 1);
-                const eased = 1 - Math.pow(1 - progress, 3);
-                const current = Math.floor(target * eased);
-                
-                el.textContent = current >= 1000 ? (current / 1000).toFixed(1) + 'K' : current;
-                
-                if (progress < 1) {
-                    requestAnimationFrame(animate);
-                } else {
-                    el.textContent = target >= 1000 ? (target / 1000).toFixed(1) + 'K' : target;
-                }
-            }
-            
-            requestAnimationFrame(animate);
-        }
-
-        // 加载标签云
-        async function loadTags() {
-            try {
-                const res = await fetch('/api/categories');
-                const data = await res.json();
-                if (data.success) {
-                    const container = document.getElementById('tagsCloud');
-                    container.innerHTML = data.data.map((cat, index) => `
-                        <a href="/articles?category=${cat.id}" class="tag ${index === 0 ? 'featured' : ''}">
-                            <span>${cat.name}</span>
-                            <span class="count">${cat.article_count || 0}</span>
-                        </a>
-                    `).join('');
-                }
-            } catch (error) {
-                console.error('加载标签失败:', error);
             }
         }
 
@@ -541,8 +317,6 @@
 
         // 初始化
         loadSettings();
-        loadStats();
-        loadTags();
         loadArticles();
     </script>
 </body>

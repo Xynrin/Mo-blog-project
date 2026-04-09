@@ -5,6 +5,7 @@
   "main": "server/app.js",
   "scripts": {
     "start": "node server/app.js",
+    "setup": "npm install",
     "dev": "nodemon server/app.js"
   },
   "dependencies": {

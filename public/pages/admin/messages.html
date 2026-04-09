@@ -3,12 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>文章管理 - 墨 · 管理后台</title>
+    <title>消息管理 - 墨 · 管理后台</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/variables.css">
     <link rel="stylesheet" href="/css/admin.css">
+    <style>
+        /* 未读消息行高亮 */
+        .message-row-unread {
+            background-color: var(--bg-accent, #f0f7ff);
+        }
+        /* 已读/未读标签 */
+        .status-read {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background-color: var(--bg-secondary, #f3f4f6);
+            color: var(--fg-muted, #6b7280);
+        }
+        .status-unread {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background-color: var(--color-primary, #3b82f6);
+            color: #fff;
+        }
+        /* 消息详情模态框内容 */
+        .message-detail-field {
+            margin-bottom: 1rem;
+        }
+        .message-detail-label {
+            font-size: 0.8rem;
+            color: var(--fg-muted, #6b7280);
+            margin-bottom: 0.25rem;
+        }
+        .message-detail-value {
+            font-size: 0.95rem;
+            color: var(--fg-primary, #1f2937);
+            word-break: break-word;
+        }
+        .message-detail-body {
+            background-color: var(--bg-secondary, #f9fafb);
+            border: 1px solid var(--border-color, #e5e7eb);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            word-break: break-word;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
 </head>
 <body>
     <div class="admin-layout">
@@ -21,7 +71,7 @@
                     <span class="text">管理后台</span>
                 </a>
             </div>
-            
+
             <nav class="admin-sidebar-nav">
                 <div class="admin-nav-section">
                     <div class="admin-nav-section-title">概览</div>
@@ -35,10 +85,10 @@
                         仪表盘
                     </a>
                 </div>
-                
+
                 <div class="admin-nav-section">
                     <div class="admin-nav-section-title">内容</div>
-                    <a href="/admin/articles" class="admin-nav-item active">
+                    <a href="/admin/articles" class="admin-nav-item">
                         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                             <polyline points="14 2 14 8 20 8"></polyline>
@@ -46,7 +96,6 @@
                             <line x1="16" y1="17" x2="8" y2="17"></line>
                         </svg>
                         文章管理
-                        <span class="badge" id="articleCount">0</span>
                     </a>
                     <a href="/admin/categories" class="admin-nav-item">
                         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -69,12 +118,16 @@
                         </svg>
                         媒体库
                     </a>
-                    <a href="/admin/messages" class="admin-nav-item">
-                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    <a href="/admin/messages" class="admin-nav-item active">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
                         消息管理
+                        <span class="badge" id="unreadCount">0</span>
                     </a>
                 </div>
-                
+
                 <div class="admin-nav-section">
                     <div class="admin-nav-section-title">系统</div>
                     <a href="/admin/settings" class="admin-nav-item">
@@ -86,7 +139,7 @@
                     </a>
                 </div>
             </nav>
-            
+
             <div class="admin-sidebar-footer">
                 <div class="admin-user">
                     <div class="admin-user-avatar" id="userAvatar">M</div>
@@ -101,49 +154,28 @@
         <!-- Main Content -->
         <main class="admin-main">
             <header class="admin-header">
-                <h1 class="admin-header-title">文章管理</h1>
+                <h1 class="admin-header-title">消息管理</h1>
                 <div class="admin-header-actions">
-                    <a href="/admin/articles/edit" class="btn btn-primary" style="padding: 0.6rem 1.2rem;">
-                        + 新建文章
-                    </a>
+                    <!-- 可扩展：全部标记已读等操作 -->
                 </div>
             </header>
 
             <div class="admin-content">
                 <div class="admin-table-container">
-                    <div class="admin-table-toolbar">
-                        <div class="admin-table-search">
-                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="11" cy="11" r="8"></circle>
-                                <path d="m21 21-4.35-4.35"></path>
-                            </svg>
-                            <input type="text" id="searchInput" placeholder="搜索文章..." onkeyup="handleSearch(event)">
-                        </div>
-                        <div class="admin-table-filters">
-                            <select class="form-select" id="statusFilter" onchange="loadArticles()" style="padding: 0.5rem 1rem; min-width: 120px;">
-                                <option value="all">全部状态</option>
-                                <option value="published">已发布</option>
-                                <option value="draft">草稿</option>
-                            </select>
-                        </div>
-                    </div>
-
                     <table class="admin-table">
                         <thead>
                             <tr>
-                                <th style="width: 40px;"><input type="checkbox" class="admin-table-checkbox" id="selectAll"></th>
-                                <th style="width: 80px;">封面</th>
-                                <th>标题</th>
-                                <th>分类</th>
+                                <th>发件人</th>
+                                <th>邮箱</th>
+                                <th>主题</th>
+                                <th>时间</th>
                                 <th>状态</th>
-                                <th>阅读量</th>
-                                <th>创建时间</th>
-                                <th style="width: 100px;">操作</th>
+                                <th style="width: 160px;">操作</th>
                             </tr>
                         </thead>
-                        <tbody id="articlesTable">
+                        <tbody id="messagesTable">
                             <tr>
-                                <td colspan="8" style="text-align: center; color: var(--fg-muted); padding: var(--space-8);">
+                                <td colspan="6" style="text-align: center; color: var(--fg-muted); padding: var(--space-8);">
                                     加载中...
                                 </td>
                             </tr>
@@ -163,6 +195,41 @@
         </main>
     </div>
 
+    <!-- View Message Modal -->
+    <div class="admin-modal-backdrop" id="viewModal">
+        <div class="admin-modal" style="max-width: 640px;">
+            <div class="admin-modal-header">
+                <h3 class="admin-modal-title">消息详情</h3>
+                <div class="admin-modal-close" onclick="closeViewModal()">&times;</div>
+            </div>
+            <div class="admin-modal-body">
+                <div class="message-detail-field">
+                    <div class="message-detail-label">发件人</div>
+                    <div class="message-detail-value" id="viewSender"></div>
+                </div>
+                <div class="message-detail-field">
+                    <div class="message-detail-label">邮箱</div>
+                    <div class="message-detail-value" id="viewEmail"></div>
+                </div>
+                <div class="message-detail-field">
+                    <div class="message-detail-label">主题</div>
+                    <div class="message-detail-value" id="viewSubject"></div>
+                </div>
+                <div class="message-detail-field">
+                    <div class="message-detail-label">时间</div>
+                    <div class="message-detail-value" id="viewDate"></div>
+                </div>
+                <div class="message-detail-field">
+                    <div class="message-detail-label">内容</div>
+                    <div class="message-detail-body" id="viewBody"></div>
+                </div>
+            </div>
+            <div class="admin-modal-footer">
+                <button class="btn btn-outline" onclick="closeViewModal()">关闭</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Delete Confirm Modal -->
     <div class="admin-modal-backdrop" id="deleteModal">
         <div class="admin-modal">
@@ -171,7 +238,7 @@
                 <div class="admin-modal-close" onclick="closeDeleteModal()">&times;</div>
             </div>
             <div class="admin-modal-body">
-                <p>确定要删除这篇文章吗？此操作不可恢复。</p>
+                <p>确定要删除这条消息吗？此操作不可恢复。</p>
             </div>
             <div class="admin-modal-footer">
                 <button class="btn btn-outline" onclick="closeDeleteModal()">取消</button>
@@ -186,79 +253,66 @@
         checkAuth();
 
         let currentPage = 1;
-        let currentSearch = '';
         let deleteTargetId = null;
 
-        // 加载文章列表
-        async function loadArticles(page = 1) {
+        // 加载消息列表
+        async function loadMessages(page = 1) {
             currentPage = page;
-            const status = document.getElementById('statusFilter').value;
-            
-            try {
-                const params = new URLSearchParams({
-                    page,
-                    limit: 10,
-                    status,
-                    search: currentSearch
-                });
 
-                const res = await fetch(`/api/admin/articles?${params}`, {
+            try {
+                const res = await fetch(`/api/admin/messages?page=${page}`, {
                     headers: getAuthHeaders()
                 });
                 const data = await res.json();
 
                 if (data.success) {
-                    const { articles, pagination } = data.data;
-                    
-                    document.getElementById('articleCount').textContent = pagination.total;
+                    const { messages, pagination } = data.data;
 
-                    const tbody = document.getElementById('articlesTable');
-                    if (articles.length === 0) {
+                    // 更新未读数
+                    const unreadCount = messages.filter(m => !m.is_read).length;
+                    const badge = document.getElementById('unreadCount');
+                    if (badge) {
+                        badge.textContent = unreadCount > 0 ? unreadCount : '0';
+                        badge.style.display = unreadCount > 0 ? 'inline' : 'none';
+                    }
+
+                    const tbody = document.getElementById('messagesTable');
+                    if (messages.length === 0) {
                         tbody.innerHTML = `
                             <tr>
-                                <td colspan="8" style="text-align: center; color: var(--fg-muted); padding: var(--space-8);">
-                                    暂无文章
+                                <td colspan="6" style="text-align: center; color: var(--fg-muted); padding: var(--space-8);">
+                                    暂无消息
                                 </td>
                             </tr>
                         `;
                     } else {
-                        tbody.innerHTML = articles.map(article => `
-                            <tr>
-                                <td><input type="checkbox" class="admin-table-checkbox" data-id="${article.id}"></td>
+                        tbody.innerHTML = messages.map(msg => `
+                            <tr class="${msg.is_read ? '' : 'message-row-unread'}">
+                                <td>${escapeHtml(msg.sender || msg.name || '-')}</td>
+                                <td class="text-muted">${escapeHtml(msg.email || '-')}</td>
+                                <td>${escapeHtml(msg.subject || '-')}</td>
+                                <td class="text-muted">${formatDate(msg.created_at)}</td>
                                 <td>
-                                    ${article.cover_image 
-                                        ? `<img src="${article.cover_image}" class="admin-table-thumb" alt="">`
-                                        : `<div class="admin-table-thumb" style="display: flex; align-items: center; justify-content: center; color: var(--fg-muted);">无</div>`
-                                    }
-                                </td>
-                                <td>
-                                    <a href="/admin/articles/edit/${article.id}" style="color: var(--fg-primary);">
-                                        ${escapeHtml(article.title)}
-                                    </a>
-                                </td>
-                                <td class="text-muted">${article.category_name || '-'}</td>
-                                <td>
-                                    <span class="admin-table-status ${article.is_published ? 'published' : 'draft'}">
-                                        ${article.is_published ? '已发布' : '草稿'}
+                                    <span class="${msg.is_read ? 'status-read' : 'status-unread'}">
+                                        ${msg.is_read ? '已读' : '未读'}
                                     </span>
                                 </td>
-                                <td class="text-muted">${article.view_count || 0}</td>
-                                <td class="text-muted">${formatDate(article.created_at)}</td>
                                 <td>
                                     <div class="admin-table-actions">
-                                        <a href="/admin/articles/edit/${article.id}" class="admin-table-action" title="编辑">
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                                            </svg>
-                                        </a>
-                                        <a href="/article/${article.slug}" target="_blank" class="admin-table-action" title="预览">
+                                        <button class="admin-table-action" title="查看" onclick="viewMessage(${msg.id})">
                                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                                 <circle cx="12" cy="12" r="3"></circle>
                                             </svg>
-                                        </a>
-                                        <button class="admin-table-action delete" title="删除" onclick="openDeleteModal(${article.id})">
+                                        </button>
+                                        ${!msg.is_read ? `
+                                        <button class="admin-table-action" title="标记已读" onclick="markRead(${msg.id})">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                        </button>
+                                        ` : ''}
+                                        <button class="admin-table-action delete" title="删除" onclick="deleteMessage(${msg.id})">
                                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <polyline points="3 6 5 6 21 6"></polyline>
                                                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -274,7 +328,8 @@
                     renderPagination(pagination);
                 }
             } catch (error) {
-                console.error('加载文章列表失败:', error);
+                console.error('加载消息列表失败:', error);
+                showToast('加载消息列表失败', 'error');
             }
         }
 
@@ -284,54 +339,106 @@
             const start = (page - 1) * limit + 1;
             const end = Math.min(page * limit, total);
 
-            document.getElementById('paginationInfo').textContent = 
+            document.getElementById('paginationInfo').textContent =
                 `显示 ${start}-${end} 条，共 ${total} 条`;
 
             const nav = document.getElementById('paginationNav');
             let html = '';
 
             // 上一页
-            html += `<button class="admin-pagination-btn" onclick="loadArticles(${page - 1})" ${page <= 1 ? 'disabled' : ''}>上一页</button>`;
+            html += `<button class="admin-pagination-btn" onclick="loadMessages(${page - 1})" ${page <= 1 ? 'disabled' : ''}>上一页</button>`;
 
             // 页码
             for (let i = 1; i <= totalPages; i++) {
                 if (i === 1 || i === totalPages || (i >= page - 2 && i <= page + 2)) {
-                    html += `<button class="admin-pagination-btn ${i === page ? 'active' : ''}" onclick="loadArticles(${i})">${i}</button>`;
+                    html += `<button class="admin-pagination-btn ${i === page ? 'active' : ''}" onclick="loadMessages(${i})">${i}</button>`;
                 } else if (i === page - 3 || i === page + 3) {
                     html += `<span style="color: var(--fg-muted);">...</span>`;
                 }
             }
 
             // 下一页
-            html += `<button class="admin-pagination-btn" onclick="loadArticles(${page + 1})" ${page >= totalPages ? 'disabled' : ''}>下一页</button>`;
+            html += `<button class="admin-pagination-btn" onclick="loadMessages(${page + 1})" ${page >= totalPages ? 'disabled' : ''}>下一页</button>`;
 
             nav.innerHTML = html;
         }
 
-        // 搜索
-        function handleSearch(event) {
-            if (event.key === 'Enter') {
-                currentSearch = event.target.value;
-                loadArticles(1);
+        // 查看消息详情
+        async function viewMessage(id) {
+            try {
+                // 标记已读
+                const res = await fetch(`/api/admin/messages/${id}`, {
+                    method: 'PUT',
+                    headers: getAuthHeaders()
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    const msg = data.data;
+
+                    document.getElementById('viewSender').textContent = msg.sender || msg.name || '-';
+                    document.getElementById('viewEmail').textContent = msg.email || '-';
+                    document.getElementById('viewSubject').textContent = msg.subject || '-';
+                    document.getElementById('viewDate').textContent = formatDate(msg.created_at);
+                    document.getElementById('viewBody').textContent = msg.content || msg.body || '-';
+
+                    document.getElementById('viewModal').classList.add('open');
+
+                    // 刷新列表以更新已读状态
+                    loadMessages(currentPage);
+                } else {
+                    showToast(data.message || '获取消息详情失败', 'error');
+                }
+            } catch (error) {
+                console.error('查看消息失败:', error);
+                showToast('查看消息失败', 'error');
             }
         }
 
-        // 删除模态框
-        function openDeleteModal(id) {
+        // 关闭查看模态框
+        function closeViewModal() {
+            document.getElementById('viewModal').classList.remove('open');
+        }
+
+        // 标记已读
+        async function markRead(id) {
+            try {
+                const res = await fetch(`/api/admin/messages/${id}`, {
+                    method: 'PUT',
+                    headers: getAuthHeaders()
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    showToast('已标记为已读', 'success');
+                    loadMessages(currentPage);
+                } else {
+                    showToast(data.message || '操作失败', 'error');
+                }
+            } catch (error) {
+                console.error('标记已读失败:', error);
+                showToast('标记已读失败', 'error');
+            }
+        }
+
+        // 删除消息 - 打开确认模态框
+        function deleteMessage(id) {
             deleteTargetId = id;
             document.getElementById('deleteModal').classList.add('open');
         }
 
+        // 关闭删除模态框
         function closeDeleteModal() {
             deleteTargetId = null;
             document.getElementById('deleteModal').classList.remove('open');
         }
 
+        // 确认删除
         document.getElementById('confirmDeleteBtn').addEventListener('click', async () => {
             if (!deleteTargetId) return;
 
             try {
-                const res = await fetch(`/api/admin/articles/${deleteTargetId}`, {
+                const res = await fetch(`/api/admin/messages/${deleteTargetId}`, {
                     method: 'DELETE',
                     headers: getAuthHeaders()
                 });
@@ -339,24 +446,19 @@
 
                 if (data.success) {
                     closeDeleteModal();
-                    loadArticles(currentPage);
-                    showToast('文章已删除', 'success');
+                    loadMessages(currentPage);
+                    showToast('消息已删除', 'success');
                 } else {
-                    showToast(data.message, 'error');
+                    showToast(data.message || '删除失败', 'error');
                 }
             } catch (error) {
+                console.error('删除消息失败:', error);
                 showToast('删除失败', 'error');
             }
         });
 
-        // 全选
-        document.getElementById('selectAll').addEventListener('change', (e) => {
-            const checkboxes = document.querySelectorAll('#articlesTable .admin-table-checkbox');
-            checkboxes.forEach(cb => cb.checked = e.target.checked);
-        });
-
         // 初始化
-        loadArticles();
+        loadMessages();
     </script>
 </body>
 </html>

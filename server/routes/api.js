@@ -241,8 +241,11 @@ router.post('/contact', (req, res) => {
             });
         }
 
-        // 这里可以添加邮件发送逻辑或存储到数据库
-        console.log('收到联系表单:', { name, email, message });
+        // 存储到数据库
+        db.prepare(`
+            INSERT INTO messages (name, email, subject, message)
+            VALUES (?, ?, ?, ?)
+        `).run(name, email, req.body.subject || '', message);
 
         res.json({
             success: true,

@@ -128,6 +128,19 @@ function initTables() {
         )
     `);
 
+    // 联系消息表
+    db.exec(`
+        CREATE TABLE IF NOT EXISTS messages (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL,
+            subject TEXT,
+            message TEXT NOT NULL,
+            is_read INTEGER DEFAULT 0,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    `);
+
     // 创建索引
     db.exec(`
         CREATE INDEX IF NOT EXISTS idx_articles_category ON articles(category_id);
