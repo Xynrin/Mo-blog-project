@@ -1,0 +1,33 @@
+# 依赖
+node_modules/
+
+# 环境变量（含敏感信息）
+.env
+
+# 数据库
+server/data.db
+data.db
+
+# 日志
+mo-blog.log
+*.log
+
+# 上传文件
+uploads/
+
+# 工具生成
+.mo.pid
+
+# 编辑器 / 系统文件
+.trae/
+.uploads/
+.DS_Store
+Thumbs.db
+*.zip
+*.tar.gz
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo

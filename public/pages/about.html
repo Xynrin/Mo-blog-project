@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我 - 墨 · 创意博客</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/feed/rss">
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed/atom">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="icon" id="siteFavicon" href="">
+    <style>
+        .about-hero { padding: 8rem 3rem 4rem; background: var(--bg-secondary); text-align: center; }
+        .about-avatar { width: 150px; height: 150px; margin: 0 auto 2rem; background: linear-gradient(135deg, var(--accent-coral), var(--accent-gold)); padding: 4px; border-radius: 50%; }
+        .about-avatar-inner { width: 100%; height: 100%; background: var(--bg-secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .about-avatar-inner span { font-family: var(--font-display); font-size: 4rem; font-weight: 900; color: var(--accent-coral); }
+        .about-name { font-family: var(--font-display); font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; }
+        .about-role { font-size: 1.1rem; color: var(--accent-gold); margin-bottom: 2rem; }
+        .about-bio { max-width: 600px; margin: 0 auto; color: var(--fg-secondary); line-height: 2; }
+        .stats-section { padding: 4rem 3rem; background: var(--bg-primary); }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; max-width: 800px; margin: 0 auto; }
+        .stat-card { text-align: center; padding: 2rem; background: var(--bg-card); border: 1px solid var(--border-subtle); transition: var(--transition-smooth); }
+        .stat-card:hover { border-color: var(--accent-coral); transform: translateY(-4px); }
+        .stat-number { font-family: var(--font-display); font-size: 2.5rem; font-weight: 900; color: var(--accent-coral); }
+        .stat-label { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fg-muted); margin-top: 0.5rem; }
+        .skills-section { padding: 4rem 3rem; background: var(--bg-secondary); }
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 1000px; margin: 0 auto; }
+        .skill-card { padding: 2rem; background: var(--bg-card); border: 1px solid var(--border-subtle); }
+        .skill-title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .skill-title span { font-size: 1.5rem; }
+        .skill-list { list-style: none; }
+        .skill-list li { padding: 0.5rem 0; color: var(--fg-secondary); font-size: 0.9rem; border-bottom: 1px solid var(--border-subtle); }
+        .skill-list li:last-child { border-bottom: none; }
+        @media (max-width: 768px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+    </style>
+</head>
+<body>
+    <nav class="nav" id="navbar">
+        <a href="/" class="nav-logo"><span class="dot"></span>墨</a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="/"><span class="nav-num">01</span>首页</a></li>
+            <li><a href="/articles"><span class="nav-num">02</span>文章</a></li>
+            <li><a href="/about" class="active"><span class="nav-num">03</span>关于我</a></li>
+            <li><a href="/portfolio"><span class="nav-num">04</span>作品集</a></li>
+            <li><a href="/contact"><span class="nav-num">05</span>联系我</a></li>
+        </ul>
+        <div class="nav-toggle" id="navToggle"><span></span><span></span><span></span></div>
+    </nav>
+
+    <header class="about-hero">
+        <div class="about-avatar">
+            <div class="about-avatar-inner"><span id="authorInitial">M</span></div>
+        </div>
+        <h1 class="about-name" id="authorName">墨 · Mo</h1>
+        <p class="about-role" id="authorRole">独立设计师 / 创意写作者 / 数字游民</p>
+        <p class="about-bio" id="authorBio">热衷于探索设计与技术的交汇点。相信好的设计不仅是视觉上的美感，更是思维方式的传达。</p>
+    </header>
+
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="statArticles">0</div>
+                <div class="stat-label">篇文章</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="statViews">0</div>
+                <div class="stat-label">总阅读</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="statPortfolios">0</div>
+                <div class="stat-label">个项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">灵感</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="skills-section">
+        <div class="section-header" style="max-width: 1000px; margin: 0 auto 2rem;">
+            <div class="section-label">Skills</div>
+            <h2 class="section-title">技能<span class="accent">专长</span></h2>
+        </div>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <h3 class="skill-title"><svg style="width:18px;height:18px;vertical-align:middle;margin-right:6px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>设计</h3>
+                <ul class="skill-list">
+                    <li>UI/UX 设计</li>
+                    <li>品牌视觉设计</li>
+                    <li>交互原型设计</li>
+                    <li>设计系统构建</li>
+                </ul>
+            </div>
+            <div class="skill-card">
+                <h3 class="skill-title"><svg style="width:18px;height:18px;vertical-align:middle;margin-right:6px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>开发</h3>
+                <ul class="skill-list">
+                    <li>HTML / CSS / JavaScript</li>
+                    <li>React / Vue.js</li>
+                    <li>Node.js / Express</li>
+                    <li>数据库设计</li>
+                </ul>
+            </div>
+            <div class="skill-card">
+                <h3 class="skill-title"><svg style="width:18px;height:18px;vertical-align:middle;margin-right:6px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>写作</h3>
+                <ul class="skill-list">
+                    <li>技术博客</li>
+                    <li>设计思考</li>
+                    <li>产品文案</li>
+                    <li>旅行随笔</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <span id="footerText">© 2026 墨 · Mo — 以文字记录灵感</span>
+        <div class="social-links" id="socialLinks"></div>
+        <div id="icpInfo" style="display:none;">
+            <a id="icpLink" class="footer-icp" href="#" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span id="icpText"></span>
+            </a>
+        </div>
+        <div class="footer-links">
+            <a href="/feed/rss" class="footer-rss" title="RSS订阅">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1" fill="currentColor" stroke="none"/></svg>
+                RSS
+            </a>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+    <script>
+        async function loadData() {
+            const [settingsRes, statsRes] = await Promise.all([
+                fetch('/api/settings'),
+                fetch('/api/stats')
+            ]);
+            
+            const settings = await settingsRes.json();
+            const stats = await statsRes.json();
+            
+            if (settings.success) {
+                const s = settings.data;
+                if (s.author_name) {
+                    // 头像
+                    if (s.author_avatar) {
+                        document.querySelector('.about-avatar-inner').innerHTML = `<img src="${s.author_avatar}" alt="${s.author_name || ''}" style="width:100%;height:100%;object-fit:cover;">`;
+                    }
+                    document.getElementById('authorName').textContent = s.author_name;
+                    document.getElementById('authorInitial').textContent = s.author_name.charAt(0);
+                    document.title = `关于我 - ${s.site_name || '墨 · 创意博客'}`;
+                }
+                if (s.author_bio) document.getElementById('authorBio').textContent = s.author_bio;
+                if (s.site_favicon) {
+                    const favicon = document.getElementById('siteFavicon');
+                    if (favicon) favicon.href = s.site_favicon;
+                }
+                if (s.footer_text) {
+                    document.getElementById('footerText').textContent = s.footer_text;
+                }
+                if (s.icp_text) {
+                    const icpInfo = document.getElementById('icpInfo');
+                    const icpText = document.getElementById('icpText');
+                    const icpLink = document.getElementById('icpLink');
+                    if (icpInfo && icpText) {
+                        icpText.textContent = s.icp_text;
+                        if (s.icp_url && icpLink) icpLink.href = s.icp_url;
+                        icpInfo.style.display = 'flex';
+                    }
+                }
+            }
+            
+            if (stats.success) {
+                animateNumber('statArticles', stats.data.articleCount);
+                animateNumber('statViews', stats.data.totalViews);
+                animateNumber('statPortfolios', stats.data.portfolioCount);
+            }
+
+            // 加载社交链接
+            const socialPlatforms = [
+                { key: 'social_github', label: 'GitHub', icon: '<path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>' },
+                { key: 'social_bilibili', label: 'Bilibili', icon: '<path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="M13 13l6 6"/>' },
+                { key: 'social_youtube', label: 'YouTube', icon: '<path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.43z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>' },
+                { key: 'social_x', label: 'X', icon: '<path d="M4 4l11.733 16h4.267l-11.733 -16h-4.267z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/>' },
+                { key: 'social_gitee', label: 'Gitee', icon: '<circle cx="12" cy="12" r="3"/><path d="M12 2v4m0 12v4M2 12h4m12 0h4"/>' },
+                { key: 'social_qq', label: 'QQ', icon: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
+                { key: 'social_email', label: 'Email', icon: '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>' }
+            ];
+            const linksHtml = socialPlatforms.filter(p => settings.data[p.key]).map(p =>
+                `<a href="${settings.data[p.key]}" target="_blank" rel="noopener" class="social-link" title="${p.label}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${p.icon}</svg>
+                </a>`
+            ).join('');
+            const socialEl = document.getElementById('socialLinks');
+            if (socialEl) socialEl.innerHTML = linksHtml;
+        }
+
+        function animateNumber(id, target) {
+            const el = document.getElementById(id);
+            const duration = 2000;
+            const start = performance.now();
+            function animate(t) {
+                const progress = Math.min((t - start) / duration, 1);
+                const current = Math.floor(target * (1 - Math.pow(1 - progress, 3)));
+                el.textContent = current >= 1000 ? (current / 1000).toFixed(1) + 'K' : current;
+                if (progress < 1) requestAnimationFrame(animate);
+                else el.textContent = target >= 1000 ? (target / 1000).toFixed(1) + 'K' : target;
+            }
+            requestAnimationFrame(animate);
+        }
+
+        loadData();
+    </script>
+</body>
+</html>
