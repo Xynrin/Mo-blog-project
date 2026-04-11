@@ -125,8 +125,8 @@ bash setup.sh --port 8080
 
 ```bash
 # 1. 克隆项目
-git clone https://github.com/your-username/mo-blog.git
-cd mo-blog
+git clone https://github.com/Xynrin/Mo-blog-project.git
+cd Mo-blog-project
 
 # 2. 安装依赖
 npm install
@@ -269,7 +269,7 @@ npm run status   # 查看状态
 npm install pm2 -g
 
 # 启动应用
-pm2 start server/app.js --name mo-blog
+pm2 start server/app.js --name Mo-blog-project 
 
 # 设置开机自启
 pm2 startup
